@@ -1,0 +1,204 @@
+<div class="content" style='padding:0;' id='imgCon' ng-init="querySwitchInfo();">
+  <div class="table-content">
+    <div style='margin:80px auto;width:200px;display:none;' id='button'>
+      <button class='btn btn-info' ng-click='openPage()'>显示容灾评估 </button>
+    </div>
+  </div>
+  <div style='position:absolute;top:0px;left:0px;background-color:#e6e6e6;width:1024px;height:768px;' id='imgBorder'>
+    <div style='position:absolute;top:0px;left:1010px;cursor:pointer;' ng-click='closePage()'>×</div>
+  </div>
+  <div style='position:absolute;top:10px;left:10px;width:1000px;background:#fff;height:900px;' id='imgContent'>
+    <div style='display:none;position:absolute;left:28px;' id='assessPicture'>
+    <!-- <div style='border-radius:0px 17px 17px 0px;background:#D1D1D1;position:absolute;top:122px;left:146px;width:84px;'>
+      <span style='margin:0 14px;'>数据备份</span>
+    </div> -->
+    <div style='border-radius:0px 17px 17px 0px;background:#D1D1D1;position:absolute;top:18px;width:126px;' ng-style='styleObj[0][0]'><span style='margin:0 14px;'>切换启动时间点</span></div>
+    <!--
+    <div style='border-radius:0px 17px 17px 0px;background:#D1D1D1;position:absolute;top:30px;width:196px;' ng-style='styleObj[0][1]'><span style='margin:0 14px;'>系统检测到灾难发生时间点</span></div> 
+    <div style='border-radius:0px 17px 17px 0px;background:#D1D1D1;position:absolute;top:7px;width:126px;' ng-style='styleObj[0][2]'><span style='margin:0 14px;'>切换启动时间点</span></div>
+    <div style='border-radius:0px 17px 17px 0px;background:#D1D1D1;position:absolute;top:30px;width:126px;' ng-style='styleObj[0][3]'><span style='margin:0 14px;'>切换实施时间点</span></div> -->
+    <!-- <div style='border-radius:0px 17px 17px 0px;background:#D1D1D1;position:absolute;top:7px;width:126px;' ng-style='styleObj[0][4]'><span style='margin:0 14px;'>切换完成时间点</span></div> -->
+    <div style='border-radius:0px 17px 17px 0px;background:#D1D1D1;position:absolute;top:18px;width:126px;' ng-style='styleObj[0][5]'><span style='margin:0 14px;'>切换完成时间点</span></div>
+    <div style='color:white;'>
+      <div style='background:#F5F5F5;width:612px;height:170px;position:absolute;top:47px;left:146px;'>  
+      </div>
+      <!-- <canvas style='position:absolute;left:146px;' width='10px;' height='290px;' id='time1' ></canvas> -->
+      <canvas style='position:absolute;' ng-style='styleObj[0][0]' width='10px;' height='130px;' id='time2'></canvas>
+       <!-- <canvas style='position:absolute;' ng-style='styleObj[0][1]' width='10px;' height='220px;' id='time3'></canvas>
+             <canvas style='position:absolute;' ng-style='styleObj[0][2]' width='10px;' height='220px;' id='time4'></canvas> 
+       <canvas style='position:absolute;' ng-style='styleObj[0][3]' width='10px;' height='290px;' id='time5'></canvas> 
+       <canvas style='position:absolute;' ng-style='styleObj[0][4]' width='10px;' height='290px;' id='time6'></canvas>  -->
+      <canvas style='position:absolute;' ng-style='styleObj[0][5]' width='10px;' height='130px;' id='time7'></canvas>
+      <div style='position:absolute;top:47px;white-space:nowrap;'>
+        <img src="img/gear.png" style='position:absolute;top:3px;left:7px;'>
+        <div style='background:#8EC056;border-radius:13px 0 0 13px;display:inline-block;padding:3px 50px 3px 40px;'>
+          正常运行</div>
+        <div style='display:inline-block;background:#529FDC;margin-left:-4px;text-align:center;padding:3px 264px;'>容灾管理时间</div>
+        <div style='background:#8EC056;padding:0 45px 0 40px;border-radius:0 13px 13px 0;display:inline-block;margin-left:-4px;padding:3px 45px;'>正常运行</div>
+      </div>
+      <div style='background:#E1735B;border-radius:11px;text-align:center;padding:1px 0;position:absolute;top:79px; height:22px; overflow:hidden;' ng-style='styleObj[1][0]'>业务恢复时间</div>
+      <!-- <div style='background:#E1735B;border-radius:11px;text-align:center;padding:1px 0;position:absolute;top:136px; height:22px; overflow:hidden;' ng-style='styleObj[1][0]'>业务中断时间</div>
+      <div style='background:#9577AB;border-radius:11px;text-align:center;padding:1px 0;position:absolute;top:164px; height:22px; overflow:hidden;' ng-style='styleObj[1][2]'>系统恢复时间RTO</div>
+      <div style='background:#56B2BA;border-radius:11px;text-align:center;padding:1px 0;position:absolute;top:192px; height:22px; overflow:hidden;' ng-style='styleObj[1][3]'>切换耗时</div> -->
+      <div style='background:#576A78;border-radius:13px;padding:3px 0;position:absolute;top:111px;width:905px;opacity:0.8;'>
+        <img src="img/clock.png" style='margin-left:8px;'>
+        <span style='float:right;margin-right:45px;'>时间轴</span>
+      </div>
+      <!-- 水滴时间集 -->
+      <div style='position:absolute;width:730px;height:45px;top:138px;left:132px;color:#3A3535;'>
+        <div style='position:absolute;text-align:center;width:30px;font-size:10px;' ng-style='styleObj[2][$index]' ng-repeat='item in time'>
+          <p style='margin-bottom:-3px;'><img src='img/water.png' ng-mouseover='showTime($event,$index)' ng-mouseleave='hideTime($event,$index)'></p>
+          <div ng-class={true:'displayBlock',false:'displayNone'}[$index===0||$index===1] style='background:white; width: 70px'>
+            <p style='margin-bottom:-4px;'>{{item | date : 'yyyy/MM/dd'}}</p>
+            <p style='margin:0;'>{{item | date : 'HH:mm:ss'}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    <hr style='height:1px;border:none;border-top:1px solid #555555;position:absolute;top:168px;width:1000px;'/>
+    <div style='position:absolute;top:191px;left:10px;width:990px;'>
+      <div>
+        <img src="img/coll.png" style='float:right;'>
+        <p style="margin-top: 12px;"><span style='font-weight:600; '>切换类型：计划外切换</span></p>
+        <div style='width:300px;height:200px;background:red;position:absolute;left:290px; margin-top: 0px ' id='switchTime'></div>
+        <p style="margin-top: 12px;"><span style='font-size:15px;font-weight:600; '>切换恢复能力等级：</span>国家标准五级</p>
+        <p style="margin-top: 12px;"><span style='font-size:15px;font-weight:600;'>业务影响：</span></p>
+        <p  style="margin-top: 12px;">计划外切换, 数据丢失0,</p> 
+        <p  style="margin-top: 12px;">网络中断时间0, 无任何业务影响。</p>
+        <!-- 
+        <p style='text-indent:28px; margin-top: 5px;'><span style='font-size:15px;font-weight:600;'>反向同步耗时：</span>{{switchInfo.reverseSyncTime}}ms</p>
+        <p style="margin-top: 12px;"><span style='font-size:15px;font-weight:600;'>流量切换耗时：</span>{{switchInfo.flowSwitchTime}}ms</p>
+        <p style='text-indent:28px; margin-top: 5px;'><span style='font-size:15px;font-weight:600;'>正向同步耗时：</span>{{switchInfo.positiveSyncTime}}ms</p>
+        <p style="margin-top: 12px"><span style='font-size:15px;font-weight:600;'>数据丢失量标准（RPO）：</span>{{switchInfo.rpo}}</p>
+        <p style="margin-top: 12px"><span style='font-size:15px;font-weight:600;'>网络恢复时间（NRO）：</span>{{switchInfo.nro}}</p>
+        <p style="margin-top: 12px"><span style='font-size:15px;font-weight:600;'>验证系统正常运行时间（RAO）：</span>{{switchInfo.rao}}</p>
+              </div> -->
+      <hr style='height:1px;border:none;border-top:1px solid #555555;width:1000px;margin-bottom:0px;margin-left:-10px;'/>
+      <p style='text-align:center;'>容灾系统评审（share78容灾国际标准）</p>
+      <div id='share'>
+        <div class="table">
+        <div class="thead" id="thead">
+          <table class="table table-bordered table-striped" style='margin-bottom:0;'>
+            <thead>
+              <tr style="text-align:center">
+               <td style='width: 84px;'>级别</td>
+               <td style='width: 135px;'>RTO</td>
+               <td style='width: 97px;'>RPO</td>
+               <td style='width: 190px;'>数据丢失情况</td>
+               <td style='width: 94px;'>灾备中心</td>
+               <td style='width: 94px;'>备份方式</td>
+               <td style='width: 198px;'>数据更新/恢复</td>
+               <td style='width: 77px;'>主机</td>
+               <td style='width: 19px;'></td>
+              </tr>
+            </thead>
+          </table>
+        </div>
+        <div class="tbody" id="tbody1" style='height:75px;overflow-y: scroll;'>
+          <table class="table table-bordered">
+            <tbody>
+              <tr id="tier1">
+                <td style='width: 84px;'>tier1</td>
+                <td style='width: 135px;'>72hrs</td>
+                <td style='width: 97px;'>24hrs</td>
+                <td style='width: 190px;'>无异地备份</td>
+                <td style='width: 93px;'>无</td>
+                <td style='width: 93px;'>磁带</td>
+                <td style='width: 198px;'>磁带</td>
+                <td style='width: 77px;'>本机</td>
+              </tr>
+              <tr id="tier2">
+                <td style='width: 84px;'>tier2</td>
+                <td style='width: 135px;'>72hrs</td>
+                <td style='width: 97px;'>24hrs</td>
+                <td style='width: 190px;'>实现异地备份</td>
+                <td style='width: 93px;'>无</td>
+                <td style='width: 93px;'>磁带</td>
+                <td style='width: 198px;'>磁带</td>
+                <td style='width: 77px;'>本机</td>
+              </tr>
+              <tr id="tier3">
+                <td style='width: 84px;'>tier3</td>
+                <td style='width: 135px;'>72hrs</td>
+                <td style='width: 97px;'>24hrs</td>
+                <td style='width: 190px;'>热备份站点备份</td>
+                <td style='width: 93px;'>无</td>
+                <td style='width: 93px;'>磁带</td>
+                <td style='width: 198px;'>磁带</td>
+                <td style='width: 77px;'>本机</td>
+              </tr>
+              <tr id="tier4">
+                <td style='width: 84px;'>tier4</td>
+                <td style='width: 135px;'>72hrs</td>
+                <td style='width: 97px;'>24hrs</td>
+                <td style='width: 190px;'>在线数据恢复</td>
+                <td style='width: 93px;'>无</td>
+                <td style='width: 93px;'>磁带</td>
+                <td style='width: 198px;'>磁带</td>
+                <td style='width: 77px;'>本机</td>
+              </tr>
+              <tr id="tier5">
+                <td style='width: 84px;'>tier5</td>
+                <td style='width: 135px;'>72hrs</td>
+                <td style='width: 97px;'>24hrs</td>
+                <td style='width: 190px;'>时数据备份</td>
+                <td style='width: 93px;'>无</td>
+                <td style='width: 93px;'>磁带</td>
+                <td style='width: 198px;'>磁带</td>
+                <td style='width: 77px;'>本机</td>
+              </tr>
+              <tr id="tier6">
+                <td style='width: 84px;'>tier6</td>
+                <td style='width: 135px;'>72hrs</td>
+                <td style='width: 97px;'>24hrs</td>
+                <td style='width: 190px;'>实时数据备份</td>
+                <td style='width: 93px;'>无</td>
+                <td style='width: 93px;'>磁带</td>
+                <td style='width: 198px;'>磁带</td>
+                <td style='width: 77px;'>本机</td>
+              </tr>
+              <tr id="tier7">
+                <td style='width: 84px;'>tier7</td>
+                <td style='width: 135px;'>72hrs</td>
+                <td style='width: 97px;'>24hrs</td>
+                <td style='width: 190px;'>零数据丢失</td>
+                <td style='width: 93px;'>无</td>
+                <td style='width: 93px;'>磁带</td>
+                <td style='width: 198px;'>磁带</td>
+                <td style='width: 77px;'>本机</td>
+              </tr>
+           </tbody>
+          </table>  
+        </div>
+      </div>
+      </div>
+      <!-- <hr style='height:1px;border:none;border-top:1px solid #555555;width:1000px;margin:10px 0 10px -10px;'/>
+      <p style='font-size:16px;font-weight:600;'>业务影响：</p>
+      <p style='text-indent:32px;font-size:15px;'>计划外切换, 数据丢失0, 网络中断时间0, 无任何业务影响。</p> -->
+      <hr style='height:1px;border:none;border-top:1px solid #555555;width:1000px;margin:10px 0 10px -10px;'/>
+      <div>
+        <table class='table table-bordered table-striped' style='width:980px;' id="table2">
+          <caption align="top" style='text-align:center;'>切换结果比对：</caption>
+          <tr>
+            <td>{{switchInfo.iP}}</td><td>切换后</td><td>切换前</td>
+          </tr>
+          <tr>
+            <td>内存负载</td><td>{{switchInfo.memoryBack}}</td><td>{{switchInfo.memoryFront}}</td>
+          </tr>
+          <tr>
+            <td>CPU负载</td><td>{{switchInfo.cpuBack}}</td><td>{{switchInfo.cpuFront}}</td>
+          </tr>
+        </table>
+      </div>
+      <hr style='height:1px;border:none;border-top:1px solid #555555;width:1000px;margin-bottom:10px;margin-left:-10px;'/>
+      <p style='font-size:16px;font-weight:600;'>后续优化措施：</p>
+      <p style='text-indent:32px;font-size:15px;'>当前系统运行状态良好，无需优化。</p>
+    </div>
+  </div>
+</div>
+<style type="text/css">
+  p{
+    margin:0px;
+  }
+</style>

@@ -1,0 +1,341 @@
+<div style="background-color: white;min-width:1105px;">
+  <div class="detailsTop">
+    <h1 class="h1Style">
+      <span style="display: inline-block; min-width: 24px;min-height: 24px">
+        <div  data-toggle="tooltip" data-placement="top" ng-style="singleHost.status | colorNumOne"
+         style="cursor:pointer;" title="{{singleHost.status | hostStatus}}"></div></span>
+      <span>{{singleHost.hostName}}</span>
+    </h1>
+    <span style="margin-left: 8px;line-height: 60px;">
+      <div class="btn-group" >
+        <button type="button"  class="btn btn-default dropdown-toggle"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">操作
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" style="z-index: 1">
+          <li><a style="cursor: pointer"  title="向主机增加实例" ng-click="operation('新增')">向主机增加实例</a></li>
+          <li><a style="cursor: pointer"  title="从主机删除实例" ng-click="delDetails()">从主机删除实例</a></li>
+          <li role="separator" class="divider"></li>
+          <!--<li><a style="cursor: pointer"  ng-click="synConfig()" title="同步配置">同步配置</a></li>-->
+          <!--<li role="separator" class="divider"></li>-->
+          <li><a style="cursor: pointer"  title="上传" ng-click="uploadMTK()">上传</a></li>
+          <li><a style="cursor: pointer"  title="下载"  ng-click="down()">下载</a></li>
+        </ul>
+
+      </div>
+      <span></span>
+        <span style="float: right;font-size: 14px;line-height: 60px">
+          <a  class="btna" ui-sref="disasterRec.hostQuery">检查所有主机</a>
+        </span>
+    </span>
+  </div>
+  <div class="row" style="margin: 0">
+    <div class="col-md-7" style="padding-left: 20px;">
+      <div class="table-list">
+        <h3 style="line-height: 32px;">详细信息
+          <a style="margin: 50px;font-size: 14px;cursor: pointer" ng-click="updateHostGo()">
+            编辑<i class="glyphicon glyphicon-edit" style="display: inline"></i></a></h3>
+        <div>
+          <table class="table table-bordered">
+            <tbody>
+              <tr>
+                <td class="boldColor">主机ID</td>
+                <td colspan="3">{{singleHost.id}}</td></tr>
+              <tr>
+                <td class="boldColor">IP</td><td>{{singleHost.ip}}</td>
+                <td class="boldColor">CPU使用率</td><td>{{singleHost.cpuUsage}}%</td></tr>
+              <tr>
+                <td class="boldColor">CPU核数</td><td>{{singleHost.cpuCores}}核</td>
+                <td class="boldColor">内存使用情况</td>
+                <td>
+                  {{singleHost.memUsage*singleHost.memSize/100 | getTakeOver}}GiB&nbsp;/&nbsp;{{singleHost.memSize}}GiB
+                  <div style="width: 100%;border: 1px ;background-color: #ddd">
+                    <div ng-style="singleHost.memUsage| usageColor"></div>
+                  </div>
+                </td></tr>
+              <tr>
+                <td class="boldColor">每核HZ大小</td><td>{{singleHost.cpuHZ}}MHz</td>
+                <td class="boldColor">磁盘使用情况</td>
+                <td>
+                  {{singleHost.diskUsage*singleHost.diskSize/100 | getTakeOver}}GiB&nbsp;/&nbsp;{{singleHost.diskSize}}GiB
+                  <div style="width: 100%;border: 1px ;background-color: #ddd">
+                    <div ng-style="singleHost.diskUsage| usageColor"></div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="boldColor">操作系统</td><td>{{singleHost.osType}}</td>
+                <!--<td class="boldColor">所处大区</td><td>{{singleHost.machine.area}}</td>-->
+                <td class="boldColor">备注信息</td>
+                <td><span data-toggle="tooltip" data-placement="bottom" title="{{singleHost.remark}}">{{singleHost.remark |subletters:8}}</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="table-list">
+        <h3 style="line-height: 32px;">所处物理机器信息</h3>
+        <div>
+          <table class="table table-bordered">
+            <tbody>
+            <tr>
+              <td class="boldColor">机器名</td>
+              <td colspan="3">{{singleHost.machine.name}}</td>
+
+            </tr>
+            <tr>
+              <td class="boldColor">所处机架</td>
+              <td>{{singleHost.machine.rack}}</td>
+              <td class="boldColor">机器IP</td>
+              <td>{{singleHost.machine.ip}}</td>
+            </tr>
+            <tr>
+              <td class="boldColor">所处中心</td>
+              <td>{{singleHost.machine.area | zhangwei}}</td>
+              <td class="boldColor">备注</td>
+              <td>{{singleHost.machine.remark}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="table-list"  ng-if="singleHost.instances!==null">
+        <h3 style="line-height: 32px;">实例信息</h3>
+        <div>
+          <table class="table table-bordered">
+            <thead>
+            <tr>
+              <th>状态</th><th>实例</th><th>备注</th><th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="Instanc in singleHost.instances">
+              <td>
+                <i data-toggle="tooltip" data-placement="top" ng-style="Instanc.status| colorState" style="float: left;cursor:pointer"
+                   title="{{Instanc.status | hostStatus}}"></i>
+              </td>
+              <td>
+                <span ng-click="hostInstancID(singleHost.hostName,Instanc.id)" style="color: #0B7FAD;cursor:pointer;"
+                      data-toggle="tooltip" data-placement="bottom" title="{{Instanc.name}}">
+                  {{Instanc.name | subletters:50}}</span>
+              </td>
+              <td><span data-toggle="tooltip" data-placement="bottom" title="{{Instanc.explain}}">{{Instanc.explain | subletters:20}}</span></td>
+              <td>
+              <button class="btn btn-primary" ng-click="startUpCase(singleHost.hostName,Instanc)">启动</button>
+              <button class="btn btn-danger" ng-click="stopItCase(singleHost.hostName,Instanc)">停止</button></td>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+
+
+    </div>
+    <!--图标部分-->
+    <div class="col-md-5"  style="width: 420px;">
+      <div style="padding: 8px 0 0 0;margin: 0;border-width: 0;">
+        <h3 style="line-height: 32px;">图标</h3>
+        <div style="border-width: 0;margin: 0;width: 400px;">
+          <div id="cpuUsage" style="margin-top: 0px"  class="echarts-list"></div>
+          <div id="mems"  class="echarts-list"></div>
+          <div id="disks"  class="echarts-list"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--//提示模态框-->
+  <div class="modal fade" id="PromptModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header" style="text-align:left;background-color: #F1EFEF;color: black">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">警报</h4>
+        </div>
+        <div class="modal-body">
+          <p>没有实例可以删除！</p><p></p><p></p>
+        </div>
+        <div class="modal-footer" style="text-align:right;background-color: #F1EFEF">
+          <button type="button" class="btn dismissButton btn-primary" data-dismiss="modal">关闭</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+  <!--删除实例模态框-->
+  <div class="modal fade" id="delModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header" style="text-align:left;background-color: #F1EFEF;color: black">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h3 class="modal-title">删除实例</h3>
+        </div>
+        <div class="modal-body">
+          <h5>主机名：{{singleHost.hostName}}</h5>
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <th style="width: 50px"><input type="checkbox"  ng-checked="singleHost.instances.marquee" ng-click="delCheckbox('list',singleHost.instances)"></th>
+              <th>状态</th>
+              <th>实例</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="Instance in singleHost.instances" >
+              <td><input type="checkbox" ng-click="delCheckbox('list',singleHost.instances,$index)"  ng-checked="Instance.checkbox"></td>
+              <td>
+                <span style="display: inline-block;">
+                  <div  data-toggle="tooltip" data-placement="top" ng-style="Instance.status | colorNumOne"
+                        style="cursor:pointer;" title="{{Instance.status | hostStatus}}"></div></span>
+              </td>
+              <td>{{Instance.name}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer" style="text-align:right;background-color: #F1EFEF">
+          <button type="button" class="btn dismissButton btn-primary"  ng-click="delInstance()">确认</button>
+          <button type="button" class="btn dismissButton btn-default" data-dismiss="modal">取消</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+  <!--下载查询模态框-->
+  <div class="modal fade" id="export" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header" style="text-align:left;background-color: #F1EFEF;color: black">
+          <h3 class="modal-title">下载操作</h3>
+        </div>
+        <div class="modal-body">
+          <div class="form-group form-inline marginT" style="height: 38px">
+            <form ng-submit="exprtInfo()">
+              <label class="col-sm-3 " style="padding: 0px;width: 60px">文件目录:</label>
+              <div class="col-sm-9 col-wg">
+                <input class="form-control"  ng-model="file.path"  style="padding: 0px;width: 250px" required
+
+                />
+                <!--pattern='[a-zA-Z0-9\.\/]'-->
+                <button type="submit" class="btn dismissButton btn-primary">查询</button>
+                <div style="color: red">{{downloadFile.msg}}</div>
+              </div>
+            </form>
+          </div>
+          <table class="table table-striped" ng-if="downloadFile.state===true">
+            <thead>
+            <tr>
+              <th>选择</th>
+              <!--<th style="width: 50px"><input type="checkbox"  ng-checked="downloadFile.files.marquee" ng-click="downCheckbox('list',downloadFile.files)"></th>-->
+              <th>文件夹/文件名</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="dir in downloadFile.dirs" >
+              <td></td>
+              <td><a style="cursor: pointer;" ng-click="folder(dir)">{{dir}}</a></td>
+            </tr>
+            <tr ng-repeat="loadFile in downloadFile.files" >
+              <td><input type="radio" name="radio" ng-click="downCheckbox(loadFile)"  ></td><!--ng-checked="loadFile.checkbox"-->
+              <td>{{loadFile}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer" style="text-align:right;background-color: #F1EFEF">
+          <button type="button" class="btn dismissButton btn-primary"  ng-click="downLoad(file.path)">下载</button>
+          <button type="button" class="btn dismissButton btn-default" ng-click="downLoadHide()">取消</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+  <!--上传目录查询模态框-->
+  <div class="modal fade" id="upload" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header" style="text-align:left;background-color: #F1EFEF;color: black">
+          <h3 class="modal-title">上传操作</h3>
+        </div>
+        <div class="modal-body">
+          <div class="form-group form-inline marginT" style="height: 38px">
+            <form ng-submit="exprtInfo()">
+              <label class="col-sm-3 " style="padding: 0px;width: 60px">文件目录:</label>
+              <div class="col-sm-9 col-wg">
+                <input class="form-control"  ng-model="file.path"  style="padding: 0px;width: 250px" required/>
+                <!--pattern='[a-zA-Z0-9\.\/]'-->
+                <button type="submit" class="btn dismissButton btn-primary">查询</button>
+                <div style="color: red">{{downloadFile.msg}}</div>
+              </div>
+            </form>
+          </div>
+          <div style="max-height:200px;overflow: auto;" ng-if="downloadFile.state===true">
+            <table class="table table-striped" >
+              <thead>
+              <tr>
+                <th>文件夹/文件名</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr ng-repeat="dir in downloadFile.dirs" >
+                <!--<td><input type="radio" ng-click="downCheckbox(dir)" name="radio" ></td>-->
+                <td><a style="cursor: pointer;" ng-click="folder(dir)">{{dir}}</a></td>
+              </tr>
+              <tr ng-repeat="loadFile in downloadFile.files track by $index" >
+                <!--<td></td>-->
+                <td>{{loadFile}}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <div >
+            <form enctype="multipart/form-data" id="fileForm"  method="post">
+              <input id="fileUpload" type="file" name="file"/>
+            </form>
+          </div>
+        </div>
+        <div class="modal-footer" style="text-align:right;background-color: #F1EFEF">
+          <button type="button" class="btn dismissButton btn-primary"  ng-click="upload(file.path)">上传</button>
+          <button type="button" class="btn dismissButton btn-default" data-dismiss="modal">取消</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+  <!--日志查询-->
+  <div class="modal fade" id="Journal" tabindex="-1" role="dialog" >
+    <div class="modal-dialog" role="document" >
+      <div class="modal-content">
+        <div class="modal-header" style="background-color: #F1EFEF;color: black">
+          <h3 class="modal-title">{{instanceState.name}}成功</h3>
+        </div>
+        <div class="modal-body">
+          <div class="form-group form-inline marginT" style="height: 38px">
+            <button class="btn btn-primary" style="display: block;" id="ng1" disabled="disabled">正在加载{{instanceState.name}}日志
+              <img src="img/loading.gif" style="width: 20px;height: 20px"></button>
+            <button class="btn btn-primary" style="display: none" id="ng2">查看日志</button>
+          </div>
+          <!--<div style="display: none" id="ng3">-->
+            <!--<textarea style="border:0;resize: none;font-size: 12px;width: 768px;height: 300px;white-space:pre; overflow:auto;" readonly>{{journal.data}}</textarea>-->
+          <!--</div>-->
+
+        </div>
+        <div class="modal-footer" style="text-align:right;background-color: #F1EFEF">
+          <button type="button" class="btn dismissButton btn-default" id="dismiss">关闭</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+  <div class="modal fade" id="ng" tabindex="-1" role="dialog"  style="z-index: 100000">
+    <div class="modal-dialog" role="document" style="width: 800px">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div>
+            <pre style="overflow:auto;width: 768px;max-height: 530px;white-space: pre;">{{journal.data}}</pre>
+            <!--<textarea style="border:0;resize: none;font-size: 12px;width: 768px;height:500px;white-space:pre; overflow:auto;" readonly>{{journal.data}}</textarea>-->
+          </div>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+</div>

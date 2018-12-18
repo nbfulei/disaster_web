@@ -1,0 +1,24 @@
+<div class='form-control' style='padding:6px 4px;'>
+  <input type="text" autocomplete="off" style='border:0;width:40px;outline:none;' ng-model='ip.a' ng-change='changeIp("a")' ng-blur='blurIp("a")'>.
+  <input type="text" autocomplete="off" style='border:0;width:40px;outline:none;' ng-model='ip.b' ng-change='changeIp("b")' ng-blur='blurIp("b")'>.
+  <input type="text" autocomplete="off" style='border:0;width:40px;outline:none;' ng-model='ip.c' ng-change='changeIp("c")' ng-blur='blurIp("c")'>.
+  <input type="text" autocomplete="off" style='border:0;width:40px;outline:none;' ng-model='ip.d' ng-change='changeIp("d")' ng-blur='blurIp("d")'>
+</div>
+<button style="height: 30px;padding:0 12px;" class="glyphicon glyphicon-plus btn btn-primary" ng-click="addIpClick()" ng-disabled='buttonFlag'></button><span style="color:red;font-size: 12px;margin-top:10px;margin-left: 10px;" ng-show="erro">IP地址已存在！</span>
+<div style='padding:10px 0 0 67px;' ng-if='true'>
+  <div style="margin-left:33px;border:solid 1px;border-radius:3px;max-width:444px;" ng-class='{true:"displayNone",false:"displayInBok"}[addipList.length===0]'>
+    <ul style='padding:0px;margin:5px 0'>
+      <li style="list-style-type: none;display: inline-block;margin:0 8px;" ng-repeat="ips in addipList track by $index">
+        <span ng-click="removeIP($index)" style="cursor: pointer;" class='glyphicon glyphicon-remove'></span>
+        <span style='color:blue;'>{{ips}}</span>
+      </li>
+    </ul>
+  </div>
+</div>
+<style type="text/css">
+	input::-webkit-outer-spin-button,
+	input::-webkit-inner-spin-button{
+    -webkit-appearance: none !important;
+    margin: 0; 
+	}
+</style>

@@ -1,0 +1,114 @@
+
+  <nav id="navbar-example" class="navbar navbar-default navbar-static" role="navigation" style="margin: 0px;" ng-if="userRights">
+    <div class="container-fluid">
+      <div class="navbar-header"  >
+        <a class="navbar-brand" ></a>
+        <span style="float: left;font-size: 24px;color: #FFF;font-family:'微软雅黑';border-left: 1px solid #D0D0D0;padding: 0 10px;margin-top: 12px;">
+          统一支付异地灾备系统</span>
+      </div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-right" style="height:60px;">
+          <li class="blue" id="userdrop" >
+            <span>欢迎您，</span><span ng-bind="userInfo.staffName"></span>
+          </li>
+          <li class="dropdown setup">
+            <a class="dropdown-toggle" data-toggle="dropdown" style="color: #FFF;height:60px;cursor: pointer;">
+              <i class="glyphicon glyphicon-cog"></i>
+              <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+              <!-- <li><a  ui-sref="disasterRec.changePassword">更改密码</a></li>
+              <li ng-if="userInfo.safeMode==='1'"><a ui-sref="disasterRec.userManage">查询用户</a></li> -->
+             
+              <li class="divider"></li>
+              <li><a href="javascript:void(0)"  ng-click="logOut()"><i class="glyphicon glyphicon-log-out" style="margin-right: 10px;"></i>退出</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+    <div class="container" id="container" ng-if="userRights">
+        <div class="main-menu" id="main-menu">
+            <div class="monitor-content" border="false" id="rolin" style="display: block;">
+                <ul id="rolinul" ng-click="chooseEle($event)" >
+                    <li ng-repeat="userRight in userRights"  onFinishRender="finishRender()" >
+                        <label ng-click="labelClick($event,userRight.id)" class="ulShow" name="aa{{userRight.id}}">
+                            <i ng-if="userRight.id==1" ng-click="labelClick($event)"   class="glyphicon glyphicon-eye-open menu-i"></i>
+                            <i ng-if="userRight.id==2" ng-click="labelClick($event)"   class="glyphicon glyphicon-home menu-i"></i>
+                            <i ng-if="userRight.id==3" ng-click="labelClick($event)"   class="glyphicon glyphicon-wrench menu-i"></i>
+                            <i ng-if="userRight.id==4" ng-click="labelClick($event)"   class="glyphicon glyphicon-asterisk menu-i"></i>
+                            <span class="menu-span">{{userRight.displayName}}
+                            	<i class="glyphicon glyphicon-chevron-down menu-i2 " style="margin:2px 4px 0 71px;"></i>
+                            	<!--<i class="glyphicon glyphicon-chevron-left menu-i2" data-icon1="glyphicon glyphicon-circle-arrow-down menu-i2"-->
+                       <!--data-icon2=" glyphicon glyphicon-chevron-left menu-i2" style="margin:2px 4px 0 71px;"></i>-->
+
+                            </span>
+                        </label>
+                        <ul ng-class="$event.display" style="display:none" name="aa{{userRight.id}}"    >
+                            <li ng-repeat="right in userRight.children">
+                                <a  ng-if="right.children.length===0"  ui-sref="{{right.url}}"  ng-click="setId(right.id)" menu-id="{{right.id}}"  level="{{right.menuLevel}}" >
+                                    <label    ng-click="childLabelClick($event)" style='padding:8px 0 0 60px;' name="cc{{userRight.id}}">
+                                        <span class="menu-span" style='margin-left: 0px;'>{{right.displayName}}</span>
+                                    </label>
+                                </a>
+                                <a  ng-if="right.children.length!=0" ng-click="labelClick($event)" name="cc{{userRight.id}}">
+                                    <label    ng-click="labelClick($event)" style='padding:8px 0 0 60px;' name="cc{{userRight.id}}">
+                                        <span class="menu-span" style='margin-left: 0px;'>{{right.displayName}}</span>
+                                        <i ng-if="right.children.length>0" class="glyphicon glyphicon-chevron-down menu-i2" style="margin:2px 13px 0 0;"></i>
+                                        <!--<i  ng-class="uClick"   style="margin:2px 13px 0 0;"></i>-->
+                                    </label>
+                                </a>
+                                <ul ng-if="right.children.length>0" style="display:none"   name="cc{{userRight.id}}">
+                                    <li ng-repeat="righ in right.children">
+                                        <a ng-if="righ.children.length>0">
+                                        <label ng-click="labelClick($event)" style='padding:10px 0 0 90px;'  name="dd{{userRight.id}}">
+                                          <span class="menu-span" style='margin:0;'>{{righ.displayName}}</span>
+                                            <i class="glyphicon glyphicon-chevron-down menu-i2" style="margin:2px 13px 0 0;"></i>
+                                        </label>
+                                        </a>
+                                        <a ng-if="righ.children.length==0" ui-sref='{{righ.url}}'>
+                                        <label ng-click="childLabelClick($event)" style='padding:10px 0 0 90px;'  name="dd{{userRight.id}}" id="{{righ.id}}">
+                                            <span class="menu-span" style='margin:0;'>{{righ.displayName}}</span>
+                                        </label>
+                                        </a>
+                                        <ul ng-if="righ.children.length>0" style="display:none"  name="dd{{userRight.id}}"     >
+                                            <li>
+                                              <span ng-repeat="rig in righ.children">
+                                                <a   ui-sref="{{rig.url}}({id:'{{rig.id}}',name:'{{rig.name}}'})"   ng-click="setId(rig.id)"  menu-id="{{rig.id}}" level="{{rig.menuLevel}}"  >
+                                                  <label style='padding:10px 10px 0 120px'  ng-click="childLabelClick($event)" name="ee{{userRight.id}}"  >
+                                                    <span data-toggle="tooltip" data-placement="right" title="{{rig.displayName | menuTitleFil}}">{{rig.displayName}}</span>
+                                                  </label>
+                                                </a>
+                                              </span>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="sidebar-collapse" id="sidebar-collapse" style='float:left;height:100%;'>
+            <i class="glyphicon glyphicon-circle-arrow-left" data-icon1="glyphicon-circle-arrow-left"
+                       data-icon2="glyphicon-circle-arrow-right" style='top:50%;cursor:pointer;'></i>
+        </div> 
+        <div class="main-cantent" id="main-cantent" >
+            <div style="width:100%;height:100%;" ui-view="view"></div>
+        </div>
+
+    </div>
+    <script type="text/javascript">
+        $(function () {
+            new Workspace().init();
+            setTimeout(function () {
+                $("[data-toggle='tooltip']").tooltip();
+            }, 0)
+        });
+    </script>
+
+

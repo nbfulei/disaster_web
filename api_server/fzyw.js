@@ -1,0 +1,40 @@
+exports.optionsinfo={
+   state:'success',
+  data:{
+        hn:[{provName:'广东',center:'NJ'},{provName:'福建',center:'NJ'},{provName:'广西',center:'NJ'},{provName:'海南',center:'NJ'}],
+        hd:[{provName:'上海',center:'NJ'},{provName:'浙江',center:'NJ'},{provName:'江苏',center:'NJ'},{provName:'安徽',center:'NJ'}],
+        zb:[{provName:'湖北',center:'DG'},{provName:'湖南',center:'DG'},{provName:'江西',center:'DG'},{provName:'河南',center:'DG'},{provName:'山西',center:'DG'},{provName:'内蒙古',center:'DG'}],
+        xb:[{provName:'四川',center:'NJ'},{provName:'重庆',center:'NJ'},{provName:'陕西',center:'NJ'},{provName:'云南',center:'NJ'},{provName:'贵州',center:'NJ'}],
+        hb:[{provName:'北京',center:'DG'},{provName:'天津',center:'DG'},{provName:'河北',center:'DG'},{provName:'辽宁',center:'DG'},{provName:'吉林',center:'DG'}
+        ,{provName:'黑龙江',center:'DG'},{provName:'山东',center:'DG'}]
+  }
+}
+exports.friminfo={
+  state:'success',
+  desc:'',
+  data:[
+    {state:'ABENDED',regionName:'01',theirBase:"1"},
+    {state:'RUNNING',regionName:'02',theirBase:"1"},
+    {state:'ABENDED',regionName:'03',theirBase:"1"},
+    {state:'RUNNING',regionName:'04',theirBase:"1"},
+    {state:'RUNNING',regionName:'05',theirBase:"1"},
+    {state:'RUNNING',regionName:'01',theirBase:"2"},
+    {state:'RUNNING',regionName:'02',theirBase:"2"},
+    {state:'STOPPED',regionName:'03',theirBase:"2"},
+    {state:'RUNNING',regionName:'04',theirBase:"2"},
+    {state:'RUNNING',regionName:'05',theirBase:"2"},
+  ]
+}
+exports.friminfo2={
+  state:'success',
+  desc:'',
+  data:[
+    {regionName:'01',regionCHName:'华北'},
+    {regionName:'02',regionCHName:'华东'},
+    {regionName:'03',regionCHName:'华南'},
+    {regionName:'04',regionCHName:'西部'},
+    {regionName:'05',regionCHName:'中部'},
+  ]
+}
+exports.switchover={njUrl:'192.168.0.1:8888',dgUrl:'192.168.0.1:8080',otherUrl:''}
+exports.switchover2={njUrl:'192.168.0.1:8888',dgUrl:'192.168.0.1:8080',otherUrl:'192.168.0.1:8080'}

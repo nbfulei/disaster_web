@@ -1,0 +1,412 @@
+<!--容灾操作-->
+<div style="width:902px;height:100px;border:0px #c7c7c7 solid;margin-top: 5px;margin-left:40px;" id="trafficSwitching">
+	<div  class="float">
+     <div class="btn btn-primary" style="width:70px; background-color:white;border-color: rgb(79,98,174);color:blue;font-weight: 600;">开始</div>
+    </div>
+	<div style="padding-top: 34px;" class="float">
+	  <img src="img/danlan.png">
+	</div>
+	<div  class="float" >
+	   <div class="btn btn-primarys" style="color:rgb(79,98,174);font-weight: 600;" onMouseOver="this.style.color='white'" onMouseOut="this.style.color='rgb(79,98,174)'">状态检查</div>
+	</div>
+	<div style="padding-top: 34px;" class="float">
+	  <img src="img/danlan.png">
+	</div>
+	<div  class="float">
+	  <div class="btn btn-primary">预案定制</div>
+	</div>
+	<div style="padding-top: 34px;" class="float">
+	  <img src="img/danlan.png">
+	</div>
+	<div style="padding-top: 20px;" class="float">
+	  <div class="btn btn-primary">切换实施</div>
+	</div>
+	<div style="padding-top: 34px;" class="float">
+	  <img src="img/danlan.png">
+	</div>
+	<div style="padding-top: 20px;" class="float">
+	  <div class="btn btn-primary">确认切换</div>
+	</div>
+	<div style="padding-top: 34px;" class="float">
+	  <img src="img/danlan.png">
+	</div>
+	<div style="padding-top: 20px;" class="float">
+      <div class="btn btn-primary" style="width:70px; background-color:white;border-color: rgb(79,98,174);color:blue;font-weight: 600;">结束</div>
+    </div>
+</div>
+<style type="text/css">
+  .style{
+    text-align: center;
+    border-bottom: 3px solid blue;
+    width: 120px;
+    padding-bottom: 7px;
+  }
+  .styles{
+    text-align: center;
+    border-bottom: 3px solid white;
+    width: 120px;
+    padding-bottom: 7px;
+  }
+  
+</style>
+<div style="width:902px;height:500px;margin-top: 15px;margin-left:40px;" init="initQueryParam();">
+	<div class="container" ng-init="load();" style="margin-top: 0px;background-color:white;border-radius: 10px;width: 902px">
+
+	<div id="daohang_1" style="width:900px;margin: auto;height: 40px;background-color: rgb(32,147,183);border-radius: 10px 10px 0 0">
+    <ul class="nav navbar-nav" style="margin-top: 5px;" >
+      <li role="presentation" id="majorCoreState" style="border-radius: 10px 10px 0 0;"><a ng-click="clickMajorCore()" style="color: black;height: 35px;line-height: 8px;cursor:pointer;">主中心系统状态</a></li>
+      <li role="presentation" id="spareCoreState" style="border-radius: 10px 10px 0 0;"><a ng-click="clickSpareCore()" style="color: black;height: 35px;line-height: 8px;cursor:pointer;">备中心系统状态</a></li>
+       <li role="presentation" id="disasterState_daoHang" style="border-radius: 10px 10px 0 0;"><a ng-click="clickDisasterState()" style="color: black;height: 35px;line-height: 8px;cursor:pointer;">容灾状态</a></li>
+       <li role="presentation" id="appRunState" style="border-radius: 10px 10px 0 0;"><a ng-click="clickAppRunState()" style="color: black;height: 35px;line-height: 8px;cursor:pointer;">主机应用运行状态</a></li>  
+    </ul><br/>
+      <div id="daohang_2_1" style="height: 35px;margin-top: 20px">
+    <ul class="nav navbar-nav" id="ul_1" style="margin-left: -20px;height:35px;">
+      <li role="presentation"><a ng-click="clickHostComputer()" id="majorCoreHost" style="cursor:pointer;color: black;height:35px;line-height: 8px;"><div class="{{majorCoreHostStyle.data}}" style="margin-left: 20px">主机状态</div></a></li>
+      <li role="presentation"><a ng-click="clickInterState()" id="majorCoreInter" style="cursor:pointer;color: black;height:35px;line-height: 8px;"><div class="{{majorCoreInterStyle.data}}" style="margin-left: 20px">网络状态</div></a></li>
+    </ul><div style="border: 1px solid rgb(208,208,208);width: 900px;position: absolute;margin-top: 29.5px;"></div>
+   <div id="daohang_2_2" style="margin-top: 15px">
+    <ul class="nav navbar-nav" id="ul_2" style="display:none;height:35px;margin-left: -20px;">
+      <li role="presentation"><a id="spareCoreHost" ng-click="clickSpareCoreHostComputer()" style="cursor:pointer;color: black;line-height: 8px;;height:35px"><div class="{{majorCoreHostStyle.data}}" style="margin-left: 20px">主机状态</div></a></li>
+      <li role="presentation"><a id="spareCoreInter" ng-click="clickSpareCoreInterState()" style="cursor:pointer;color: black;line-height: 8px;height:35px"><div class="{{majorCoreInterStyle.data}}" style="margin-left: 20px">网络状态</div></a></li>
+    </ul><div style="border: 1px solid rgb(208,208,208);width: 900px;position: absolute;margin-top: 29.5px;"></div>
+  </div>
+  <div id="daohang_2_3" style="margin-top: 15px">
+    <ul class="nav navbar-nav" id="ul_3" style="display:none;height:35px;margin-left: -20px">
+      <li role="presentation"><a id="dataBaseCopy" ng-click="clickDataBaseCopyState()" style="cursor:pointer;color: black;line-height: 8px;height:35px"><div class="{{majorCoreHostStyle.data}}" style="margin-left: 20px">数据库复制状态</div></a></li>
+      <li role="presentation"><a  id="fileDataCopy" ng-click="clickFileDataCopyState()" style="cursor:pointer;color: black;line-height: 8px;height:35px"><div class="{{majorCoreAppStyle.data}}" style="margin-left: 20px">文件数据复制状态</div></a></li>
+      <li role="presentation"><a id="disasterState_inter" ng-click="clickDisasterInterState()" style="cursor:pointer;color: black;line-height: 8px;height:35px"><div class="{{majorCoreInterStyle.data}}">网络状态</div></a></li>
+      <li role="presentation"><a id="disasterState_gaoJing" ng-click="clickDisasterGaojing()" style="cursor:pointer;color: black;line-height: 8px;height:35px"><div class="{{majorCoreGaoJingStyle.data}}">告警状态</div></a></li>
+    </ul><div style="border: 1px solid rgb(208,208,208);width: 900px;position: absolute;margin-top: 29.5px;"></div>
+  </div>
+  </div>
+    <div id="daohang_2_4" style="display: none;height: 300px;width: 900px;">
+          <table class="table table-striped" style="width: 830px;">
+        <thead style="width: 830px">
+          <tr>
+            <th style="text-align: center;width: 33%">实例名</th>
+            <th style="text-align: center;width: 33%">所属主机</th>
+            <th style="text-align: center;width: 33%">健康状态</th>
+          </tr>
+        </thead>
+      </table>
+    <div style="overflow-y: scroll;height: 200px;margin-top: -20px;border-bottom: 1px solid #ccc;">
+      <table class="table table-striped" style="width: 830px;">
+        <tbody style="width: 830px">
+         <tr ng-repeat="info in instance.data.datas">
+            <td style="text-align: center;width: 33%">{{info.instanceName}}</td>
+            <td style="text-align: center;width: 33%">{{info.host}}</td>
+            <td style="text-align: center;width: 33%;position: relative;">{{info.state}}<span data-toggle="tooltip" data-placement="top" ng-class="{'yellow': info.state === '异常','red': info.state === '停止','green': info.state === '运行'}" style="position: absolute; right: 100px;cursor: pointer; border-radius: 50%; width: 15px; height: 15px;"></span></td>
+        </tr>
+        </tbody>
+      </table>
+      </div>
+      <div style="margin-top: 15px"><label style="color: red;font-size: 15px">注意：若发现异常状态，请检查主机salt是否正常，谨慎操作！</label></div>
+      
+      <div style="position: absolute;margin-left: 830px;">
+          <div><button class="btn btn-success" style="width: 70px;margin-top:0px" ng-click="clickAppRunState();"><span class="glyphicon glyphicon-refresh"></span>刷新</button></div>
+          <div><button class="btn btn-success" style="width: 70px;margin-top:2px" ng-click="clickPass()"><span class="glyphicon glyphicon-refresh glyphicon glyphicon-ok-circle"></span>通过</button></div>
+      </div>
+    </div>
+  </div>
+<style type="text/css">
+  .red{
+    background-color: red;
+  }
+  .yellow{
+    background-color: yellow;
+  }
+  .green{
+    background-color: green;
+  }
+
+</style>
+<div id="data_table">
+<div id="table_data" style="width:900px;"> 
+  <div id="majorCore">
+    <div class="" id="hostComputer" ng-init="initDate();judgeNumber();hostTurnToPage();" style="width: 900px;">
+    <div style="height: 300px;">
+      <table class="table table-striped" style="width: 830px;">
+        <thead style="width: 830px">
+          <tr>
+            <th style="text-align: center;width: 136px;">主机IP</th>
+            <th style="text-align: center;">CPU使用率</th>
+            <th style="text-align: center;">内存占用率</th>
+            <th style="text-align: center;">磁盘负载</th>
+            <th style="text-align: center;width: 80px;">健康状态</th>
+          </tr>
+        </thead>
+        <tbody style="width: 830px">
+         <tr ng-repeat="info in hostComputerMessage_new.data.datas">
+            <td style="text-align: center;width: 136px">{{info.hostIP}}</td>
+            <td style="text-align: center;">{{info.cpuLoad}}</td>
+            <td style="text-align: center;">{{info.memoryLoad}}</td>
+            <td style="text-align: center;">{{info.diskLoad}}</td>
+            <td style="text-align: center;width: 80px;">{{info.state | hostStates}}<span data-toggle="tooltip" data-placement="top" ng-class="{'red': info.state === 'alarm','yellow': info.state === 'warning','green': info.state === 'normal'}" style="float: right; cursor: pointer; border-radius: 50%; width: 15px; height: 15px;"></span></td>
+        </tr>
+        </tbody>
+      </table>
+      </div>
+      <div style="margin-top: 15px;"><label style="font-size: 15px;color: red">注意：若有红色或黄色圆球，主机健康状态异常，请谨慎操作！</label></div>
+              <div class="tables-content">
+                  <page
+                    total-count="hostComputerMessage_new.data.totalCount"
+                    page-count="catalog.pageCount"
+                    current-page="catalog.currentPage"
+                    show-max-page="5"
+                    go-page="setCurrentPageHost(currentPage)">
+                  </page>
+              </div>
+      </div>
+      <div style="position: absolute;margin-left: 830px;" id="majorCoreRequest">
+          <div><button class="btn btn-success" style="width: 70px;margin-top: -280px" ng-click="majorCoreHostQuery();"><span class="glyphicon glyphicon-refresh"></span>刷新</button></div>
+          <div><button class="btn btn-success" style="width: 70px;margin-top: -250px" ng-click="clickPass()"><span class="glyphicon glyphicon-refresh glyphicon glyphicon-ok-circle"></span>通过</button></div>
+      </div>
+    </div>
+   
+    <div id="interState" style="display:none;width: 900px;">
+    <div style="height: 300px;">
+      <table class="table table-striped" style="width: 830px;">
+        <thead style="width: 830px;">
+          <tr>
+            <th style="text-align: center;width: 200px">IP</th>
+            <th style="text-align: center;width: 200px">Ping值</th>
+            <th style="text-align: center;">丢包率</th>
+            <th style="text-align: center;width: 80px;">健康状态</th>
+          </tr>
+        </thead>
+        <tbody style="width: 830px;">
+		  <tr ng-repeat="info in interStateMessage_new.data.datas">
+            <td style="text-align: center;width: 200px">{{info.ip}}</td>
+            <td style="text-align: center;width: 200px">{{info.ping}}</td>
+            <td style="text-align: center;">{{info.frameLossRate}}</td>
+            <td style="text-align: center;width: 80px;">{{info.state | hostStates}}<span data-toggle="tooltip" data-placement="top" ng-class="{'red': info.state === 'alarm','yellow': info.state === 'warning','green': info.state === 'normal'}" style="float: right; cursor: pointer; border-radius: 50%; width: 15px; height: 15px;"></span></td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      <div style="margin-top: 15px"><label style="color: red;font-size: 15px">注意：若有红色圆球，则表示网络状态异常，请谨慎操作！</label></div>
+      <div class="tables-content">
+                <page
+                  total-count="interStateMessage_new.data.totalCount"
+                  page-count="catalog.pageCount"
+                  current-page="catalog.currentPage"
+                  show-max-page="5"
+                  go-page="setCurrentPageNet(currentPage)">
+                </page>
+              </div>
+              <div style="margin-left:830px;margin-top: -145px;">
+                <div><button class="btn btn-success" style="width: 70px;" ng-click="clickInterState()"><span class="glyphicon glyphicon-refresh"></span>刷新</button></div>
+                
+                <div><button class="btn btn-success" style="width: 70px;margin-top: 2px" ng-click="clickPass()"><span class="glyphicon glyphicon-refresh glyphicon glyphicon-ok-circle"></span>通过</button></div>
+              </div>
+    </div>
+    
+  </div>
+  <div id="spareCore" style="display:none;">
+    <div id="spareCoreHostComputer" style="width: 900px;">
+    <div style="height: 300px;">
+      <table class="table table-striped" style="width: 830px;">
+        <thead style="width: 830px">
+          <tr>
+            <th style="text-align: center;">主机IP</th>
+            <th style="text-align: center;">CPU使用率</th>
+            <th style="text-align: center;">内存占用率</th>
+            <th style="text-align: center;">磁盘负载</th>
+            <th style="text-align: center;width: 80px;">健康状态</th>
+          </tr>
+        </thead>
+        <tbody style="width: 830px">
+		   <tr ng-repeat="info in spareHostComputerMessage_new.data.datas">
+            <td style="text-align: center;width: 136px">{{info.hostIP}}</td>
+            <td style="text-align: center;">{{info.cpuLoad}}</td>
+            <td style="text-align: center;">{{info.memoryLoad}}</td>
+            <td style="text-align: center;">{{info.diskLoad}}</td>
+            <td style="text-align: center;width: 80px;">{{info.state | hostStates}}<span data-toggle="tooltip" data-placement="top" ng-class="{'red': info.state === 'alarm','yellow': info.state === 'warning','green': info.state === 'normal'}" style="float: right; cursor: pointer; border-radius: 50%; width: 15px; height: 15px;"></span></td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      <div style="margin-top: 15px"><label style="color: red;font-size: 15px">注意：若有红色圆球，则表示主机健康状态异常，请谨慎操作！</label></div>
+      <div class="tables-content">
+                  <page
+                   total-count="spareHostComputerMessage_new.data.totalCount"
+                   page-count="catalog.pageCount"
+                   current-page="catalog.currentPage"
+                   show-max-page="5"
+                   go-page="setCurrentPageHost_dg(currentPage)">
+                  </page>
+            </div>
+              <div style="margin-left:830px;margin-top: -155px;height: 200px">
+                <div><button class="btn btn-success" style="width: 70px;margin-top: 10px" ng-click="clickSpareCoreHostComputer()"><span class="glyphicon glyphicon-refresh"></span>刷新</button></div>
+                
+                <div><button class="btn btn-success" style="width: 70px;margin-top: 2px" ng-click="clickPass()"><span class="glyphicon glyphicon-refresh glyphicon glyphicon-ok-circle"></span>通过</button></div>
+              </div>
+    </div>
+    
+    <div id="spareCoreInterState" style="display:none;width: 900px;">
+    <div style="height: 300px;">
+      <table class="table table-striped" style="width: 830px;">
+        <thead style="width: 830px;">
+          <tr>
+            <th style="text-align: center;width: 200px">IP</th>
+            <th style="text-align: center;width: 200px">Ping值</th>
+            <th style="text-align: center;">丢包率</th>
+            <th style="text-align: center;width: 80px;">健康状态</th>
+          </tr>
+          <tbody style="width: 830px;">
+			<tr ng-repeat="info in spareInterStateMessage_new.data.datas">
+            <td style="text-align: center;width: 200px">{{info.ip}}</td>
+            <td style="text-align: center;width: 200px">{{info.ping}}</td>
+            <td style="text-align: center;">{{info.frameLossRate}}</td>
+            <td style="text-align: center;width: 80px;">{{info.state | hostStates}}<span data-toggle="tooltip" data-placement="top" ng-class="{'red': info.state === 'alarm','yellow': info.state === 'warning','green': info.state === 'normal'}" style="float: right; cursor: pointer; border-radius: 50%; width: 15px; height: 15px;"></span></td>
+          </tr>
+          </tbody>
+        </thead>
+      </table>
+      </div>
+    <div style="margin-top: 15px"><label style="color: red;font-size: 15px">注意：若有红色圆球，则表示网络状态异常，请谨慎操作！</label></div>
+      <div class="tables-content">
+                  <page
+                  total-count="spareInterStateMessage_new.data.totalCount"
+                  page-count="catalog.pageCount"
+                  current-page="catalog.currentPage"
+                  show-max-page="5"
+                  go-page="setCurrentPageNet_dg(currentPage)">
+                  </page>
+              </div>
+              <div style="margin-left:830px;margin-top: -145px;height: 200px">
+                <div><button class="btn btn-success" style="width: 70px;" ng-click="clickSpareCoreInterState()"><span class="glyphicon glyphicon-refresh"></span>刷新</button></div>
+              
+                <div><button class="btn btn-success" style="width: 70px;margin-top: 2px" ng-click="clickPass()"><span class="glyphicon glyphicon-refresh glyphicon glyphicon-ok-circle"></span>通过</button></div>
+              </div>
+    </div>
+    
+  </div>
+  <div id="disasterState" style="display:none;margin-top: 0px;width: 900px">
+    <div id="dataBaseCopyState">
+    <div style="height: 300px;">
+      <table class="table table-striped" style="width: 830px;">
+        <thead style="width: 830px">
+          <tr>
+            <th style="text-align: center;">大区</th>
+            <th style="text-align: center;width: 300px"">南基到东莞</th>
+            <th style="text-align: center;width: 300px"">东莞到南基</th>
+          </tr>
+        </thead>
+        <tbody style="width: 830px">
+		  <tr ng-repeat="info in dataBaseCopyStateMessage.data.datas">
+            <td style="text-align: center;">{{info.regionCHName}}</td>
+            <td style="text-align: center;width: 300px;position: relative;">{{info.NJ_DG | filterState}}<span data-toggle="tooltip" data-placement="top" ng-class="{'yellow': info.NJ_DG === 'ABENDED','red': info.NJ_DG === 'STOPPED','green': info.NJ_DG === 'RUNNING'}" style="position: absolute;right: 110px;cursor: pointer; border-radius: 50%; width: 15px; height: 15px;"></span></td>
+            <td style="text-align: center;width: 300px;position: relative;">{{info.DG_NJ | filterState}}<span data-toggle="tooltip" data-placement="top" ng-class="{'yellow': info.DG_NJ === 'ABENDED','red': info.DG_NJ === 'STOPPED','green': info.DG_NJ === 'RUNNING'}" style="position: absolute; right: 110px;cursor: pointer; border-radius: 50%; width: 15px; height: 15px;"></span></td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      
+      <div style="margin-left:830px;margin-top: -25px;">
+          <div><button class="btn btn-success" style="width: 70px;" ng-click="clickDataBaseCopyState();"><span class="glyphicon glyphicon-refresh"></span>刷新</button></div>
+          <div style="margin-top: 2px;"><button class="btn btn-success" style="width: 70px;" ng-click="clickPass()"><span class="glyphicon glyphicon-refresh glyphicon glyphicon-ok-circle"></span>通过</button></div>
+      </div>
+    </div>
+  
+  <div id="fileDataCopyState" style="display:none">
+  <div style="height: 300px;">
+    <div style="height: 240px;overflow-y: auto;width: 850px;">
+       <table class="table table-striped" style="width: 830px;">
+        <thead style="width: 830px">
+          <tr>
+            <th style="text-align: center;width: 200px">主机</th>
+             <th style="text-align: center;">平均延时</th> 
+            <th style="text-align: center;width: 80px">状态</th>
+          </tr>
+        </thead>
+        <tbody style="width: 830px">
+      <tr ng-repeat="info in fileDataCopyStateMessage.data.datas">
+            <td style="text-align: center;width: 200px">{{info.hostName}}</td>
+            <td style="text-align: center;">{{info.delay}}</td>
+            <td style="text-align: center;width: 80px">{{info.status}}<span data-toggle="tooltip" data-placement="top" ng-class="{'red': info.status === '停止','green': info.status === '运行'}" style="float: right; cursor: pointer; border-radius: 50%; width: 15px; height: 15px;"></span></td>
+          </tr>
+        </tbody>
+      </table>
+     </div>
+      <div style="margin-top: 15px"><label style="color: red;font-size: 15px">注意：若有红色圆球，则表示文件数据状态停止，请谨慎操作！</label></div>
+      </div>
+      
+      <div style="margin-left:830px;margin-top: -25px;">
+          <div><button class="btn btn-success" style="width: 70px;" ng-click="clickFileDataCopyState();"><span class="glyphicon glyphicon-refresh"></span>刷新</button></div>
+          <div style="margin-top: 2px;"><button class="btn btn-success" style="width: 70px;" ng-click="clickPass()"><span class="glyphicon glyphicon-refresh glyphicon glyphicon-ok-circle"></span>通过</button></div>
+      </div>
+  </div> 
+  <div id="disasterInterState" style="display:none">
+  <div style="height: 300px;">
+    <table class="table table-striped" style="width: 830px;">
+        <thead>
+          <tr>
+            <th style="text-align: center;width: 200px">网络名称</th>
+            <th style="text-align: center;">平均延时</th>
+            <th style="text-align: center;width: 80px">丢包率</th>
+          </tr>
+          <tbody>
+			<tr ng-repeat="info in disasterInterStateMessage.data.datas">
+            <td style="text-align: center;width: 200px">{{info.networkName}}</td>
+            <td style="text-align: center;">{{info.delay}}</td>
+            <td style="text-align: center;width: 80px">{{info.packetLoss}}</td>
+          </tr>
+          </tbody>
+        </thead>
+      </table>
+      </div>
+      <div style="margin-left:830px;margin-top: -25px;">
+          <div><button class="btn btn-success" style="width: 70px;" ng-click="clickDisasterInterState();"><span class="glyphicon glyphicon-refresh"></span>刷新</button></div>
+          <div style="margin-top: 2px;"><button class="btn btn-success" style="width: 70px;" ng-click="clickPass()"><span class="glyphicon glyphicon-refresh glyphicon glyphicon-ok-circle"></span>通过</button></div>
+      </div>
+  </div>
+  <div id="disasterGaojingState" style="display:none;">
+  <div style="height: 300px">
+    <table class="table table-striped" style="width: 830px;" style="height: 300px">
+        <thead>
+          <tr>
+            <th style="text-align: center;width: 80px">主机名</th>
+            <th style="text-align: center;width: 100px">实例序号</th>
+            <th style="text-align: center;width: 100px">告警类型</th>
+            <th style="text-align: center;width: 100px">告警时间</th>
+            <th style="text-align: center;width: 200px">告警详情</th>
+          </tr>
+        </thead>
+        <tbody>
+		    <tr ng-repeat="info in disasterGiveAnlarmState.data.datas">
+            <td style="text-align: center;width: 80px">{{info.hostName}}</td>
+            <td style="text-align: center;width: 100px">{{info.instance}}</td>
+            <td style="text-align: center;width: 100px">{{info.warnLeve}}</td>
+            <td style="text-align: center;width: 100px">{{info.warnTime}}</td>
+            <td style="text-align: center;width: 200px" title="{{info.warnContent}}">{{info.warnContent | subletters:16}}</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      <div class="tables-content" style="margin-top: 45px">
+                <page
+                  total-count="disasterGiveAnlarmState.data.totalCount"
+                  page-count="catalog.pageCount"
+                  current-page="catalog.currentPage"
+                  show-max-page="5"
+                  go-page="setCurrentPageDisasterGaojing(currentPage)">
+                </page>
+      </div>
+
+      <div style="margin-left:830px;margin-top: -125px;">
+          <div><button class="btn btn-success" style="width: 70px;" ng-click="clickDisasterGaojing();"><span class="glyphicon glyphicon-refresh"></span>刷新</button></div>
+          <div style="margin-top: 2px;"><button class="btn btn-success" style="width: 70px;" ng-click="clickPass()"><span class="glyphicon glyphicon-refresh glyphicon glyphicon-ok-circle"></span>通过</button></div>
+      </div>
+  </div>
+  </div>
+</div>
+</div>
+<div style="height:50px;border:0px #c7c7c7 solid;margin-left: 605px;margin-top: -60px; text-align: center;">
+  <button class="btn btn-danger" ng-click="stopSwitch()" ng-disabled="falg_stop.data">停止切换&nbsp;<span class="glyphicon glyphicon-exclamation-sign"></span></button>
+  <button class="btn btn-success" ng-click="getEndTime()" ng-disabled="falg.data">下一步&nbsp;<span class="glyphicon glyphicon-circle-arrow-right"></span></button>
+</div>
+</div>
+
+</div>
+

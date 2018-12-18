@@ -1,0 +1,270 @@
+<div style="height: 500px;border:0px #c7c7c7 solid;margin-top: 70px;margin-left:10px;background-color: white; " ng-init="queryMachinesInfo();initQueryParam();getOpTime();">
+  <div class="querys-content" style="">
+    <div class="dropdown" style="position:absolute;margin-top: 20px;float: left;;margin-left: 20px;">
+      <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="true">
+        <label style="width: 122px;cursor:pointer">机器信息管理</label>
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+        <!-- <li><a ui-sref="disasterRec.tmallOggConfig">OGG进程配置</a></li> -->
+        <li style="margin-left: 10px"><a ui-sref="disasterRec.monitorThreshold">监控阈值管理</a></li>
+        <li style="margin-left: 10px"><a ui-sref="disasterRec.tmallRegionConfig">省份大区配置</a></li>
+      </ul>
+    </div><br><br>
+    <form class="form-inline">
+      <br><br>
+      <div style="height: 4px;width: 100%;background-color:#d0d0d0;border-radius: 5px;margin-bottom: 10px;"></div>
+      <div style="float: left;margin-left:20px ">
+        <label style="">机器名:</label>
+        <input class="form-control" style="width:150px;" ng-trim="false" maxlength="15" ng-model="catalog.name"
+          ng-change="getName(catalog.name)">
+      </div>
+      <button class="btn btn-default" ng-click="termQuery()" style="margin-left: 20px;float: left;"><span class="glyphicon glyphicon-search"><label>查询</label></span>
+      </button>
+      <div class="dropdown" style="float: left;margin-left: 50px;">
+        <button style="height: 36px" class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1"
+          data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+          <span class="glyphicon glyphicon-wrench" style="width: 122px;"><label style="cursor:pointer;">选择操作</label></span>
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" style="width: 100px">
+          <!-- <li data-toggle="modal" data-target="#myModal" style="text-align: center;width: 90px;margin-left:28px"><span class="glyphicon glyphicon-plus"><label>增加信息</label></span></li>
+                <li data-toggle="modal" ng-click="clickUpdate();" style="text-align: center;width: 90px;margin-left:28px"><span class="glyphicon glyphicon-pencil"><label>修改信息</label></span></li>
+                <li data-toggle="modal"  ng-click='clickDel();' style="text-align: center;width: 90px;margin-left:28px"><span class="glyphicon glyphicon-remove"><label>删除信息</label></span></li> -->
+          <li data-toggle="modal" data-target="#myModal" style="text-align: center;"><a style="cursor:pointer;" class="glyphicon glyphicon-plus">增加信息</a></li>
+          <li data-toggle="modal" ng-click="clickUpdate();" style="text-align: center;"><a style="cursor:pointer;"
+              class="glyphicon glyphicon-pencil">修改信息</a></li>
+          <li data-toggle="modal" ng-click='clickDel();' style="text-align: center;"><a style="cursor:pointer;" class="glyphicon glyphicon-remove">删除信息</a></li>
+        </ul>
+      </div>
+    </form>
+    <!-- <div style="float: right;margin-right: 50px;margin-top: -90px;width: 300px;height: 102px;line-height: 35px" ng-init="getOpTime();">
+        <label style="width: 90px;text-align: center;">上次操作用户</label><span class="glyphicon glyphicon-user">:</span>{{operationNoteMessage.data.datas.opUser}}<br/>
+        <label style="width: 90px;text-align: center;">上次操作时间</label><span class="glyphicon glyphicon-time">:</span>
+        {{operationNoteMessage.data.datas.opTime}}
+      </div> -->
+  </div>
+  <div class="table" style="">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th></th>
+          <th style="text-align: center;">机器名</th>
+          <th style="text-align: center;">机器IP</th>
+          <th style="text-align: center;">所处中心</th>
+          <th style="text-align: center;">所处机架</th>
+          <th style="text-align: center;">备注</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="info in machinesMessage.data.datas">
+          <td style="width:30px;text-align:center;vertical-align: middle;">
+            <input type="checkbox" ng-click="batchProcessing(info.id,$index)" name="radio" checked="info.checkbox"
+              ng-model="info.checkbox" />
+          </td>
+          <td style="text-align: center;">{{info.name}}</td>
+          <td style="text-align: center;">{{info.ip}}</td>
+          <td style="text-align: center;">{{info.area | zhangwei}}</td>
+          <td style="text-align: center;">{{info.rack}}</td>
+          <td style="text-align: center;">{{info.remark |fillterNull}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="tables-content">
+    <page total-count="machinesMessage.data.totalCount" page-count="catalog.pageCount" current-page="catalog.currentPage"
+      show-max-page="5" go-page="setCurrentPageMachines(currentPage)">
+    </page>
+  </div>
+</div>
+<style type="text/css">
+  .tables-content {
+    height: 78px;
+  }
+
+</style>
+<!-- 新增配置 模态框 -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+  data-backdrop="static">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="clearBatch(addBatch)">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">新增机器配置方案</h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" name='addBatchForm'>
+          <div class="form-group form-inline marginT" style="margin-left: 70px">
+            <span style="color: red;">*</span>&nbsp;<label style="width: 100px">机器名:</label>
+            <span>
+              <ng-form name="nameFor">
+                <input class="form-control" style="width:200px;" ng-trim="false" ng-model="addBatch.name" maxlength='15'
+                  ng-change='watchConfigName(addBatch.name)' name='mName' pattern="^[a-zA-Z][a-zA-Z0-9_]{1,15}$"
+                  required>
+                <span style="color: red;" ng-show="nameFor.mName.$error.pattern">
+                  请添加规范的机器名！
+                </span>
+              </ng-form>
+            </span>
+          </div>
+          <div class="form-group form-inline marginT" style="margin-left: 70px">
+            <span style="color: red;">*</span>&nbsp;<label style="width: 100px">机器IP:</label>
+            <span>
+              <ng-form name="mip">
+                <input class="form-control" style="width:200px;" ng-trim="false" ng-model="addBatch.ip" ng-change='watchConfigName(addBatch.ip)'
+                  name='ip' pattern="^(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])$"
+                  required>
+                <span style="color: red;" ng-show="mip.ip.$error.pattern">
+                  请输入规范的ip地址！
+                </span>
+              </ng-form>
+            </span>
+          </div>
+          <div class="form-group form-inline marginT" style="margin-left: 70px">
+            <span style="color: red;">*</span>&nbsp;<label style="width: 100px">所处中心:</label>
+            <span>
+              <ng-form name="marea">
+                <select class="form-control" style="width:200px;" ng-trim="false" ng-model="addBatch.area" ng-options="system.value as system.label for system in rackList"
+                  name="area" ng-change='watchConfigName(addBatch.area)' required>
+                  <option value="">-请选择-</option>
+                </select>
+              </ng-form>
+            </span>
+          </div>
+          <div class="form-group form-inline marginT" style="margin-left: 70px">
+            &nbsp;&nbsp;<label style="width: 100px">所处机架:</label>
+            <span>
+              <ng-form name="mrack">
+                <input class="form-control" style="width:200px;margin-left: 2px" ng-trim="false" ng-model="addBatch.rack"
+                  name="rack" ng-change='watchConfigName(addBatch.rack)'>
+              </ng-form>
+            </span>
+          </div>
+
+          <div class="form-group form-inline marginT" style="margin-left: 70px">
+            &nbsp;&nbsp;<label style="width: 100px">备注:</label>
+            <span>
+              <input class="form-control" style="width:200px;margin-left: 2px" ng-trim="false" ng-model="addBatch.remark"
+                maxlength='20' ng-change='watchConfigName(addBatch.remark)' name='configName'>
+            </span>
+          </div>
+
+          <span style="color: red;margin-left: 190px">注意：带* 为必填项。</span>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="addConfig()" ng-disabled="nameFor.$invalid||mip.$invalid||marea.$invalid">
+              保存
+            </button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="clearBatch()">
+              取消
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 删除OGG配置 -->
+<div class="modal fade" id="delDataModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+  data-backdrop="static">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="delDataLabel">确定删除？</h4><br>
+        <p id="message" style="color: red;display: none;font-style:italic">注意：此机器已经被主机应用!</p>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="delConfig()">确认
+        </button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 修改配置模态框 -->
+<div class="modal fade" id="changeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+  data-backdrop="static">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="clearBatch(addBatch)">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">修改机器信息配置方案</h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" name='addBatchForm'>
+          <div class="form-group form-inline marginT" style="margin-left: 70px">
+            <span style="color: red;">*</span>&nbsp;<label style="width: 100px">机器名:</label>
+            <span>
+              <ng-form name="mName">
+                <input class="form-control" style="width:200px;" ng-trim="false" ng-model="oldData.name" maxlength='15'
+                  ng-change='gainMName(oldData.name)' name='mName' readonly="readonly">
+                <!-- <span style="color: red;" ng-show="mName.mName.$error.pattern">
+                                      请输入规范的机器名！
+                                    </span> -->
+              </ng-form>
+            </span>
+          </div>
+          <div class="form-group form-inline marginT" style="margin-left: 70px">
+            <span style="color: red;">*</span>&nbsp;<label style="width: 100px">机器IP:</label>
+            <span>
+              <ng-form name="ip">
+                <input class="form-control" style="width:200px;" ng-trim="false" ng-model="oldData.ip" ng-change='gainIp(oldData.ip)'
+                  name='ip' pattern="^(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])$"
+                  required>
+                <span style="color: red;" ng-show="ip.ip.$error.pattern">
+                  请输入规范的ip地址！
+                </span>
+              </ng-form>
+            </span>
+          </div>
+          <div class="form-group form-inline marginT" style="margin-left: 70px">
+            <span style="color: red;">*</span>&nbsp;<label style="width: 100px">所处中心 :</label>
+            <span>
+              <ng-form name="area">
+                <select class="form-control" style="width:200px;" ng-trim="false" ng-model="oldData.area" name="area"
+                  ng-change='gainArea(oldData.area)' ng-options="system.value as system.label for system in rackList"
+                  required>
+                </select>
+              </ng-form>
+            </span>
+          </div>
+          <div class="form-group form-inline marginT" style="margin-left: 70px">
+            &nbsp;&nbsp;<label style="width: 100px">所处机架 :</label>
+            <span>
+              <ng-form name="rack">
+                <input class="form-control" style="width:200px;margin-left: 2px" ng-trim="false" ng-model="oldData.rack"
+                  name="rack" ng-change='gainRack(oldData.rack)'>
+                <!-- <select class="form-control" style="width:200px;" ng-trim="false"
+                                           ng-model="oldData.rack" name="rack" ng-change='gainRack(oldData.rack)' required>
+                                        <option>NJ</option>
+                                        <option>DG</option>
+                                    </select> -->
+              </ng-form>
+            </span>
+          </div>
+          <div class="form-group form-inline marginT" style="margin-left: 70px">
+            &nbsp;&nbsp;<label style="width: 100px;">备注 :</label>
+            <span>
+              <input class="form-control" style="width:200px;margin-left: 2px" ng-trim="false" ng-model="oldData.remark"
+                maxlength='20' ng-change='gainRemark(oldData.remark)' name='configName' required>
+            </span>
+          </div>
+          <span style="color: red;margin-left: 190px">注意：带* 为必填项。</span>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="sendNewData()" ng-disabled="ip.$invalid||area.$invalid">
+              保存
+            </button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="clearBatch()">
+              取消
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

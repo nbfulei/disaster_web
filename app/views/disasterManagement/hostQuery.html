@@ -1,0 +1,314 @@
+<div style="background-color: white;width: 100%;height: 100%" ng-init="hostInfo()">
+  <div style="border-bottom: 1px solid #ddd;padding-left: 24px;padding-right: 24px;">
+    <h1 style="display: inline-block;font-size: 28px;margin: 0;line-height: 60px">
+      <span>所有主机</span>
+    </h1>
+    <span></span>
+    <span style="float: right;font-size: 14px;line-height: 60px">
+      <a href="" class="btna"  ui-sref="disasterRec.tmallRegionConfig">配置</a>
+      <a href="" class="btna" ui-sref="disasterRec.modifyHost">添加新主机</a>
+      <!--<a href="" class="btna">重新运行升级向导</a>-->
+      <a  class="btna" ng-click="hostInfo()">检查所有主机</a>
+    </span>
+  </div>
+  <div style="padding: 8px 0 0 0;margin: 0;">
+    <div style="margin: 8px">
+      <span class="free-text-filter">
+        <input type="text" placeholder="搜索" style="width: 65%" ng-model="queryCriteria" ng-change="jquerys(queryCriteria,hostData,'all')">
+        <span style="cursor: pointer" data-toggle="tooltip" data-placement="bottom"
+              title="输入搜索条件（名称，主机IP）">
+          <i class="glyphicon glyphicon-question-sign"></i>
+        </span>
+      </span>
+    </div>
+    <div style="margin: 16px 8px 8px 8px ">
+      <div class="dropdown">
+        <button  class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+          已选定的操作{{checkNum.number}}
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" id="uiOreder" style="z-index: 1;min-width:122px;width: 122px">
+          <!--<li><a style="cursor: pointer"  title="启动主机上的实例" ng-click="checkBosOrder(7)">启动主机上的实例</a></li>-->
+          <!--<li><a style="cursor: pointer"  ng-click="checkBosOrder(8)" title="停止主机上的实例">停止主机上的实例</a></li>-->
+          <!-- <li role="separator" class="divider"></li> -->
+          <li style="width: 122px"><a style="cursor: pointer;width: 120px" ng-click="checkBosOrder(3)"   title="删除">删除</a></li>
+          <!-- <li role="separator" class="divider"></li> -->
+        </ul>
+      </div>
+    </div>
+    <div  style="margin: 8px;padding: 0px" ng-init="vm.init()">
+      <div style="min-width: 1070px;overflow: auto;">
+        <div class="tables-content">
+          <div class="tables">
+            <div class="thead" id="thead" style="min-width: 1680px">
+              <table class="table   table-striped" >
+                  <thead >
+                    <tr>
+                    <th style="width: 60px"><input type="checkbox" id="checkAll"  ng-model="hostData.allChecked" ng-click="getCheckbox(hostData,'all')"></th>
+                    <th style="width: 60px;cursor:pointer;" ng-click="title='status';vm.ceshi2('状态')">
+                      <span >状态  <sorting sort-icon="vm.status"></sorting></span></th>
+                    <th  ng-click="title='hostName';vm.ceshi2('名称')" style="width: 150px;cursor:pointer;">
+                      <span>名称 <sorting sort-icon="vm.hostName" ></sorting></span>
+                    </th>
+                    <th style="width: 150px;cursor:pointer;"  ng-click="title='ip';vm.ceshi2('主机IP')" >
+                        <span >主机IP  <sorting sort-icon="vm.ip"></sorting></span>
+                      </th>
+
+                    <th ng-click="title='instances';vm.ceshi2('实例')" style="cursor:pointer;width: 150px;" >
+                      <span >实例 <sorting sort-icon="vm.instances"></sorting></span>
+                    </th>
+                    <th ng-click="title='cpuUsage';vm.ceshi2('cpu使用率')" style="width: 150px;cursor:pointer;">cpu使用率<sorting sort-icon="vm.cpuUsage"></sorting></th>
+                    <th ng-click="title='cpuHZ';vm.ceshi2('每核HZ大小')" style="width: 150px;cursor:pointer;">每核HZ大小<sorting sort-icon="vm.cpuHZ"></sorting></th>
+                    <th ng-click="title='cpuCores';vm.ceshi2('cpu核数')" style="width: 150px;cursor:pointer;">cpu核数<sorting sort-icon="vm.cpuCores"></sorting></th>
+                    <th ng-click="title='memUsage';vm.ceshi2('mem使用率')" style="min-width: 200px;cursor:pointer;">物理内存<sorting sort-icon="vm.memUsage"></sorting></th>
+                    <th ng-click="title='diskUsage';vm.ceshi2('磁盘使用率')" style="min-width: 200px;cursor:pointer;">磁盘使用情况<sorting sort-icon="vm.diskUsage"></sorting></th>
+                    <th style="width: 150px">备注信息</th>
+                    <th style="width:17px"></th>
+                  </tr>
+                  </thead>
+              </table>
+            </div>
+            <div class="tbody" id="tbody" style="max-height: 330px;min-width: 1680px" >
+              <table  class="table  table-striped table-hover">
+                <tbody>
+                  <tr ng-repeat="host in hostData | getRester:queryCriteria | orderBy : title : vm[title].z2">
+                  <td  style="width: 60px"><input type="checkbox" ng-click="getCheckbox(hostData)" ng-model="host.checkbox"></td>
+                  <td  style="width: 60px">
+                    <span data-toggle="tooltip" data-placement="top" ng-style="host.status| colorState" style="float:left;cursor:pointer;" title="{{host.status | hostStatus}}"></span>
+                  </td>
+                  <td style="width: 150px"><span ng-click="hostDetailsID(host.id)" style="color: #0B7FAD;cursor:pointer;">{{host.hostName}}</span></td>
+                  <td style="width: 150px">{{host.ip}}</td>
+                  <td style="width: 150px;">
+                    <span ng-init="host.closed=true" ng-click="host.closed=!host.closed;spanClick($event)">
+                      <span style="cursor: pointer">
+                        <i class="glyphicon" ng-class="host.closed?'glyphicon-chevron-right':'glyphicon-chevron-down'"></i>
+                        {{host.instances.length}} Role(s)
+                      </span>
+                      </span>
+                      <ul style="margin-left: 0;list-style-type:none;padding: 0px;display: none">
+                        <li ng-repeat="tances in host.instances"   style="cursor:pointer;line-height: 20px;padding: 3px 2px; ">
+                          <a >
+                            <i data-toggle="tooltip" data-placement="top" style="float: left"
+                               title="{{tances.insMonitorStatus | hostStatus}}" ng-style="tances.insMonitorStatus| colorState"></i>
+                            <span ng-click="hostInstancQuery(host.hostName,tances.id)">&nbsp;{{tances.name}}</span>
+                          </a>
+                        </li>
+                      </ul>
+
+                  </td>
+                  <td style="width: 151px">
+                    <div>
+                      {{host.cpuUsage}}%
+                      <div style="width: 100%;border: 1px ;background-color: #ddd">
+                        <div ng-style="host.cpuUsage| usageColor"></div>
+                      </div>
+                    </div>
+                  </td>
+                  <td style="width: 150px">{{host.cpuHZ}}MHz</td>
+                  <td style="width: 150px">{{host.cpuCores}}核</td>
+                  <td  style="min-width: 200px">
+                    {{host.memUsage*host.memSize/100 | getTakeOver}}GiB&nbsp;/&nbsp;{{host.memSize | getTakeOver}}GiB
+                    <div style="width: 100%;border: 1px ;background-color: #ddd">
+                      <div ng-style="host.memUsage| usageColor"></div>
+                    </div>
+                  </td>
+                  <!--<td>{{host.memSize}}</td>-->
+                  <td  style="min-width: 200px">
+                    {{host.diskUsage*host.diskSize/100 | getTakeOver}}GiB&nbsp;/&nbsp;{{host.diskSize | getTakeOver}}GiB
+                    <div style="width: 100%;border: 1px ;background-color: #ddd">
+                      <div ng-style="host.diskUsage| usageColor"></div>
+                    </div>
+                  </td>
+                  <td style="width: 150px"><span data-toggle="tooltip" data-placement="left" style="cursor:pointer"
+                          title="{{host.remark}}">{{host.remark | subletters:5}}</span></td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+   <!--//提示模态框-->
+  <div class="modal fade" id="PromptModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header" >
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">警报</h4>
+        </div>
+        <div class="modal-body">
+          <p>请选择一个或多个主机！</p><p></p><p></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn dismissButton btn-primary" data-dismiss="modal">关闭</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+  <!--//启动提示模态框-->
+  <div class="modal fade" id="startAll" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header" style="text-align:left;background-color: #F1EFEF;color: black">
+          <h4 class="modal-title">启动实例信息</h4>
+        </div>
+        <div class="modal-body">
+          <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+              <th>状态</th><th>主机名</th><th>实例信息</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="hostList in checkNum.newList">
+              <td><i data-toggle="tooltip" data-placement="top" ng-style="hostList.status| colorState" style="float: left;cursor:pointer"
+                     title="{{hostList.status | hostStatus}}"></i></td>
+              <td>{{hostList.hostName}}</td>
+              <td>
+                 <span ng-repeat="example in hostList.instances">
+                    <div>
+                      <i data-toggle="tooltip" data-placement="top" style="float: left"
+                         title="{{example.insMonitorStatus | hostStatus}}" ng-style="example.insMonitorStatus| colorState"></i>
+                      {{example.name}}
+                    </div>
+                  </span>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer" style="text-align:right;background-color: #F1EFEF">
+          <button type="button" class="btn dismissButton btn-primary"
+                  ng-click="startModel()">启动实例</button>
+          <button type="button" class="btn dismissButton btn-default" data-dismiss="modal">取消</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+  <!--//关闭实例模态框-->
+  <div class="modal fade" id="stopAll" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header" >
+          <h4 class="modal-title">关闭实例信息</h4>
+        </div>
+        <div class="modal-body">
+          <table class="table table-bordered">
+            <thead>
+            <tr>
+              <th>状态</th><th>主机名</th><th>实例信息</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="hostList in checkNum.newList">
+              <td>
+              <i data-toggle="tooltip" data-placement="top" ng-style="hostList.status| colorState" style="float: left;cursor:pointer"
+                         title="{{hostList.status | hostStatus}}"></i></td>
+              <td>{{hostList.hostName}}</td>
+              <td>
+                 <span ng-repeat="example in hostList.instances">
+                    <div>
+                      <i data-toggle="tooltip" data-placement="top" style="float: left"
+                         title="{{example.insMonitorStatus | hostStatus}}" ng-style="example.insMonitorStatus| colorState"></i>
+                      {{example.name}}
+                    </div>
+                  </span>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn dismissButton btn-primary"
+                  ng-click="stopModel()">关闭实例</button>
+          <button type="button" class="btn dismissButton btn-default" data-dismiss="modal">取消</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+  <!--删除模态框-->
+  <div class="modal fade" id="OneModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header" style="text-align:left;background-color: #F1EFEF;color: black">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">删除操作</h4>
+        </div>
+        <div class="modal-body">
+          <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+              <th>状态</th><th>主机名</th><th>实例信息</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="hostList in checkNum.newList">
+              <td><i data-toggle="tooltip" data-placement="top" ng-style="hostList.status| colorState" style="float: left;cursor:pointer"
+                     title="{{hostList.status | hostStatus}}"></i></td>
+              <td>{{hostList.hostName}}</td>
+              <td>
+                 <span ng-repeat="example in hostList.instances">
+                    <div>
+                      <i data-toggle="tooltip" data-placement="top" style="float: left"
+                         title="{{example.insMonitorStatus | hostStatus}}" ng-style="example.insMonitorStatus| colorState"></i>
+                      {{example.name}}
+                    </div>
+                  </span>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer" style="text-align:right;background-color: #F1EFEF">
+          <button type="button" class="btn dismissButton btn-primary" data-dismiss="modal"
+                  ng-click="delHostDetails(checkNum.newList)">确认</button>
+          <button type="button" class="btn dismissButton btn-default" data-dismiss="modal">关闭</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+  <!--//启动主机角色模态框-->
+  <div class="modal fade" id="startUpModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header" style="text-align:left;background-color: #F1EFEF;color: black">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">启动所有角色</h4>
+        </div>
+        <div class="modal-body">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th style="width: 50px">主机</th>
+                <th>角色实例</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="hostInstanc in checkNum.newList" >
+                <td  style="width: 50px">{{hostInstanc.hostName}}</td>
+                <td>
+                  <span ng-repeat="example in hostInstanc.hostInstances">
+                    {{example.insName}}
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer" style="text-align:right;background-color: #F1EFEF">
+          <button type="button" class="btn dismissButton btn-primary">确认</button>
+          <button type="button" class="btn dismissButton btn-default" data-dismiss="modal">取消</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+</div>

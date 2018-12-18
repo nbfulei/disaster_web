@@ -1,0 +1,65 @@
+<div style="width: 1100px;height: 550px;background-color: white;margin: auto;margin-top: 70px;" ng-init='qurey();'>
+    
+           <span style="text-align: center;margin-top: 10px; position: relative;top: 10px;"><h3>告警详情：</h3></span>
+   
+            
+          <div ng-hide="wash" style="margin-left: 200px;margin-top: 10px; transition-property: border-left-width; width: 650px; height: 500px; border: 1px solid #d9d9d9;border-radius:5px;float: left;">
+             <h4 style='border-bottom:1px solid;border-color:#ddd;padding:10px;margin:0px 0px 10px;font-weight:bold;background:url(styles/box-h2.png) repeat-x bottom center #fff;-webkit-border-top-left-radius:5px;-webkit-border-top-right-radius:5px;height: 40px;'></h4>
+               
+                     <div style="margin-left: 10px;font-size: 20px;text-align: center;">
+                        
+                            
+                       <label style="width: 100px;color: red;">OGG<span class="glyphicon glyphicon-exclamation-sign"></span></label> <button  ng-click="qureyOgg();oggBox();" type="button" class="btn btn-default btn-sm">详细</button><br>
+                       <div id="oggbox" style="font-size: 11px;border: 1px solid   #989898;width: 350px;height: 100px;margin: auto;overflow: auto;display: none;">
+                        <ul style="margin-left: -40px;text-align: left;" ng-repeat="x in errMessage.data.ogg track by $index">
+                        <li style="list-style: none;padding-left: 5px;">{{$index+1}}.{{x}}。</li>
+                        </ul>
+                        </div><br/>
+                            
+                            
+                             
+                        <label style="width: 100px;color: red;">Array<span class="glyphicon glyphicon-exclamation-sign"></span></label> <button ng-click="qureyArray();arrayBox();" type="button" class="btn btn-default btn-sm">详细</button><br>
+                        <div id='arraybox' style="font-size: 11px;border: 1px solid   #989898;width: 350px;height: 100px;margin: auto;overflow: auto;display: none;">
+                        <ul style="margin-left: -40px;text-align: left;" ng-repeat="x in errMessage.data.array track by $index">
+                        <li style="list-style: none;padding-left: 5px;">{{$index+1}}.{{x}}。</li>
+                        </ul>
+                        </div> <br/>
+                            
+                             
+                              
+                         <label style="width: 100px;color:red;">数据比对<span class="glyphicon glyphicon-exclamation-sign"></span></label> <button ng-click="qureyData();fileBox();" type="button" class="btn btn-default btn-sm">详细</button><br>
+                        <div id='filebox' style="font-size: 11px;border: 1px solid   #989898;width: 350px;height: 100px;margin: auto;overflow: auto;display: none;">
+                        <ul style="margin-left: -40px;text-align: left;" ng-repeat="x in errMessage.data.data track by $index">
+                        <li style="list-style: none;padding-left: 5px;">{{$index+1}}.{{x}}</li>
+                        </ul>
+                        </div><br/> 
+
+
+                        <label style="width: 100px;color:red;">文件比对<span class="glyphicon glyphicon-exclamation-sign"></span></label> <button ng-click="qureyFile();dataBox();" type="button" class="btn btn-default btn-sm">详细</button><br>
+                        <div id='databox' style="font-size: 11px;border: 1px solid   #989898;width: 350px;height: 100px;margin: auto;overflow: auto;display: none;">
+                        <ul style="margin-left: -40px;text-align: left;" ng-repeat="x in errMessage.data.file track by $index">
+                        <li style="list-style: none;padding-left: 5px;">{{$index+1}}.{{x}}</li>
+                        </ul>
+                        </div><br/>
+
+
+                        <!-- <label style="width: 100px;color:red;">省大区<span class="glyphicon glyphicon-exclamation-sign"></span></label> <button ng-click="qureyArea();areaBox();" type="button" class="btn btn-default btn-sm">详细</button><br>
+                        <div id='areabox' style="font-size: 11px;border: 1px solid  #989898;width: 350px;height: 100px;margin: auto;overflow: auto;display: none;">
+                        <ul style="margin-left: -40px;text-align: left;" ng-repeat="x in errMessage.data.area track by $index">
+                        <li style="list-style: none;padding-left: 5px;">{{$index+1}}.{{x}}</li>
+                        </ul>
+                        </div> -->
+                      </div>
+
+                    
+
+                    </div><br/>
+
+
+
+                    
+    <div style="clear: none;margin-top: 460px; margin-left:900px;">
+        <button type="button" ui-sref="disasterRec.monitor" class="btn btn-default">返回</button>
+    </div>
+  
+</div>

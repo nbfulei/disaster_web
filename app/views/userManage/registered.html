@@ -1,0 +1,55 @@
+<div align="center"  style="background-image:url(img/loginGB.jpg);background-size:100% 100%;width:100%;height:648px;opacity: 0.5;z-index: 0;position: absolute;">
+	<!-- <img width="100%" height="100px" src="../../img/login_bg.png"><br/> -->
+	
+
+</div>
+<div style="width:700px;height:300px;opacity: 1;z-index: 2;position: absolute;left:25%;top:100px;text-align: center;">
+<div class="login-logo">
+		<div class="logo"></div>
+		<div class="note" style="margin-bottom: 15px;">
+			<h1>统一支付异地灾备系统</h1>
+			<h3>注册账户</h3>
+		</div>
+	</div>
+	<div class="login-form"  style="text-align: center">
+         <form class="form_auto" style="text-align: center" name='registeredForm' ng-submit="registerAccount(registeredMsg)">
+            <div class="orm-group" style="height: 58px;text-align: center">
+	            <label style="width:100px"><i style="color: red">*&nbsp;&nbsp;</i>账号:</label>
+           
+	              <input style="width:390px;height:34px;border-radius:4px;border: 1px solid #ccc;padding:6px 12px;" type="text" name="loginUser" ng-model="registeredMsg.loginUser" required  />
+	              
+	            
+            </div>
+ 			<div class="form-group form-inline marginT" style="height: 58px;">
+	            <label class="" style="width:100px"><i style="color: red">*&nbsp;&nbsp;</i>姓名:</label>
+	            
+	              <input  style="width:395px;height:34px;border-radius:4px;border: 1px solid #ccc;padding:6px 12px;" type="text" name="staffName" ng-model="registeredMsg.staffName"  required />
+	               
+	           
+            </div>
+  			
+  			<div class="form-group form-inline marginT" style="height: 58px;">
+	            <label class="" style="width:100px"><i style="color: red">*&nbsp;&nbsp;</i>密码:</label>
+	            
+	              <input  style="width: 395px;height:34px;border-radius:4px;border: 1px solid #ccc;padding:6px 12px;" type="password" name="password" ng-model="registeredMsg.password" required  ng-change="wathPassword(registeredMsg.password)"/>
+	             <div style="color:red;font-size: 12px;padding-left: 100px;" ng-show="pass_word.a5">注:密码至少由8位及以上及包含大小写字母、数字及特殊符号，随机组成
+	              	，尽量不要以姓名、电话号码以及出生日期等作为口令或者口令的组成部分
+	              </div>
+	              <div style="color:red;font-size: 12px;padding-left: 150px;" ng-show="pass_word.a1">密码不能出现3位以上（含三位）重复字母、数字、特殊字符，如AAA、Aaa、111、###等</div>
+	              <div style="color:red;font-size: 12px;padding-left: 150px;" ng-show="pass_word.a2">密码不能出现3位以上（含三位）连续字母、数字、特殊字符，如ABC、Abc、123、！@#等</div>
+	              <div style="color:red;font-size: 12px;padding-left: 150px;" ng-show="pass_word.a4">密码不能出现3位以上（含三位）键盘上连续的字母、数字、特殊字符，如qwe（键盘第一行前三个字母）、asd（键盘第二行前三个字母）、qaz（键盘第一列三个字母）、1qaz（键盘第一列数字加前三个字母）、！QAZ（键盘第一列特殊字符加前三个字母）等</div>
+	            
+            </div>
+  			
+ 
+  			<div class="form-group" style="margin-left: 0px;">
+		      <button type="submit" class="btn btn-primary" style="width:100px;"   ng-disabled='registeredForm.$invalid||pass_word.a1||pass_word.a2||pass_word.a4||pass_word.a5'>注册</button> 
+		      <button class="btn btn-primary" style="width:100px;" ui-sref="login">返回</button>
+		    </div>
+  
+
+         </form>
+
+
+     </div>
+     </div>

@@ -1,0 +1,633 @@
+
+    <nav role="navigation" init="hideModal();">
+      <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" style="margin-top: -15px">
+          <ul class="nav navbar-nav">
+            <li><a ng-click="clickMajorCore()"><label style="color: blue" id="majorCore"> 主中心状态检查</label></a></li>
+            <li><a ng-click="clickSpareCore()"><label style="color: blue" id="spareCore">备中心状态检查</label></a></li>
+            <li><a ng-click="clickDataCompare()"><label style="color: blue" id="dataCompare_2">数据比对结果查询</label></a></li>
+            <li><a ng-click="clickMq()"><label style="color: blue" id="mq">MQ消息队列展示</label></a></li>
+            <li><a ng-click="nowFlow()"><label style="color: blue" id="now_flow">当前流量查询</label></a></li>
+            <li><a ng-click="clickChangeHistory()"><label style="color: blue" id="change_history">切换历史展现</label></a></li>
+          </ul>
+          <div id="plan">
+             <div style="width: 160px;height: 240px;line-height: 120px">
+                <div style="margin-left: 45px;width: 150px">
+                    <a class="btn btn-primary" ng-click="inPlan()">计划内</a>
+                </div>
+                <div style="margin-left: 45px;width: 150px">
+                    <a class="btn btn-primary" ng-click="outPlan()">计划外</a>
+                </div>
+               <div style="width: 400px;height:400px  ;margin-top: -220px ;margin-left: 200px"><img src="../../../../../img/yidonglogo33.jpg"> </div>
+           </div>
+       </div>
+     <!--  主中心中心 div   start-->
+     <div id="majorCoreState">
+        <style type="text/css">
+            .orderColor{
+                color: red ;
+            }
+        </style><!-- query(); queryApplianceMessage();clickHostComputerMessage();queryInterStateMessage();-->
+        <div class="content" table-scroll  ng-init="isHealthly();hideDiv()">
+            <div class="querys-content" style="margin-top: 20px;height: 410px">
+                <div class="tables-content">
+                    <nav role="navigation">
+                        <div class="container-fluid">
+                            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                                <div style="margin-right: 550px">
+                                    <ul class="nav navbar-nav" >
+                                        <li><a ng-click="clickHostComputerMessage()" href="" id="hostComputer_3">主机信息</a></li>
+                                        <li><a ng-click="clickAppliance()" href="" id="appliance_3">应用</a></li>
+                                        <li><a ng-click="clickInterState()" href="" id="interState_3">网络状态</a></li>
+                                    </ul></div>
+
+                                    <div id="table">
+                                        <div id="hostComputer">
+                                            <table class="table table-bordered table-striped" align="center">
+                                                <thead>
+                                                    <tr>
+                                                        <th>序号</th>
+                                                        <th>CPU使用率</th>
+                                                        <th>内存占用率</th>
+                                                        <th>磁盘剩余空间</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="info in hostComputerMessages.data.datas"
+                                                    ng-class="{orderColor:info.cpuUsage === '100%' || info.memoryUsage === '100%' || info.diskSpace === '5%'}">
+                                                    <td>{{info.hostName}}</td>
+                                                    <td>{{info.cpuUsage}}</td>
+                                                    <td>{{info.memoryUsage}}</td>
+                                                    <td>{{info.diskSpace}}</td>
+                                                </tr>
+                                            </tbody>
+
+                                        </table>
+                                        <div><lable>注意：显示红色字体主机处于不健康状态！</lable></div>
+
+                                        <div>
+                                            <page
+                                            total-count="hostComputerMessages.data.totalCount"
+                                            page-count="initQueryParam.pageCount"
+                                            current-page="batchSet.currentPage"
+                                            show-max-page="5"
+                                            go-page="turnToPage(currentPage)">
+                                        </page>
+                                    </div>
+                                </div>
+                                <div id="appliance">
+                                    <table class="table table-bordered table-striped" align="center">
+                                        <thead>
+                                            <tr>
+                                                <th>序号</th>
+                                                <th>运行状态</th>
+                                                <th>数据库检查</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="info in applianceMessages.data.datas">
+                                                <td>{{info.appName}}</td>
+                                                <td>{{info.runState}}</td>
+                                                <td>{{info.dataBaseInspect}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div>
+                                        <page
+                                        total-count="applianceMessages.data.totalCount"
+                                        page-count="initQueryParam.pageCount"
+                                        current-page="batchSet.currentPage"
+                                        show-max-page="5"
+                                        go-page="applianceTurnToPage(currentPage)">
+                                    </page>
+                                </div>
+                            </div>
+                            <div id="interState">
+                                <table class="table table-bordered table-striped" align="center">
+                                    <thead>
+                                        <tr>
+                                            <th>序号</th>
+                                            <th>宽带</th>
+                                            <th>丢包率</th>
+                                            <th>I/O检查</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="info in interStateMessages.data.datas">
+                                            <td>{{info.equipmentName}}</td>
+                                            <td>{{info.broadband}}</td>
+                                            <td>{{info.packetLossRate}}</td>
+                                            <td>{{info.ioInspect}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div><lable>注意：显示红色字体主机处于不健康状态！</lable></div>
+                                <div>
+                                    <page
+                                    total-count="interStateMessages.data.totalCount"
+                                    page-count="initQueryParam.pageCount"
+                                    current-page="batchSet.currentPage"
+                                    show-max-page="5"
+                                    go-page="interTurnToPage(currentPage)">
+                                </page>
+                            </div>
+                        </div>
+                    </div>
+                    
+
+                    
+                    <div style="margin-top: -15px;float: right">
+                        <a ng-click="returnIndex()" class="btn btn-primary btn-lg active">返回</a>
+                    </div>
+                    <div id="btn_2" style="margin-top: -15px"><a class="btn btn-primary btn-lg active" style="width: 100px" ng-disabled="false" ng-click="toInPlanSpareCoreState()">下一步</a></div>
+                </div>
+            </div>
+        </nav>
+    </div>
+    </div>
+    </div>
+    </div>
+            <!--  主中心 div   end-->
+            <!--  备中心 div   start-->
+            <div id="spareCoreState">
+                <style type="text/css">
+                    .orderColor{
+                        color: red ;
+                    }
+                </style><!-- spareHostComputerInfo();clickHostComputerMessage();spareApplianceMessage(); -->
+                <div class="content" table-scroll  ng-init="spareInterStateMessage();isHealthly();hideDiv()">
+                    <div class="querys-content" style="margin-top: 20px;height: 410px">
+                        <div class="tables-content">
+                            <nav role="navigation">
+                                <div class="container-fluid">
+                                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                                        <div style="margin-right: 550px">
+                                            <ul class="nav navbar-nav" >
+                                                <li><a ng-click="clickSpareHostComputerMessage()" href="" id="hostComputer_2">主机信息</a></li>
+                                                <li><a ng-click="clickSpareAppliance()" href="" id="appliance_2">应用</a></li>
+                                                <li><a ng-click="clickSpareInterState()" href="" id="interState_2">网络状态</a></li>
+                                            </ul></div>
+
+                                            <div id="table">
+                                                <div id="spareCoreHostComputer">
+                                                    <table class="table table-bordered table-striped" align="center">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>序号</th>
+                                                                <th>CPU使用率</th>
+                                                                <th>内存占用率</th>
+                                                                <th>磁盘剩余空间</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="info in spareHostComputerMessages.data.datas"
+                                                            ng-class="{orderColor:info.cpuUsage === '100%' || info.memoryUsage === '100%' || info.diskSpace === '5%'}">
+                                                            <td>{{info.hostName}}</td>
+                                                            <td>{{info.cpuUsage}}</td>
+                                                            <td>{{info.memoryUsage}}</td>
+                                                            <td>{{info.diskSpace}}</td>
+                                                        </tr>
+                                                    </tbody>
+
+                                                </table>
+                                                <div><lable>注意：显示红色字体主机处于不健康状态！</lable></div>
+                                                <div>
+                                                    <page
+                                                    total-count="spareHostComputerMessages.data.totalCount"
+                                                    page-count="initQueryParam.pageCount"
+                                                    current-page="batchSet.currentPage"
+                                                    show-max-page="5"
+                                                    go-page="spareHostTurnToPage(currentPage)">
+                                                </page>
+                                            </div>
+                                        </div>
+                                        <div  id="spareCoreAppliance">
+                                            <table class="table table-bordered table-striped" align="center">
+                                                <thead>
+                                                    <tr>
+                                                        <th>序号</th>
+                                                        <th>运行状态</th>
+                                                        <th>数据库检查</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="info in spareApplianceMessages.data.datas">
+                                                        <td>{{info.appName}}</td>
+                                                        <td>{{info.runState}}</td>
+                                                        <td>{{info.dataBaseInspect}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <div>
+                                                <page
+                                                total-count="spareApplianceMessages.data.totalCount"
+                                                page-count="initQueryParam.pageCount"
+                                                current-page="batchSet.currentPage"
+                                                show-max-page="5"
+                                                go-page="spareApplianceTurnToPage(currentPage)">
+                                            </page>
+                                        </div>
+                                    </div>
+                                    <div id="spareCoreInterState">
+                                        <table class="table table-bordered table-striped" align="center">
+                                            <thead>
+                                                <tr>
+                                                    <th>序号</th>
+                                                    <th>宽带</th>
+                                                    <th>丢包率</th>
+                                                    <th>I/O检查</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="info in spareInterStateMessages.data.datas">
+                                                    <td>{{info.equipmentName}}</td>
+                                                    <td>{{info.broadband}}</td>
+                                                    <td>{{info.packetLossRate}}</td>
+                                                    <td>{{info.ioInspect}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div><lable>注意：显示红色字体主机处于不健康状态！</lable></div>
+                                        <div>
+                                            <page
+                                            total-count="spareApplianceMessages.data.totalCount"
+                                            page-count="initQueryParam.pageCount"
+                                            current-page="batchSet.currentPage"
+                                            show-max-page="5"
+                                            go-page="spareInterTurnToPage(currentPage)">
+                                        </page>
+                                    </div>
+                                </div>
+                            </div>                      
+                            <div style="margin-top: -15px;float: right">
+                                <a ng-click="returnIndex()" class="btn btn-primary btn-lg active">返回</a>
+                            </div>
+                            <div id="btn_1"><a class="btn btn-primary btn-lg active" style="width: 100px;margin-top: -15px;" ng-disabled="false" ng-click="toDataFlowChange()">下一步</a></div>
+
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+    </div><!--  备中心 div   end-->
+            <!--  计划内备中心 div   start-->
+            <div id="inPlanSpareCoreState">
+                <style type="text/css">
+                    .orderColor{
+                        color: red ;
+                    }
+                </style>
+                <div class="content" table-scroll  ng-init="isHealthly();hideDiv()">
+                    <div class="querys-content" style="margin-top: 20px;height: 410px">
+                        <div class="tables-content">
+                            <nav role="navigation">
+                                <div class="container-fluid">
+                                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                                        <div style="margin-right: 550px">
+                                            <ul class="nav navbar-nav" >
+                                                <li ng-class="{active:a.a}"><a ng-click="clickSpareHostComputerMessage(b)" href="" id="hostComputer_1">主机信息</a></li>
+                                                <li ng-class="{active:a.b}"><a ng-click="clickSpareAppliance(a)" href="" id="appliance_1">应用</a></li>
+                                                <li ng-class="{active:a.c}"><a ng-click="clickSpareInterState(c)" href="" id="interState_1">网络状态</a></li>
+                                            </ul></div>
+
+                                            <div id="table">
+                                                <div id="inPlanSpareCoreHostComputer">
+                                                    <table class="table table-bordered table-striped" align="center">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>序号</th>
+                                                                <th>CPU使用率</th>
+                                                                <th>内存占用率</th>
+                                                                <th>磁盘剩余空间</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="info in spareHostComputerMessages.data.datas"
+                                                            ng-class="{orderColor:info.cpuUsage === '100%' || info.memoryUsage === '100%' || info.diskSpace === '5%'}">
+                                                            <td>{{info.hostName}}</td>
+                                                            <td>{{info.cpuUsage}}</td>
+                                                            <td>{{info.memoryUsage}}</td>
+                                                            <td>{{info.diskSpace}}</td>
+                                                        </tr>
+                                                    </tbody>
+
+                                                </table>
+                                                <div><lable>注意：显示红色字体主机处于不健康状态！</lable></div>
+                                                <div>
+                                                    <page
+                                                    total-count="spareHostComputerMessages.data.totalCount"
+                                                    page-count="initQueryParam.pageCount"
+                                                    current-page="batchSet.currentPage"
+                                                    show-max-page="5"
+                                                    go-page="spareHostTurnToPage(currentPage)">
+                                                </page>
+                                            </div>
+                                        </div>
+                                        <div id="inPlanSpareCoreAppliance">
+                                            <table class="table table-bordered table-striped" align="center">
+                                                <thead>
+                                                    <tr>
+                                                        <th>序号</th>
+                                                        <th>运行状态</th>
+                                                        <th>数据库检查</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="info in spareApplianceMessages.data">
+                                                        <td>{{info.appName}}</td>
+                                                        <td>{{info.runState}}</td>
+                                                        <td>{{info.dataBaseInspect}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <div>
+                                                <page
+                                                total-count="spareApplianceMessages.data.totalCount"
+                                                page-count="initQueryParam.pageCount"
+                                                current-page="batchSet.currentPage"
+                                                show-max-page="5"
+                                                go-page="spareApplianceTurnToPage(currentPage)">
+                                            </page>
+                                        </div>
+                                    </div>
+                                    <div id="inPlanSpareCoreInterState">
+                                        <table class="table table-bordered table-striped" align="center">
+                                            <thead>
+                                                <tr>
+                                                    <th>序号</th>
+                                                    <th>宽带</th>
+                                                    <th>丢包率</th>
+                                                    <th>I/O检查</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="info in spareInterStateMessages.data.datas">
+                                                    <td>{{info.equipmentName}}</td>
+                                                    <td>{{info.broadband}}</td>
+                                                    <td>{{info.packetLossRate}}</td>
+                                                    <td>{{info.ioInspect}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div><lable>注意：显示红色字体主机处于不健康状态！</lable></div>
+                                        <div>
+                                            <page
+                                            total-count="spareApplianceMessages.data.totalCount"
+                                            page-count="initQueryParam.pageCount"
+                                            current-page="batchSet.currentPage"
+                                            show-max-page="5"
+                                            go-page="spareInterTurnToPage(currentPage)">
+                                        </page>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="margin-top: -15px;float: right">
+                                <a ng-click="returnIndex()" class="btn btn-primary btn-lg active">返回</a>
+                            </div>
+                            <div id="btn_1"><a class="btn btn-primary btn-lg active" style="width: 100px;margin-top: -15px;" ng-disabled="false" ng-click="toDataCompare()">下一步</a></div>
+
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+    </div><!--  计划内备中心 div   end-->
+     <!--  数据比对 div   start--> <!-- ng-init="getinfo();initParam()" -->
+     <div class="content"  id="dataCompare">
+        <div class="querys-content" style="margin-top: 20px;height: 280px">
+            <div class="tables-content">
+                <table class="table table-bordered table-spriped" align="center">
+                    <thead>
+                        <tr>
+                            <th>主机</th>
+                            <th>主中心</th>
+                            <th>备中心</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="Massage in myResult.data">
+                            <td>{{Massage.comp}}</td>
+                            <td>{{Massage.hC}}</td>
+                            <td>{{Massage.standby}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div style="margin-top: 10px;" id="btn_3">
+                    <a ng-click="toDataFlowChange()" class="btn btn-primary btn-lg active">下一步</a>
+                </div>
+                <div style="margin-left: 400px;margin-top: -45px;"><button class="btn btn-primary btn-lg active" ng-click="getinfo()" id="dataSynchro">数据同步</button></div>
+                <div style="margin-top: -45px;float: right;" id="dataSynchroReturn">
+                    <a ng-click="returnIndex()" class="btn btn-primary btn-lg active">返回</a>
+                </div>
+                
+            </div>
+        </div>
+    </div><!--  数据比对 div   end-->
+    <!--  流量切换设置 div   start-->
+    <div class="content" ng-init="initParam()" id="dataFlowChange" >
+        <div class="querys-content">
+            <div class="tables-content">
+                <div style="width: 490px;height: 300px;margin-top: 50px">
+                 <div style="margin-left: 0px; position: relative;top: 0px;float:left; transition-property: border-left-width; width: 220px; border: 1px solid #d9d9d9;border-radius:5px;">
+                   <h4 style='border-bottom:1px solid;border-color:#ddd;padding:10px;margin:0px 0px 10px;font-weight:bold;background:url(styles/box-h2.png) repeat-x bottom center #fff;-webkit-border-top-left-radius:5px;-webkit-border-top-right-radius:5px;text-align: center;'>南方基地:</h4>                
+                   <div style="font-size: 20px;text-align: center;" >
+                    <ul style="list-style:none;" ng-repeat="info_N in flowMessage.data.southCenter track by $index">
+                     <li style="margin-left: -35px" title="{{info_N}}大区下的省份：{{areaData.data}}" data-placement="top"  data-content="" ng-mouseover="clickPro(info_N)">{{info_N}}</li>
+                 </ul>
+             </div>
+         </div>
+         <div style="position: relative;top: 0px;float: left; transition-property: border-left-width; width: 220px; border: 1px solid #d9d9d9;border-radius:5px;">
+           <h4 style='border-bottom:1px solid;border-color:#ddd;padding:10px;margin:0px 0px 10px;font-weight:bold;background:url(styles/box-h2.png) repeat-x bottom center #fff;-webkit-border-top-left-radius:5px;-webkit-border-top-right-radius:5px;text-align: center;'>东莞机房:</h4>
+           <div style="font-size: 20px;text-align: center;" >
+            <ul style="list-style:none;" ng-repeat="info_D in flowMessage.data.DGCenter track by $index">
+             <li style="margin-left: -35px" title="{{info_D}}大区下的省份：{{areaData.data}}" data-placement="top"  data-content="" ng-mouseover="clickPro(info_D)">{{info_D}}</li>
+         </ul>
+     </div>                
+    </div>
+
+    </div>
+    <div style="width: 500px;float: right;margin-top:-300px">
+       <table class="table table-bordered" >
+         <thead>
+             <tr>
+                 <th>地区</th>
+                 <th>所属基地</th>
+                 <th>所属基地</th>
+             </tr>
+         </thead>
+         <tbody>
+             <tr ng-repeat="xy in flowMessages">
+                 <td>{{xy.ascription}}</td>
+                 <td>
+                     <input type="radio" center='NF' area='{{xy.ascription}}' name="{{$index+1}}" value={{xy.ascription}} ng-checked='{{xy.che}}' ng-click="clickRadio(1,$index);" />南方基地
+                 </td>
+                 <td>
+                     <input type="radio" name="{{$index+1}}" value={{xy.ascription}} ng-checked='{{xy.che==false}}'  ng-click="clickRadio(2,$index);"/>东莞机房
+                 </td>
+
+             </tr>
+             
+         </tbody>
+     </table>
+     
+    </div>
+
+    <div class="dataFlowChange" style="margin-top: -65px;margin-left: 500px" id="sub">
+        <button type="button"  class="btn btn-primary btn-lg active" data-toggle="modal" data-target="#example">确认切换</button>
+                    <!-- ui-sref="disasterRec.tmaildisasterMonitor"
+                         ui-sref="disasterRec.switch"
+                     -->
+                 </div>
+                 <div style="margin-top: -65px;float: right;" id="btn_3">
+                    <a ng-click="returnIndex()" class="btn btn-primary btn-lg active">返回</a>
+                </div>
+            </div>
+
+        </div>
+        <div class="modal fade" id="example">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                    <div>
+                         <form name="myForm_2" novalidate>
+                            <label>请输入切换原因：</label>
+                            <textarea class="form-control" rows="3" name="datas" ng-model="switchCause.reason" ng-minlength="5" ng-maxlength="20" ng-pattern="/^[a-zA-Z\u4e00-\u9fa5]+$/"></textarea>
+                            <div ng-show="myForm_2.datas.$error.minlength">
+                                <span style="color:red">输入字符长度不能小于5位！</span>
+                            </div>
+                            <div ng-show="myForm_2.datas.$error.maxlength">
+                                <span style="color:red">输入字符长度不能大于20位！</span>
+                            </div>
+                            <div ng-show="myForm_2.datas.$error.pattern">
+                                <span style="color:red">输入内容不合法！</span>
+                            </div>
+                        </form>
+                    </div>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary btn-lg active" ng-click="submit(switchCause)" data-dismiss="modal" ng-disabled="!switchCause.reason">确认
+                    </button>
+                    <button type="button" class="btn btn-primary btn-lg active" ng-click="colseModal()">
+                        取消
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+    </div>
+
+    <!--  流量切换设置 div   end-->
+
+
+
+    <!--  MQ消息队列展现 div   start--> <!-- ng-init="getMqInfo()"  -->
+    <div class="content" table-scroll id="mqMessage">
+        <div class="querys-content" style="margin-top: 20px;height: 340px">
+            <div class="tables-content">
+                <nav role="navigation">
+                    <div class="container-fluid">
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" style="margin-top: 10px">
+        <div id="table" style="margin-top: 40px">
+                <table class="table table-bordered table-striped" align="center">
+                    <thead>
+                        <tr>
+                            <th style="width:298px;">地区</th>
+                            <th style="width:298px;">队列数</th>
+                            <th style="width:298px;">说明</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="info in mqMessages.data">
+                            <td style="width:298px;">{{info.region}}</td>
+                            <td style="width:298px;">{{info.queueCount}}</td>
+                            <td style="width:298px;">{{info.remarks}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div style="margin-top: 10px;float: right" id="btn_3">
+                    <a ng-click="returnIndex()" class="btn btn-primary btn-lg active">返回</a>
+                </div>
+        </div>
+                        </div><!-- /.navbar-collapse -->
+                    </div><!-- /.container-fluid -->
+                </nav>
+            </div>
+        </div>
+    </div>
+    <!--  MQ消息队列展现 div   end-->
+    <!--  当前流量展现 div   start-->  <!-- ng-init="queryInfo()"  -->
+    <div class="content" table-scroll id="flowInfo">
+      <div  class="querys-content" style="margin-top: 20px;">
+        <div class="tables-content">
+          
+             <div style="margin-left: 200px; position: relative;top: 50px;transition-property: border-left-width; width: 170px; border: 1px solid #d9d9d9;border-radius:5px;">
+                 <h4 style='border-bottom:1px solid;border-color:#ddd;padding:10px;margin:0px 0px 10px;font-weight:bold;background:url(styles/box-h2.png) repeat-x bottom center #fff;-webkit-border-top-left-radius:5px;-webkit-border-top-right-radius:5px;text-align: center;'>南方基地:</h4>                
+                        <div style="font-size: 20px;text-align: center;" >
+                            <ul style="list-style:none;" ng-repeat="info_N in flowMessage.data.southCenter track by $index">
+                           <li style="margin-left: -35px" title="{{info_N}}大区下的省份：{{areaData.data}}" data-placement="top" ng-mouseover="clickPro(info_N)">{{info_N}}</li>
+                       </ul>
+                        </div>
+                </div>
+                <div style="position: relative;top: -123px;left: 550px ;transition-property: border-left-width; width: 170px; border: 1px solid #d9d9d9;border-radius:5px;">
+                 <h4 style='border-bottom:1px solid;border-color:#ddd;padding:10px;margin:0px 0px 10px;font-weight:bold;background:url(styles/box-h2.png) repeat-x bottom center #fff;-webkit-border-top-left-radius:5px;-webkit-border-top-right-radius:5px;text-align: center;'>东莞机房:</h4>
+                        <div style="font-size: 20px;text-align: center;" >
+                            <ul style="list-style:none;" ng-repeat="info_D in flowMessage.data.DGCenter track by $index">
+                           <li style="margin-left: -35px" title="{{info_D}}大区下的省份：{{areaData.data}}" data-placement="top" ng-mouseover="clickPro(info_D)">{{info_D}}</li>
+                       </ul>
+                        </div>                
+                </div>
+              <div style="margin-top: -40px;float: right" id="btn_3">
+                    <a ng-click="returnIndex()" class="btn btn-primary btn-lg active">返回</a>
+                </div>
+          
+        </div>
+      </div>
+    </div>
+    <!--  当前流量展现 div   end-->
+    <!--  切换历史展现 div   start--> <!-- ng-init="queryMessage()" -->
+    <div class="content" table-scroll id="changeHistory">
+        <div class="querys-content" >
+            <div class="tables-content">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th style="width:100px">时间</th>
+                            <th style="width:100px">切换类型</th>
+                            <th style="width:100px">执行结果</th>
+                            <th style="width:100px">南方基地</th>
+                            <th style="width:100px">东莞机房</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                            <tr ng-repeat="bat in batToShow.data.datas">
+                            <td style="width:100px;">{{bat.historyTime}}</td>
+                            <td style="width:100px;">{{bat.switchType}}</td>
+                            <td style="width:100px;">{{bat.switchResult}}</td>
+                            <td style="width:100px;"><span ng-repeat="nj in bat.southCenter">{{nj}}、</span></td>
+                            <td style="width:100px;"><span ng-repeat="dg in bat.dgCenter">{{dg}}、</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div>
+                <page   total-count="batToShow.data.totalCount"
+                        page-count="initQueryParam.pageCount"
+                        current-page="batchSet.currentPage"
+                        show-max-page="5"
+                        go-page="changeHistoryTurnToPage(currentPage)">
+                </page>
+            </div>
+            </div>
+
+            <div style="float: right" id="btn_3">
+                    <a ng-click="returnIndex()" class="btn btn-primary btn-lg active">返回</a>
+                </div>
+        </div>
+    </div>
+    <!--  切换历史展现 div   end-->
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>

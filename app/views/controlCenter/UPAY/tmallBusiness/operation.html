@@ -1,0 +1,50 @@
+<!--容灾操作-->
+<div>
+  <div class="content" style="margin: 20px 20px;">
+    <div style="padding: 20px 40px;border-bottom: 2px solid #CDC9C9">
+      <button ui-sref="disasterRec.operationInfo" class="btn btn-primary ">计划内</button>
+      <button class="btn btn-success" style="margin-left: 20px; " data-toggle="modal" data-target="#planOutModal">计划外</button>
+    </div>
+    <div style="margin-top: 20px;">
+      <img src="img/520.png" style="width: 100%;height: 452px">
+    </div>
+    </div>
+</div>
+<div class="modal fade" id="planOutModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body" style="">
+                    	<form class="form-horizontal" name='earlyWarningForm'>
+				          <div class="form-group" style="margin:auto;">
+                            <div class="" style="">
+                                <ng-form name="schemeFor">
+				                   <div style="margin:auto;width: 500px">
+                                       <div style="margin-left:45px">
+                                         <div style="float: left;margin-top: 8px;margin-right: 20px;"><label style="">选择计划外切换方案:</label></div>
+                                            <div style="float: left;">
+                                                <select class="form-control" style="" ng-trim="false" ng-model="scheme.center" ng-change="getScheme(scheme.center)" name="schemeFor" required>
+                                                    <option value="">-请选择-</option>
+                                                    <option value="DG">南基-->东莞</option>
+                                                    <option value="NJ">东莞-->南基</option>
+                                                </select>
+                                                <span style="color: red;" ng-show="schemeFor.schemeFor.$error.required">
+                                                  *此项必填项！
+                                                </span>
+                                            </div>
+                                            </div>
+                                   </div>
+                                </ng-form>
+				            </div><br/><br/><br/>
+				          </div>
+				        </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary active" ng-click="submit()" data-dismiss="modal" ng-disabled="schemeFor.$invalid">确认
+                    </button>
+                    <button type="button" class="btn btn-primary active" ng-click="colseModal()">
+                        取消
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>

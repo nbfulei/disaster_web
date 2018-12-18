@@ -1,0 +1,92 @@
+<div style="background-color: white;min-width:1105px;" ng-init="validate.name=4">
+  <div class="detailsTop" style="border-bottom:1px solid #ddd">
+    <h1 class="h1Style" >
+      {{operateName}}主机实例
+    </h1>
+  </div>
+  <div class="content"  style="padding: 0px">
+    <div class="querys-content" style="  background: #FFF;border-radius: 0px;">
+      <div class="querys" style="margin-left: 10px;">
+        <form class="form-horizontal" name='detailsOperation' ng-submit="perationSub(operation,validate)">
+          <div class="form-group form-inline marginT" style="height: 58px;margin-left: 0px;margin-right: 0px">
+            <label class="col-sm-2 control-label" ><i style="color: red">*&nbsp;&nbsp;</i>主机:</label>
+            <div class="col-sm-6 col-wg">
+              <input class="form-control" style="width: 395px" type="text"  ng-model="operation.hostName" readonly  />
+              <div style="color: #98AAC2">只读，不可以修改</div>
+            </div>
+          </div>
+          <div class="form-group form-inline marginT" style="height: 58px;margin-left: 0px;margin-right: 0px">
+            <label class="col-sm-2 control-label" ><i style="color: red">*&nbsp;&nbsp;</i>实例名:</label>
+            <div class="col-sm-7 col-wg" >
+              <input class="form-control" style="width: 395px" type="text"  ng-model="operation.name"
+                     pattern="^[a-zA-Z][^\u4e00-\u9fa5]{1,15}$"
+                     required  ng-blur="verification(operation,3,operateName)"/>
+
+              <span ng-if="validate.name===3" class="glyphicon glyphicon-ok" style="color:green">验证成功</span>
+              <span ng-if="validate.name===2" class="glyphicon glyphicon-remove" style="color:red">实例名重复</span>
+              <span ng-if="validate.name===1" class="glyphicon glyphicon-remove" style="color:red">格式不正确</span>
+              <div style="color: #98AAC2">2~16个字符，需以字母开头</div>
+            </div>
+          </div>
+          <div class="form-group form-inline marginT" style="height: 58px;margin-left: 0px;margin-right: 0px">
+            <label class="col-sm-2 control-label" ><i style="color: red">*&nbsp;&nbsp;</i>实例全路径:</label>
+            <div class="col-sm-6 col-wg">
+              <input class="form-control" style="width: 395px" type="text"  ng-model="operation.path" pattern="^[^\u4e00-\u9fa5]{0,}$"  required/>
+              <div style="color: #98AAC2">不包含中文的任意字符</div>
+            </div>
+          </div>
+          <div class="form-group form-inline marginT" style="height: 58px;margin-left: 0px;margin-right: 0px">
+            <label class="col-sm-2 control-label" ><i style="color: red">*&nbsp;&nbsp;</i>启动脚本:</label>
+            <div class="col-sm-6 col-wg">
+              <input class="form-control" style="width: 395px" type="text"  ng-model="operation.startScript "  required/>
+              <div style="color: #98AAC2">脚本全路径</div>
+            </div>
+          </div>
+          <div class="form-group form-inline marginT" style="height: 58px;margin-left: 0px;margin-right: 0px">
+            <label class="col-sm-2 control-label" ><i style="color: red">*&nbsp;&nbsp;</i>停止脚本:</label>
+            <div class="col-sm-6 col-wg">
+              <input class="form-control" style="width: 395px" type="text"  ng-model="operation.stopScript "  required/>
+              <div style="color: #98AAC2">脚本全路径</div>
+            </div>
+          </div>
+          <div class="form-group form-inline marginT" style="height: 58px;margin-left: 0px;margin-right: 0px">
+            <label class="col-sm-2 control-label" ><i style="color: red">*&nbsp;&nbsp;</i>实例类型:</label>
+            <div class="col-sm-6 col-wg">
+              <select class="form-control" ng-options="Type.id as Type.name  for Type in InstanceType"
+                      style="width: 395px" ng-model="operation.instancesTypeId">
+              </select>
+              <div style="color: #98AAC2">请在下拉中选择</div>
+            </div>
+          </div>
+          <div class="form-group form-inline marginT" style="height: 58px;margin-left: 0px;margin-right: 0px">
+            <label class="col-sm-2 control-label" ><i style="color: red">*&nbsp;&nbsp;</i>组件:</label>
+            <div class="col-sm-6 col-wg">
+              <select class="form-control" ng-options=" Type.id as Type.name for Type in Components"
+                      style="width: 395px" ng-model="operation.componentId ">
+              </select>
+              <div style="color: #98AAC2">请在下拉中选择</div>
+            </div>
+          </div>
+          <div class="form-group form-inline marginT" style="height: 58px;margin-left: 0px;margin-right: 0px">
+            <label class="col-sm-2 control-label" ><i style="color: red">*&nbsp;&nbsp;</i>备注:</label>
+            <div class="col-sm-6 col-wg">
+              <input class="form-control" style="width: 395px" type="text"  ng-model="operation.explain" required/>
+              <div style="color: #98AAC2">必填</div>
+            </div>
+          </div>
+          <div class="form-group form-inline marginT" style="height: 77px;margin-left: 0px;margin-right: 0px">
+            <div class="col-sm-7" style="text-align: right">
+              <button type="submit" class="btn dismissButton btn-primary" >确认</button>
+              <button type="button" class="btn dismissButton btn-default" ng-click="callBack()">返回</button>
+            </div>
+
+          </div>
+        </form>
+      </div>
+
+    </div>
+
+
+</div>
+
+

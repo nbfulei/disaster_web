@@ -1,0 +1,99 @@
+<!--批量处理-->
+<div class="content" table-scroll ng-init="initParam();batchQuery(batchSet)">
+  <div class="querys-content">
+    <div class="querys" style="margin-left: 150px;border-bottom: 0px solid #ccc">
+      <form class="form-horizontal" name='earlyWarningForm'>
+        <div class="form-group form-inline marginT" >
+          <label class="col-sm-1 control-label" style="width:100px;">IP地址:</label>
+          <div class="col-sm-3 col-wg">
+            <input class="form-control" type="text" style="width:200px;" ng-trim="false" ng-model="batchSet.ip" ng-change="watchIp(batchSet,'ip');"/>
+             <div style="color:red" ng-show="batchSet.error">请输入正确格式的IP地址</div>
+          </div>
+
+          <div class="col-sm-4">
+            <button class="btn btn-default" ng-click="batchQuery(batchSet)" style='margin:0 30px 0 30px;font-weight: bold;'>
+              <span class="glyphicon glyphicon-search" aria-hidden="true"></span>&nbsp;查询
+            </button >
+
+              <!-- <span class="glyphicon glyphicon-cog" aria-hidden="true" ></span> -->
+              &nbsp;<a ui-sref="disasterRec.TreatmentProgram" ng-click="changeBackground()"  class="btn btn-default" style='font-weight:bold;'>批处理管理</a>
+
+
+          </div>
+        </div>
+      </form>
+    </div>
+
+  </div>
+  <div   style="margin-top: 20px;background-color: white;padding: 10px 0 30px 0;border-radius: 10px;">
+    <div >
+        <div class="" id="thead" style='max-height:37px;overflow: hidden;'>
+          <!-- <table class="table table-bordered table-striped table-hover"> -->
+          <table class="table table-striped">
+            <thead >
+            <tr>
+              <th style="width:100px;text-align: center;border-bottom: 1px solid #ccc;">IP地址</th>
+              <th style="width:100px;text-align: center;border-bottom: 1px solid #ccc;">执行方式</th>
+              <th style="width:150px;text-align: center;border-bottom: 1px solid #ccc;">执行命令</th>
+              <th style="width:150px;text-align: center;border-bottom: 1px solid #ccc;">执行结果</th>
+              <th style="width:100px;text-align: center;border-bottom: 1px solid #ccc;">执行时间</th>
+              <th style="width:100px;text-align: center;border-bottom: 1px solid #ccc;">耗时</th>
+              <th style="width:100px;text-align: center;border-bottom: 1px solid #ccc;">执行者</th>
+              <th ng-if="batchMessage.scroll" style="width:16px;border-bottom: 1px solid #ccc;"></th>
+            </tr>
+            </thead>
+           
+          </table>
+        </div>
+      </div>
+      <div class="table">
+        <div class="" id="thead" style='max-height:500px;overflow: auto;'>
+          <!-- <table class="table table-bordered table-striped table-hover"> -->
+          <table class="table table-striped">
+           
+            <tbody>
+            <tr ng-repeat="batch in batchMessage.datas">
+              <td style="width:100px;vertical-align: middle;text-align: center;" >{{batch.ip | subletters:16}}</td>
+              <td style="width:100px;vertical-align: middle;text-align: center;">{{batch.ation}}</td>
+              <td style="width:150px;vertical-align: middle;text-align: center;"  title="{{batch.executiveOrder}}">{{batch.executiveOrder | subletters:16}}</td>
+              <td style="width:150px;vertical-align: middle;text-align: center;" title="{{batch.result}}">{{batch.result | subletters:16}}
+              <a style="font-size: 10px;cursor:pointer;" class="glyphicon glyphicon-zoom-in"  ng-click="getDetail($index);">详情</a> </td>
+              <td style="width:100px;vertical-align: middle;text-align: center;">{{batch.executionTime}}</td>
+              <td style="width:100px;vertical-align: middle;text-align: center;">{{batch.time | getSeconds}}秒</td>
+              <td style="width:100px;vertical-align: middle;text-align: center;">{{batch.author}}</td>
+            </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="tables-content">
+        <page
+          total-count="batchMessage.totalCount"
+          page-count="batchSet.pageCount"
+          current-page="batchSet.currentPage"
+          show-max-page="5"
+          go-page="turnToPage(currentPage)"></page>
+      </div>
+
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="detailData" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="border-radius: 4px 4px 0 0;text-align:center;">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cleararr();">&times;</button>
+                    <h4 class="modal-title" id="delDataLabel">执行结果详情</h4><br/><br/>
+                    <div style="height:400px; overflow:auto;">
+                        <div style="display: none" id="information">
+                          数据加载中,请稍候...
+                        </div>
+                        <ul ng-repeat="info in arr.a track by $index" style="list-style-type:none;margin-left: -50px;">
+                          <li>{{info}}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

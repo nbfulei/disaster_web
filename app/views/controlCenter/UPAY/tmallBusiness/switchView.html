@@ -1,0 +1,190 @@
+<div class="content" table-scroll>
+  <div class="querys-content">
+    <div class="querys">
+      <div class="form-inline marginT" style='text-align:center'>
+        <div class="form-group" style='margin:0 15px;'>
+          <button type="button" style="padding: 5px 12px;" class="btn btn-success" ng-click='switchPage("program")'><span class="glyphicon glyphicon-search"></span>切换方案制订</button>
+        </div>
+        <div class="form-group" style='margin:0 15px;'>
+          <button type="button" style="padding: 5px 12px;" class="btn btn-success" ng-click='switchPage("check")' ng-disabled='switchFlag[1].check'><span class="glyphicon glyphicon-search"></span>状态稽核</button>
+        </div>
+        <div class="form-group" style='margin:0 15px;'>
+          <button type="button" style="padding: 5px 12px;" class="btn btn-success" ng-click='switchPage("execute")' ng-disabled='switchFlag[1].execute'><span class="glyphicon glyphicon-search"></span>切换实施</button>
+        </div>
+        <div class="form-group" style='margin:0 15px;'>
+          <button type="button" style="padding: 5px 12px;" class="btn btn-success" ng-click='switchPage("rollback")' ng-disabled='switchFlag[1].rollback'><span class="glyphicon glyphicon-search"></span>切换回退</button>
+        </div>
+        <div class="form-group" style='margin:0 15px;'>
+          <button type="button" style="padding: 5px 12px;" class="btn btn-success" ng-click='switchPage("submit")' ng-disabled='switchFlag[1].submit'><span class="glyphicon glyphicon-search"></span>切换提交</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="tables-content" ng-show='switchFlag[0].program'>
+    <div style='margin:15px 0 20px 0;text-align:center;font-size:17px;'>
+      <span style='margin-right:30px'>切换方向1:</span>
+      <label style='margin-right:30px;font-weight:normal;'><input type='radio' name='change'/>从主中心切换到备中心</label>
+      <label style='margin-right:30px;font-weight:normal;'><input type='radio' name='change'/>从备中心切换到主中心</label>
+    </div>
+    <div class="table">
+        <div class="thead" id="thead">
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:50px;">
+                  <input type="checkbox" disabled>
+                </th>
+                <th style="width:48%;">当前省公司所属中心</th>
+                <th style="width:48%;">省公司</th>
+                <th style='width:21px'></th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+        <div class="tbody" id="tbody">
+          <table class="table table-bordered table-striped table-hover">
+            <tbody>
+              <tr ng-repeat='data in datas'>
+                <td style="width:50px">
+                  <input type='checkbox' ng-model='data.checked'>
+                </td>
+                <td style="width:48%;font-size:14px;">{{data.address}}</td>
+                <td style="width:48%;font-size:14px;">{{data.province}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div style='margin:20px 0 15px 0;height:30px;'>
+        <button  class="btn btn-success" style='position:absolute;right:70px;' ng-click='nextStep("program")'>下一步</button>
+      </div>
+  </div>
+  <div class="tables-content" ng-show='switchFlag[0].check'>
+    <div style='margin:15px 0 20px 0;font-size:17px;'>
+      <button class='btn btn-success' ng-click='executeScript()'>执行脚本</button>
+    </div>
+    <div ng-show='isShow.show'>
+        稽核通过
+      </div>
+      <div style='margin:20px 0 15px 0;height:30px;'>
+        <button  class="btn btn-success" style='position:absolute;right:70px;' ng-click='nextStep("check")'>下一步</button>
+      </div>
+  </div>
+  <div class="tables-content" ng-show='switchFlag[0].execute'>
+    <div style='margin:15px 0 20px 0;text-align:center;font-size:17px;'>
+      <span style='margin-right:30px'>切换方向3:</span>
+      <label style='margin-right:30px;font-weight:normal;'><input type='radio' name='change'/>从主中心切换到备中心</label>
+      <label style='margin-right:30px;font-weight:normal;'><input type='radio' name='change'/>从备中心切换到主中心</label>
+    </div>
+    <div class="table">
+        <div class="thead" id="thead">
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:50px;">
+                  <input type="checkbox" disabled>
+                </th>
+                <th style="width:48%;">当前省公司所属中心</th>
+                <th style="width:48%;">省公司</th>
+                <th style='width:21px'></th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+        <div class="tbody" id="tbody">
+          <table class="table table-bordered table-striped table-hover">
+            <tbody>
+              <tr ng-repeat='data in datas'>
+                <td style="width:50px">
+                  <input type='checkbox' ng-model='data.checked'>
+                </td>
+                <td style="width:48%;font-size:14px;">{{data.address}}</td>
+                <td style="width:48%;font-size:14px;">{{data.province}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div style='margin:20px 0 15px 0;height:30px;'>
+        <button  class="btn btn-success" style='position:absolute;right:70px;' ng-click='nextStep("execute")'>下一步</button>
+      </div>
+  </div>
+  <div class="tables-content" ng-show='switchFlag[0].rollback'>
+    <div style='margin:15px 0 20px 0;text-align:center;font-size:17px;'>
+      <span style='margin-right:30px'>切换方向4:</span>
+      <label style='margin-right:30px;font-weight:normal;'><input type='radio' name='change'/>从主中心切换到备中心</label>
+      <label style='margin-right:30px;font-weight:normal;'><input type='radio' name='change'/>从备中心切换到主中心</label>
+    </div>
+    <div class="table">
+        <div class="thead" id="thead">
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:50px;">
+                  <input type="checkbox" disabled>
+                </th>
+                <th style="width:48%;">当前省公司所属中心</th>
+                <th style="width:48%;">省公司</th>
+                <th style='width:21px'></th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+        <div class="tbody" id="tbody">
+          <table class="table table-bordered table-striped table-hover">
+            <tbody>
+              <tr ng-repeat='data in datas'>
+                <td style="width:50px">
+                  <input type='checkbox' ng-model='data.checked'>
+                </td>
+                <td style="width:48%;font-size:14px;">{{data.address}}</td>
+                <td style="width:48%;font-size:14px;">{{data.province}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div style='margin:20px 0 15px 0;height:30px;'>
+        <button  class="btn btn-success" style='position:absolute;right:70px;' ng-click='nextStep("rollback")'>下一步</button>
+      </div>
+  </div>
+  <div class="tables-content" ng-show='switchFlag[0].submit'>
+    <div style='margin:15px 0 20px 0;text-align:center;font-size:17px;'>
+      <span style='margin-right:30px'>切换方向5:</span>
+      <label style='margin-right:30px;font-weight:normal;'><input type='radio' name='change'/>从主中心切换到备中心</label>
+      <label style='margin-right:30px;font-weight:normal;'><input type='radio' name='change'/>从备中心切换到主中心</label>
+    </div>
+    <div class="table">
+        <div class="thead" id="thead">
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:50px;">
+                  <input type="checkbox" disabled>
+                </th>
+                <th style="width:48%;">当前省公司所属中心</th>
+                <th style="width:48%;">省公司</th>
+                <th style='width:21px'></th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+        <div class="tbody" id="tbody">
+          <table class="table table-bordered table-striped table-hover">
+            <tbody>
+              <tr ng-repeat='data in datas'>
+                <td style="width:50px">
+                  <input type='checkbox' ng-model='data.checked'>
+                </td>
+                <td style="width:48%;font-size:14px;">{{data.address}}</td>
+                <td style="width:48%;font-size:14px;">{{data.province}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div style='margin:20px 0 15px 0;height:30px;'>
+        <button  class="btn btn-success" style='position:absolute;right:70px;' ng-click=''>提交</button>
+      </div>
+  </div>
+</div>

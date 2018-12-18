@@ -1,0 +1,212 @@
+<!--用户管理-->
+<div class="content" table-scroll >
+  <div ng-init="userQuery()">
+    <div class="querys-content" style="border:0px solid red;padding: 20px 0px">
+      <div class="btnbtn">    
+        
+        <button class="btn btn-default" data-toggle="modal" ng-click="clickUpdate(userMessage)" style="width:100px;height:40px;padding-left: 25px;margin-left: 70px;font-weight: bold;">
+          <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;修改
+        </button>
+        <button class="btn btn-default" data-toggle="modal" ng-click="clickDelete(userMessage)" style="width:100px;height:40px;padding-left: 25px;margin-left: 70px;font-weight: bold;">
+          <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>&nbsp;删除
+        </button>
+      </div>
+    </div>
+    <div class="querys-content" style="margin-top: 20px;">
+      <div class="querys" style="border-bottom: 0px solid #ccc">
+        <form class="form-horizontal" name='earlyWarningForm'>
+          <div class="form-group form-inline marginT">
+            <label class="col-sm-1 control-label">账户:</label>
+            <div class="col-sm-2 col-wg"><input class="form-control" maxlength="15" style="width:200px;" ng-trim="false" ng-model="queryParam.loginUser" >
+             </div>
+            <label class="col-sm-2 control-label">姓名:</label>
+            <div class="col-sm-2 col-wg"><input class="form-control"  style="width:200px;" ng-trim="false" name='aa' ng-model="queryParam.staffName" >
+           </div>
+
+            <button class="btn btn-default" ng-click="userQuery()" style="margin-left:100px;font-weight: bold;"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>&nbsp;查询
+        </button>
+          </div>
+        </form>
+      </div>
+      <div class="">
+        <div class="table">
+          <div class="thead" id="thead">
+            <table class="table table-striped" align="center">
+              <thead>
+              <tr>
+                <th style="width:20px;text-align: center;">
+                 
+                  <input type="checkbox" ng-click="checkUserInfo(userMessage,'all')" ng-model="userMessage.allChecked">
+                </th>
+                <th style="width:100px;text-align: center;">账号</th>
+                <th style="width:100px;text-align: center;">姓名</th>
+                <th style="width:80px;text-align: center;">锁定状态</th>
+                <th style="width: 100px;text-align: center;">所属部门</th>
+                <th style="width: 100px;text-align: center;">所属工作组</th>
+                <th style="width: 80px;text-align: center;">有效标志</th>
+                <th style="width: 100px;text-align: center;">有效期</th>
+                <th style="width: 150px;text-align: center;">失效时间</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr ng-repeat="user in userMessage.datas" >
+                <td style="width:20px;text-align:center;vertical-align: middle;text-align: center;">
+                  <input type="checkbox" ng-click="checkUserInfo(userMessage)" ng-model="user.checkbox"/>
+                </td>
+                <td style="width:100px;text-align: center;vertical-align: middle;text-align: center;padding:0px;" title="{{user.loginUser}}">{{user.loginUser | subletters:8}}</td>
+                <td style="width:100px; text-align:center;vertical-align: middle;text-align: center;" title="{{user.staffName}}">{{user.staffName | subletters:16}}</td>
+                <td style="width:100px;text-align: center;vertical-align: middle;text-align: center;">{{user.logLock2 }}</td>
+                <td style="width: 150px;text-align:center;vertical-align: middle;text-align: center;" title="{{user.departmentCode2}}">{{user.departmentCode2| subletters:6}}
+                </td>
+                <td style="width: 100px;text-align: center;vertical-align: middle;text-align: center;" title="{{user.workCode2}}">{{user.workCode2 | subletters:6}}</td>
+                <td style="width: 80px;text-align: center;vertical-align: middle;text-align: center;">{{user.flag}}</td>
+                <td style="width: 100px;text-align: center;vertical-align: middle;text-align: center;" title="{{user.validLength}}">{{user.validLength }}</td>
+                <td style="width: 150px;text-align: center;vertical-align: middle;text-align: center;" >{{user.expireDate |getFullDate}}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="tables-content">
+          <page
+            total-count="userMessage.totalCount"
+            page-count="queryParam.pageCount"
+            current-page="queryParam.currentPage"
+            show-max-page="5"
+            go-page="pagingQuery(queryParam.currentPage)"></page>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+   
+
+  
+
+    <!--修改用户-->
+    <div class="modal fade" id="update" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="border-radius: 4px 4px 0 0;">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="vm=false;">&times;</button>
+                    <h4 class="modal-title">修改用户信息</h4>
+                </div>
+                <div class="modal-body" style="padding-bottom: 0px;">
+                    <form class="form-horizontal" name='amendBatchForm'>
+                        <div class="form-group form-inline marginT" ng-click="shouvm()">
+                            <label class="col-sm-2 control-label" style="width:120px;">账户:</label>
+                            <div>
+                                <input class="form-control" style="width:400px;" ng-model="aUserInfo.loginUser" readonly/>
+                            </div>
+                        </div>
+                        <div class="form-group form-inline marginT" ng-click="shouvm()">
+                            <label class="col-sm-2 control-label" style="width:120px;"><span style="color: red">*&nbsp;</span>姓名:</label>
+                            <div>
+                                <input type="text" class="form-control" style="width:400px;" name="add" ng-model="aUserInfo.staffName" required/>
+                            </div>
+                        </div>
+                        <div class="form-group form-inline marginT" style="vertical-align: middle;" ng-click="shouvm()">
+                            <label class="col-sm-2 control-label" style="width:120px;"><span style="color: red">*&nbsp;</span>锁定状态:</label>
+                            <label  class="control-label" style="font-size: 14px;font-weight: 400;"><input type="radio" name="logLock" ng-model="aUserInfo.logLock" value="1"/>启用</label>
+                            <label  class="control-label" style="margin-left: 10px;font-size: 14px;font-weight: 400;"><input type="radio"  name="logLock" ng-model="aUserInfo.logLock" value="0"/>禁用</label>
+                            <label  class="control-label" style="margin-left: 10px;font-size: 14px;font-weight: 400;"><input type="radio"  name="logLock" ng-model="aUserInfo.logLock" value="9"/>删除</label>
+                            
+                        </div>
+                        <div class="form-group form-inline marginT" ng-click="shouvm()">
+                            <label class="col-sm-2 control-label" style="padding-right:10px;width:120px;"><span style="color: red">*&nbsp;</span>所属部门:</label>
+                             <select class="form-control" style="width:400px;" ng-trim="false"
+                                           ng-model="aUserInfo.departmentCode" ng-options="epartment.value as epartment.label for epartment in departmentList.datas" name="area"  required>
+                                        
+                            </select>
+
+                            
+                        </div>
+                        <div class="form-group form-inline marginT">
+                            <label class="col-sm-2 control-label" style="width:120px;"><span style="color: red">*&nbsp;</span>所属工作组:</label>
+                            <!-- <div>
+                                <input type="text" class="form-control" name="add" ng-model="aUserInfo.workCode" required/>
+                                <div style="color: #0000AA;margin-left: 250px;font-weight: 400;font-size: 12px;">注：多个工作组请用","隔开!</div>
+                            </div> -->
+                            <div>
+                              <div class="dropdown custom-select">
+                              <div class="input-group">
+                                <input type="text" class="form-control" style="width:400px;" name="workGroup" value="{{aUserInfo.workGroup}}" ng-click="shouvm()" required readonly/>
+                                  <span class="input-group-addon" ng-click="vm = !vm" style="cursor: pointer;"><i
+                                      class="glyphicon glyphicon-chevron-down"></i></span>
+                              </div>
+                              <div class="dropdown-menu collapse" style="width:400px;height:240px;overflow-y:scroll;text-align: center;float:none;left:120px;" ng-class="{in: vm}" ng-blur="vm = false">
+                                <table class="table table-hover">
+                                  <thead>
+                                  <tr>
+                                    <th></th>
+                                    <th style="text-align: center;">工作组</th>
+                                  </tr>
+                                  </thead>
+                                  <tbody>
+                                  <tr ng-repeat="group in workGroup.datas" ng-click="bindGroup($index)">
+                                    <td>
+                                      <input type="checkbox" ng-model="group.checked" ng-click="bindGroup($index)"/>
+                                    </td>
+                                    <td>
+                                      <label>{{group.name}}</label>
+                                    </td>
+                                    
+                                  </tr>
+                                  </tbody>
+                                </table>
+                                <!-- <div ng-repeat="select in vm.selection()">
+                                  {{select}}
+                                </div> -->
+                                <div>
+                                  <span class="btn btn-success" ng-click="vm = false">确定</span>
+                                </div>
+                              </div>
+                            </div>
+                            
+                            </div>
+                        </div>
+                        
+                        <div class="form-group form-inline marginT" ng-click="shouvm()">
+                            <label class="col-sm-2 control-label" style="width:120px;"><span style="color: red">*&nbsp;</span>失效时间:</label>
+                            <div style="display:inline-block; min-height:50px;">
+                              <input type="date" class="form-control" style="width:400px;" name="add" ng-model="aUserInfo.expireDates" required/>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer" ng-click="shouvm()">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="saveUpdate(aUserInfo);" ng-disabled='amendBatchForm.$invalid||aUserInfo.workGroup==false'>保存
+                    </button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="ipAmend.a='';ipAmend.b='';ipAmend.c='';ipAmend.d='';">取消</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+
+
+    <!--删除批处理-->
+    <div class="modal fade" id="delData" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="border-radius: 4px 4px 0 0;">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="delDataLabel">您确定要删除所选数据？</h4>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"
+                            ng-click="deleteUser(userMessage)">确认
+                    </button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>

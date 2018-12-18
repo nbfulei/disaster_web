@@ -1,0 +1,80 @@
+<!--确认切换 -->
+<div ng-init="getConfirmSwitch();" >
+	<div style="width:90%;min-width:840px; height:100px;border:0px #c7c7c7 solid;margin-top: 15px;margin-left:3%;padding-left: 5%;" id="trafficSwitching">
+		<div  class="float">
+		  <div class="btn btn-primary" style="width:70px; background-color:white;border-color: rgb(79,98,174);color:blue;font-weight: 600;">开始</div>
+		</div>
+		<div style="padding-top: 30px;" class="float">
+		  <img src="img/danlan.png">
+		</div>
+		<div  class="float" >
+		   <div class="btn btn-primary">状态检查</div>
+		</div>
+		<div style="padding-top: 34px;" class="float">
+		  <img src="img/danlan.png">
+		</div>
+		<div  class="float">
+		  <div class="btn btn-primary">预案定制</div>
+		</div>
+		<div style="padding-top: 34px;" class="float">
+		  <img src="img/danlan.png">
+		</div>
+		<div style="padding-top: 20px;" class="float">
+		  <div class="btn btn-primary">切换实施</div>
+		</div>
+		<div style="padding-top: 34px;" class="float">
+		  <img src="img/danlan.png">
+		</div>
+		<div style="padding-top: 20px;" class="float">
+		  <div class="btn btn-primarys" style="color:rgb(79,98,174);font-weight: 600;"onMouseOver="this.style.color='white'" onMouseOut="this.style.color='rgb(79,98,174)'">确认切换</div>
+		</div>
+		<div style="padding-top: 34px;" class="float">
+		  <img src="img/danlan.png">
+		</div>
+		<div style="padding-top: 20px;" class="float">
+		  <div class="btn btn-primary" style="width:70px; background-color:white;border-color: rgb(79,98,174);color:blue;font-weight: 600;">结束</div>
+		</div>
+	</div>
+	<div style="width:90%;height:410px;border:3px #c7c7c7 dashed;background-color:rgb(226,226,226);margin-top: 15px;margin-left:3%;padding-left: 3%;"class="trafficSwitching2">
+		<div style="width:800px;height:400px;border:0px #c7c7c7 solid;">
+			<div ng-if="reportMessage.exist==='y'" style="width:850px;height:380px;">
+				<div style="width:650px;height:35px;line-height: 35px;border-bottom: 1px #c7c7c7 solid;margin-left:45px;">
+				{{reportMessage.switchNumber}}本次切换成功，具体报告如下:
+				</div>
+				<div style="width:850px;height:250px;padding-left: 15px;" >
+					<!-- <div ng-repeat="re in reportMessage.data">
+						<p>1.开始时间：{{re.startTime}}</p>
+						<p>2.状态检查时间： {{re.stateCheckTime}}</p>
+						<p>3.预案制定时间： {{re.customMadeTime}}</p>
+						<p>4.切换实施时间： {{re.switchTime}}</p>
+						<p>5.完成时间： {{re.carryoutTime}}</p>
+						<p>6.切换总计时间：{{re.totalTime}}</p>
+					</div> -->
+					<div style="width:400px;height:90px;padding: 30px 0 0 50px;background: url('img/rz01.png') no-repeat ;float:left;">
+						1.<span style="font-weight: 600;">开始时间：</span>{{reportMessage.startTime1}}
+					</div>
+					<div style="width:400px;height:90px;padding: 30px 0 0 50px;background: url('img/rz02.png') no-repeat ;float:left;">
+						2.<span style="font-weight: 600;">状态检查时间：</span>{{reportMessage.stateCheckTime2}}<span style="color:red;">&nbsp;{{reportMessage.timeConsuming2}}</span>
+					</div>
+					<div style="width:400px;height:90px;padding: 35px 0 0 50px;background: url('img/rz03.png') no-repeat ;float:left;">
+						3.<span style="font-weight: 600;">预案制定时间：</span>{{reportMessage.customMadeTime3}}<span style="color:red;">&nbsp;{{reportMessage.timeConsuming3}}</span>
+					</div>
+					<div style="width:400px;height:90px;padding: 30px 0 0 50px;background: url('img/rz04.png') no-repeat ;float:left;">
+						4.<span style="font-weight: 600;">切换实施时间：</span>{{reportMessage.switchTime4}}<span style="color:red;">&nbsp;{{reportMessage.timeConsuming4}}</span>
+					</div>
+					<div style="width:400px;height:90px;padding: 30px 0 0 50px;background: url('img/rz05.png') no-repeat ;float:left;">
+						5.<span style="font-weight: 600;">完成时间：</span>{{reportMessage.carryoutTime5}}
+					</div>
+					<div style="width:400px;height:90px;padding: 30px 0 0 50px;background: url('img/rz06.png') no-repeat ;float:left;">
+						6.<span style="font-weight: 600;">切换总计时间：</span>{{reportMessage.totalTime6}}<span style="color:red;">&nbsp;{{reportMessage.timeConsuming6}}</span>
+					</div>
+				</div>
+
+				<div  style="width:700px;height:50px;border:0px #c7c7c7 solid;margin-top: 25px;text-align: right">
+			        <button class="btn btn-success" ng-click="stopeSwitch('25');">结束</button>
+		        </div>
+			</div>
+		</div>
+	</div>
+	
+</div>

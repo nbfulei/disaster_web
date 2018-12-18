@@ -1,0 +1,76 @@
+<!-- <div class="content" table-scroll>
+  <div class="tables-content">
+    	<div class="table">
+      	<div class="thead" id="thead">
+      		<table class="table table-bordered table-striped">
+        		<thead>
+          		<tr>
+            		<th style="width:19%;">负载</th>
+            		<th style="width:20.7%;">实例名</th>
+            		<th style="width:19%;">省代码</th>
+            		<th style="width:20%;">状态</th>
+            		<th style="width:20%;">操作</th>
+            		<th style='' id='width'></th>
+          		</tr>
+        		</thead>
+        	</table>
+      	</div>
+      	<div class="tbody" id="tbody">
+        	<table class="table table-bordered table-striped table-hover">
+        		<tbody>
+            	<tr ng-repeat='data in datas'>
+            		<td style="width:19%;vertical-align:middle;background-color:white;font-size:15px;" >
+                </td>
+            		<td style="width:20.7%;vertical-align:middle;font-size:15px;"></td>
+            		<td style="width:19%;vertical-align:middle;font-size:15px;"></td>
+            		<td style="width:20%;vertical-align:middle;font-size:15px;"></td>
+            		<td style="width:20%;vertical-align:middle;font-size:15px;">
+            			<button class='btn btn-info' ng-click='changeBtn(data)'>
+            				<span style='margin:0px 10px;width:43px;height:19px;display:inline-block;'></span>
+            			</button>
+            		</td>
+            	</tr>
+        		</tbody>
+      		</table>
+      	</div>
+    	</div>
+  </div>
+</div>
+<script type="text/javascript">
+  $(document).ready(function(){
+    var tbody = $('#tbody')[0];
+    var width = tbody.offsetWidth - tbody.clientWidth;
+    $('#width').css('width',width);
+  })
+</script> -->
+这是一个 <p href="#" data-toggle="tooltip" data-placement="bottom" title="底部的 Tooltip">底部的 Tooltip</p>.
+这是一个 <span data-toggle="tooltip" data-placement="right" title="右侧的 Tooltip">右侧的 Tooltip</span>
+<span href="" id='title' title='fsfsdf'>123</span>
+<script>
+  // $(function () { $("[data-toggle='tooltip']").tooltip();console.log(13544542) });
+//   $(function() {
+//     $("#title").each(function(b) {
+//     if (this.title) {
+//         var c = this.title;
+//         var a = 30;
+//         $(this).mouseover(function(d){console.log(1)
+//             this.title = "";
+//             $("body").append('<div id="tooltip" style="background-color:rgb(255,255,255);box-shadow: 5px 5px 5px #888888;position:absolute;border-radius:10px;display:none;padding:5px;max-width:400px;border:1px solid #CCC">' + c + "</div>");
+//             $("#tooltip").css({
+//                 left: (d.pageX + a) + "px",
+//                 top: d.pageY + "px",
+//                 opacity: "0.8"
+//             }).show(250)
+//         }).mouseout(function() {
+//             this.title = c;
+//             $("#tooltip").remove()
+//         }).mousemove(function(d) {
+//             $("#tooltip").css({
+//                 left: (d.pageX + a) + "px",
+//                 top: d.pageY + "px"
+//             })
+//         })
+//     }
+// })
+//   })
+</script>

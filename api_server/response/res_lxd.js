@@ -1,0 +1,161 @@
+exports.userInfo = [
+  {
+  	userName:"admin",fullName:"张三",gender:"1",roleCode:"1",
+  	phone:"12311231231",email:"1231456@126.com",createDate:"2015-01-07",expiredDate:"2015-09-04",section:"运维室" 
+  },{
+  	userName:"zhangsan",fullName:"李四",gender:"1",roleCode:"1",
+  	phone:"12311231231",email:"1231456@126.com",createDate:"2015-01-07",expiredDate:"2015-09-04",section:"运维室" 
+  },{
+  	userName:"zhangsan",fullName:"张三",gender:"0",roleCode:"1",
+  	phone:"12311231231",email:"1231456@126.com",createDate:"2015-01-07",expiredDate:"2015-09-04",section:"运维室" 
+  },{
+  	userName:"zhangsan",fullName:"李四",gender:"1",roleCode:"1",
+  	phone:"12311231231",email:"1231456@126.com",createDate:"2015-01-07",expiredDate:"2015-09-04",section:"运维室" 
+  },{
+  	userName:"zhangsan",fullName:"张三",gender:"1",roleCode:"1",
+  	phone:"12311231231",email:"1231456@126.com",createDate:"2015-01-07",expiredDate:"2015-09-04",section:"运维室" 
+  },{
+  	userName:"zhangsan",fullName:"李四",gender:"0",roleCode:"1",
+  	phone:"12311231231",email:"1231456@126.com",createDate:"2015-01-07",expiredDate:"2015-09-04",section:"运维室" 
+  },{
+  	userName:"zhangsan",fullName:"张三",gender:"1",roleCode:"1",
+  	phone:"12311231231",email:"1231456@126.com",createDate:"2015-01-07",expiredDate:"2015-09-04",section:"运维室" 
+  },{
+  	userName:"zhangsan",fullName:"李四",gender:"1",roleCode:"1",
+  	phone:"12311231231",email:"1231456@126.com",createDate:"2015-01-07",expiredDate:"2015-09-04",section:"运维室" 
+  },{
+  	userName:"zhangsan",fullName:"张三",gender:"0",roleCode:"1",
+  	phone:"12311231231",email:"1231456@126.com",createDate:"2015-01-07",expiredDate:"2015-09-04",section:"运维室" 
+  },{
+  	userName:"zhangsan",fullName:"李四",gender:"1",roleCode:"1",
+  	phone:"12311231231",email:"1231456@126.com",createDate:"2015-01-07",expiredDate:"2015-09-04",section:"运维室" 
+  },{
+  	userName:"zhangsan",fullName:"张三",gender:"1",roleCode:"1",
+  	phone:"12311231231",email:"1231456@126.com",createDate:"2015-01-07",expiredDate:"2015-09-04",section:"运维室" 
+  },{
+    userName:"zhangsan",fullName:"张三",gender:"1",roleCode:"1",
+    phone:"12311231231",email:"1231456@126.com",createDate:"2015-01-07",expiredDate:"2015-09-04",section:"运维室" 
+  },{
+    userName:"zhangsan",fullName:"李四",gender:"1",roleCode:"1",
+    phone:"12311231231",email:"1231456@126.com",createDate:"2015-01-07",expiredDate:"2015-09-04",section:"运维室" 
+  },{
+    userName:"zhangsan",fullName:"张三",gender:"0",roleCode:"1",
+    phone:"12311231231",email:"1231456@126.com",createDate:"2015-01-07",expiredDate:"2015-09-04",section:"运维室" 
+  },{
+    userName:"zhangsan",fullName:"李四",gender:"1",roleCode:"1",
+    phone:"12311231231",email:"1231456@126.com",createDate:"2015-01-07",expiredDate:"2015-09-04",section:"运维室" 
+  },{
+    userName:"zhangsan",fullName:"张三",gender:"1",roleCode:"1",
+    phone:"12311231231",email:"1231456@126.com",createDate:"2015-01-07",expiredDate:"2015-09-04",section:"运维室" 
+  }
+];
+
+exports.roleList = [
+  {roleName:'运维',id:'1',roleCode:'12',roleType:'PBOSS',parentId:'1',createDate:'321331231231',descrip:'权限'},
+  {roleName:'运维',id:'2',roleCode:'12',roleType:'PBOSS',parentId:'2',createDate:'321331231231',descrip:'权限'}
+];
+
+exports.remindSite = {
+  remind:[ 
+    {
+      userName:"admin",  
+      email:"1231456@126.com",   
+      system:"upay",    
+      timeNumber:3,    
+      timeType:"d" 
+    },
+    {
+      userName:"lisi",  
+      email:"lisi@126.com",   
+      system:"upay",    
+      timeNumber:3,    
+      timeType:"d" 
+    }
+  ],
+  user:[
+    {  
+      userName:"admin",   
+      email:"1231456@126.com"     
+    },
+    {  
+      userName:"xiaoming",   
+      email:"xiaoming@126.com"     
+    }
+  ]
+};
+
+
+
+exports.cycleView = [
+  { 
+    "cerBeginTime":"1416190500000",
+    "cerUploadTime":"1444451794948", 
+    "cerCheckTime":"0",
+    "cerExpirationTime":"1444716522647",
+    "cerName":"asdaasd_20151010123632.cer"
+  },
+  { 
+    "cerBeginTime":"1072915200000",
+    "cerUploadTime":"1444457410981", 
+    "cerCheckTime":"0",
+    "cerExpirationTime":"1861919999000",
+    "cerName":"low_20151010021006.cer"
+  }
+];
+
+exports.certs = [
+  {id:'1',cerId:'0e42710f',cerName:'cretar.cer',cerIssuer:'安徽移动网厅测试',cerStatus:'1',cerStoreIp:'192.168.0.120',cerFilePath:'file/path',cerDescription:'用户验证',cerExpirationTime:'6312312312212',cerOperation:'替换',cerOperationName:'张三',cerOperationTime:'123123123123',cerOperationInstructions:'替换操作'},
+  {id:'2',cerId:'0e42710f',cerName:'cretar.cer',cerIssuer:'安徽移动网厅测试',cerStatus:'1',cerStoreIp:'192.168.0.121',cerFilePath:'file/path',cerDescription:'用户验证',cerExpirationTime:'6312312312212',cerOperation:'替换',cerOperationName:'张三',cerOperationTime:'123123123123',cerOperationInstructions:'替换操作'},
+  {id:'3',cerId:'0e42710f',cerName:'cretar.cer',cerIssuer:'安徽移动网厅测试',cerStatus:'2',cerStoreIp:'192.168.0.122',cerFilePath:'file/path',cerDescription:'用户验证',cerExpirationTime:'6312312312212',cerOperation:'替换',cerOperationName:'张三',cerOperationTime:'123123123123',cerOperationInstructions:'替换操作'},
+  {id:'4',cerId:'0e42710f',cerName:'cretar.cer',cerIssuer:'安徽移动网厅测试',cerStatus:'3',cerStoreIp:'192.168.0.123',cerFilePath:'file/path',cerDescription:'用户验证',cerExpirationTime:'6312312312212',cerOperation:'替换',cerOperationName:'张三',cerOperationTime:'123123123123',cerOperationInstructions:'替换操作'},
+  {id:'5',cerId:'0e42710f',cerName:'cretar.cer',cerIssuer:'安徽移动网厅测试',cerStatus:'1',cerStoreIp:'192.168.0.124',cerFilePath:'file/path',cerDescription:'用户验证',cerExpirationTime:'6312312312212',cerOperation:'替换',cerOperationName:'张三',cerOperationTime:'123123123123',cerOperationInstructions:'替换操作'},
+  {id:'6',cerId:'0e42710f',cerName:'cretar.cer',cerIssuer:'安徽移动网厅测试',cerStatus:'2',cerStoreIp:'192.168.0.125',cerFilePath:'file/path',cerDescription:'用户验证',cerExpirationTime:'6312312312212',cerOperation:'替换',cerOperationName:'张三',cerOperationTime:'123123123123',cerOperationInstructions:'替换操作'},
+  {id:'7',cerId:'0e42710f',cerName:'cretar.cer',cerIssuer:'安徽移动网厅测试',cerStatus:'2',cerStoreIp:'192.168.0.126',cerFilePath:'file/path',cerDescription:'用户验证',cerExpirationTime:'6312312312212',cerOperation:'替换',cerOperationName:'张三',cerOperationTime:'123123123123',cerOperationInstructions:'替换操作'},
+  {id:'8',cerId:'0e42710f',cerName:'cretar.cer',cerIssuer:'安徽移动网厅测试',cerStatus:'1',cerStoreIp:'192.168.0.127',cerFilePath:'file/path',cerDescription:'用户验证',cerExpirationTime:'6312312312212',cerOperation:'替换',cerOperationName:'张三',cerOperationTime:'123123123123',cerOperationInstructions:'替换操作'},
+  {id:'9',cerId:'0e42710f',cerName:'cretar.cer',cerIssuer:'安徽移动网厅测试',cerStatus:'3',cerStoreIp:'192.168.0.128',cerFilePath:'file/path',cerDescription:'用户验证',cerExpirationTime:'6312312312212',cerOperation:'替换',cerOperationName:'张三',cerOperationTime:'123123123123',cerOperationInstructions:'替换操作'},
+  {id:'10',cerId:'0e42710f',cerName:'cretar.cer',cerIssuer:'安徽移动网厅测试',cerStatus:'4',cerStoreIp:'192.168.0.129',cerFilePath:'file/path',cerDescription:'用户验证',cerExpirationTime:'6312312312212',cerOperation:'替换',cerOperationName:'张三',cerOperationTime:'123123123123',cerOperationInstructions:'替换操作'},
+  {id:'11',cerId:'0e42710f',cerName:'cretar.cer',cerIssuer:'安徽移动网厅测试',cerStatus:'4',cerStoreIp:'192.168.0.130',cerFilePath:'file/path',cerDescription:'用户验证',cerExpirationTime:'6312312312212',cerOperation:'替换',cerOperationName:'张三',cerOperationTime:'123123123123',cerOperationInstructions:'替换操作'},
+  {id:'12',cerId:'0e42710f',cerName:'cretar.cer',cerIssuer:'安徽移动网厅测试',cerStatus:'1',cerStoreIp:'192.168.0.131',cerFilePath:'file/path',cerDescription:'用户验证',cerExpirationTime:'6312312312212',cerOperation:'替换',cerOperationName:'张三',cerOperationTime:'123123123123',cerOperationInstructions:'替换操作'},
+  {id:'13',cerId:'0e42710f',cerName:'cretar.cer',cerIssuer:'安徽移动网厅测试',cerStatus:'2',cerStoreIp:'192.168.0.132',cerFilePath:'file/path',cerDescription:'用户验证',cerExpirationTime:'6312312312212',cerOperation:'替换',cerOperationName:'张三',cerOperationTime:'123123123123',cerOperationInstructions:'替换操作'},
+  {id:'14',cerId:'0e42710f',cerName:'cretar.cer',cerIssuer:'安徽移动网厅测试',cerStatus:'3',cerStoreIp:'192.168.0.133',cerFilePath:'file/path',cerDescription:'用户验证',cerExpirationTime:'6312312312212',cerOperation:'替换',cerOperationName:'张三',cerOperationTime:'123123123123',cerOperationInstructions:'替换操作'},
+  {id:'15',cerId:'0e42710f',cerName:'cretar.cer',cerIssuer:'安徽移动网厅测试',cerStatus:'1',cerStoreIp:'192.168.0.134',cerFilePath:'file/path',cerDescription:'用户验证',cerExpirationTime:'6312312312212',cerOperation:'替换',cerOperationName:'张三',cerOperationTime:'123123123123',cerOperationInstructions:'替换操作'}
+];
+
+exports.certOperationHistory = [
+  {
+    cerId:"0e42710f",
+    cerName:"cretar.cer",
+    operationDetail:"证书替换",
+    operationTime:"123123123123",
+    cer_application_system:"", 
+    device_address_ip:"", 
+    operation_Description:"替换操作"  
+  },
+  {
+    cerId:"0e42710f",
+    cerName:"cretar.cer",
+    operationDetail:"证书替换",
+    operationTime:"123123123123",
+    cer_application_system:"", 
+    device_address_ip:"",  
+    operation_Description:"替换操作"  
+  },
+  {
+    cerId:"0e42710f",
+    cerName:"cretar.cer",
+    operationDetail:"证书替换",
+    operationTime:"123123123123",
+    cer_application_system:"", 
+    device_address_ip:"",  
+    operation_Description:"替换操作"  
+  },
+  {
+    cerId:"0e42710f",
+    cerName:"cretar.cer",
+    operationDetail:"证书替换",
+    operationTime:"123123123123",
+    cer_application_system:"",
+    device_address_ip:"",
+    operation_Description:"替换操作"  
+  }
+];

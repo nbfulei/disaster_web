@@ -1,0 +1,423 @@
+
+<div style="height: 500px; border:0px #c7c7c7 solid;margin-top: 70px;margin-left:10px;background-color: white; " >
+	<div class="querys-content" style="height: 90px;line-height: 45px">
+      <div class="querys" style="height: 44px">
+            <div class="dropdown" style="position:absolute;margin-top: 10px;margin-left: 20px;">
+              <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <label>OGG进程配置</label> 
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                <li><a ui-sref="disasterRec.monitorThreshold">监控阈值管理</a></li>
+                <li><a ui-sref="disasterRec.tmallRegionConfig">省份大区配置</a></li>
+                <li><a ui-sref="disasterRec.machinesInfo">机器信息管理</a></li>
+              </ul>
+            </div>
+            <!-- <div style="float: right;margin-right: 50px;margin-top: 0px;width: 300px;height: 80px;line-height: 35px" ng-init="getOpTime();">
+              <label style="width: 90px;text-align: center;">最后操作用户</label><span class="glyphicon glyphicon-user">:</span>{{operationNoteMessage.data.datas.opUser}}<br>
+              <label style="width: 90px;text-align: center;">最后操作时间</label><span class="glyphicon glyphicon-time">:</span>
+              {{operationNoteMessage.data.datas.opTime}}
+            </div> -->
+            <br/>
+        <form class="form-inline"><br/>
+          <div style="height: 4px;width: 100%;background-color:#d0d0d0;border-radius: 5px;"></div>
+          <div style="">
+          <div style="float: left;margin-left: 20px;">
+            <label style="margin-right: 5px;">进程名称:</label>
+            <input class="form-control" style="width:130px;" ng-trim="false" ng-model="catalog.threadName">
+          </div>
+          <div style="float: left;margin-left: 10px">
+            <label >进程功能:</label>
+                <select class="form-control" style="width:80px;" ng-trim="false" name='aa' ng-model="catalog.function">
+                    <option value="">全部</option>
+                    <option value="ERP">ERP</option>
+                    <option value="DP">DP</option>
+                    <option value="EXT">EXT</option>
+                </select>
+          </div>
+          <div style="float: left;margin-left: 10px">
+            <label >部署侧:</label>
+                <select class="form-control" style="width:80px;" ng-trim="false" name='aa' ng-model="catalog.deployside">
+                    <option value="">全部</option>
+                    <option value="DG">DG</option>
+                    <option value="NJ">NJ</option>
+                </select>
+          </div>
+        </div>
+        <button class="btn btn-default" ng-click="termQuery()" style="margin-left: 15px;height: 35px"><span class="glyphicon glyphicon-search"></span>&nbsp;<label>查询</label>
+        </button>
+      </div>
+        <div class="dropdown" style="float: left;margin-left: 100px;">          
+              <button style="height: 36px" class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <span class="glyphicon glyphicon-wrench"><label>选择操作</label></span>
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" style="width: 100px"> 
+                <li data-toggle="modal" data-target="#myModal" style="text-align: center;width: 90px;"><span class="glyphicon glyphicon-plus"><label>增加信息</label></span></li>
+                <li data-toggle="modal" ng-click="clickUpdate();" style="text-align: center;width: 90px;"><span class="glyphicon glyphicon-pencil"><label>修改信息</label></span></li>
+                <li data-toggle="modal"  ng-click='clickDel();' style="text-align: center;width: 90px"><span class="glyphicon glyphicon-remove"><label>删除信息</label></span></li><!--  
+                <li data-toggle="modal"  style="text-align: center;width: 90px" ng-click="getExcel()"><span class="glyphicon glyphicon-save-file"><label>导出文本</label></span></li>
+                <li data-toggle="modal" data-target="#upload" style="text-align: center;width: 90px"><span class="glyphicon glyphicon-open-file"><label>导入文本</label></span></li>  -->
+              </ul>
+        </div>
+        </form> 
+    </div>
+	<div class="table" ng-init="queryOggConfigInfo();">
+  		<table class="table table-striped" style="">
+          <thead>
+            <tr>
+            	<th></th>
+              <th style="text-align: center;">进程名称</th>
+              <th style="text-align: center;">承载大区</th>
+              <th style="text-align: center;">数据复制方向</th>
+              <th style="text-align: center;">进程功能</th>
+              <th style="text-align: center;">线程参数</th>
+              <th style="text-align: center;">部署侧(NG/DG)</th>
+              <th style="text-align: center;">部署主机IP</th>
+              <th style="text-align: center;">备注</th>
+            </tr>
+          </thead>
+          <tbody>
+           <tr ng-repeat="info in oggConfigMessage.data.datas">
+           	<td style="width:30px;text-align:center;vertical-align: middle;">
+                    <input type="checkbox" ng-click="batchProcessing(info.id)" ng-model="info.checkbox"/>
+                  </td>
+              <td style="text-align: center;">{{info.threadName}}</td>
+              <td style="text-align: center;">{{info.regionName}}</td>
+              <td style="text-align: center;">{{info.copydirec}}</td>
+              <td style="text-align: center;">{{info.function}}</td>
+              <td style="text-align: center;">{{info.parameter}}</td>
+              <td style="text-align: center;">{{info.deployside}}</td>
+              <td style="text-align: center;">{{info.hostIp}}</td>
+              <td style="text-align: center;">{{info.remark}}</td>
+            </tr>
+          </tbody>
+        </table>
+	</div>
+        <div class="tables-content"> 
+         <page
+           total-count="oggConfigMessage.data.totalCount"
+           page-count="catalog.pageCount"
+           current-page="catalog.currentPage"
+           show-max-page="5"
+           go-page="setCurrentPageOgg(currentPage)">
+         </page>
+       </div>
+</div>
+<!-- </div> -->
+<!-- 新增配置 模态框 -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" style="">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                            ng-click="clearBatch(addBatch)">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel" >新增OGG配置方案</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" name='addBatchForm'>
+                        <div class="form-group form-inline marginT" style="margin-left: 70px">
+                            <label style="width: 100px">进程名称:</label>
+                            <span>
+                                <ng-form name="threadName">
+                                    <input class="form-control" style="width:200px;" ng-trim="false"
+                                           ng-model="addBatch.threadName" maxlength='15' ng-change='watchConfigName(addBatch.threadName)' name='configName' pattern="[0-9a-zA-Z-]*" required>
+                                    <span style="color: red;" ng-show="threadName.configName.$error.pattern">
+                                      *请添加规范的进程名！
+                                    </span>
+                                    <span style="color: red;" ng-show="threadName.configName.$error.required">
+                                      *
+                                    </span>
+                                    <span style="color: red;" ng-show="threadName.configName.$error.maxlength">
+                                      *此项长度最大为15！
+                                    </span>
+                                </ng-form>
+                            </span>
+                        </div>
+                        <div class="form-group form-inline marginT" style="margin-left: 70px">
+                            <label style="width: 100px">承载大区:</label>
+                            <span>
+                                <ng-form name="regionNameFor">
+                                    <select class="form-control" style="width:200px;" ng-trim="false"
+                                           ng-model="addBatch.regionName" name="regionName"  ng-change='watchConfigName(addBatch.regionName)' required>
+                                        <option>华东</option>
+                                        <option>华南</option>
+                                        <option>华北</option>
+                                        <option>中部</option>
+                                        <option>西部</option>
+                                    </select>
+                                    <span style="color: red;" ng-show="regionNameFor.regionName.$error.required">
+                                      *
+                                    </span>
+                                </ng-form>
+                            </span>
+                        </div>
+                        <div class="form-group form-inline marginT" style="margin-left: 70px">
+                            <label style="width: 100px">数据复制方向	:</label>
+                            <span>
+                                <ng-form name="copydirec">
+                                    <select class="form-control" style="width:200px;" ng-trim="false"
+                                           ng-model="addBatch.copydirec" name="copydirec" ng-change='watchConfigName(addBatch.copydirec)' required>
+                                        <option>正向</option>
+                                        <option>反向</option>
+                                    </select>
+                                    <span style="color: red;" ng-show="copydirec.copydirec.$error.required">
+                                              *
+                                    </span>
+                                </ng-form>
+                            </span>
+                        </div>
+                        <div class="form-group form-inline marginT" style="margin-left: 70px">
+                            <label style="width: 100px">进程功能:</label>
+                                <ng-form name="function">
+                                    <select class="form-control" style="width:200px;" ng-trim="false"
+                                               ng-model="addBatch.function" name="function" ng-change='watchConfigName(addBatch.function)' required>
+                                        <option>ERP</option>
+                                        <option>DP</option>
+                                        <option>EXT</option>
+                                    </select>
+                                    <span style="color: red;" ng-show="function.function.$error.required">
+                                              *
+                                    </span>
+                                </ng-form>
+                        </div>
+                        <div class="form-group form-inline marginT" style="margin-left: 70px">
+                            <label style="width: 100px">线程参数:</label>
+                            <span>
+                                <ng-form name="parameterFor">
+                                    <input class="form-control" style="width:200px;" ng-trim="false"
+                                           ng-model="addBatch.parameter" maxlength='15' ng-change='watchConfigName(addBatch.parameter)' name="parameter" pattern="[0-9a-zA-Z-]*" required></input>
+                                    <span style="color: red;" ng-show="parameterFor.parameter.$error.pattern">
+                                      *请添加规范的进程名！
+                                    </span>
+                                    <span style="color: red;" ng-show="parameterFor.parameter.$error.required">
+                                      *
+                                    </span>
+                                </ng-form>
+                            </span>
+                        </div>
+                        <div class="form-group form-inline marginT" style="margin-left: 70px">
+                            <label style="width: 100px">部署侧:</label>
+                                <ng-form name="deployside">
+                                    <select class="form-control" style="width:200px;" ng-trim="false"
+                                               ng-model="addBatch.deployside" name="deployside" ng-change='watchConfigName(addBatch.deployside)' required>
+                                        <option>DG</option>
+                                        <option>NJ</option>
+                                    </select>
+                                    <span style="color: red;" ng-show="deployside.deployside.$error.required">
+                                      *
+                                    </span>
+                                </ng-form>
+                        </div>
+                        <div class="form-group form-inline marginT" style="margin-left: 70px">
+                            <label style="width: 100px">部署主机IP:</label>
+                            <span>
+                                <ng-form name="ipFor">
+                                    <input class="form-control" style="width:200px;" ng-trim="false"
+                                           ng-model="addBatch.hostIp" name="hostIp" ng-change='watchConfigName(addBatch.hostIp)' pattern="^(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])$" required></input>
+                                    <span style="color: red;" ng-show="ipFor.hostIp.$error.pattern">
+                                      *请输入规范的ip地址！
+                                    </span>
+                                    <span style="color: red;" ng-show="ipFor.hostIp.$error.required">
+                                      *
+                                    </span>
+                                </ng-form>
+                            </span>
+                        </div>
+                        <div class="form-group form-inline marginT" style="margin-left: 70px">
+                            <label style="width: 100px">说明:</label>
+                            <span>
+                                <input class="form-control" style="width:200px;" ng-trim="false"
+                                       ng-model="addBatch.remark" maxlength='20' ng-change='watchConfigName(addBatch.remark)'></input>
+                                <span style="color: blue;">
+                                      *
+                                </span>
+                            </span>
+                        </div>
+                        <div style="margin-left: 70px"><label>（备注：</label>红色*为必填项！）</div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="addConfig()" ng-disabled="ipFor.$invalid||parameterFor.$invalid||threadName.$invalid" >
+                        保存
+                    </button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="clearBatch()">
+                        取消
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+ <!-- 删除OGG配置 -->
+ <div class="modal fade" id="delData" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="delDataLabel">确定删除？</h4>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal"
+                            ng-click="delConfig()">确认
+                    </button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- 修改配置模态框 -->
+<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                            ng-click="clearBatch(addBatch)">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">修改OGG配置方案</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" name='addBatchForm'>
+                        <div class="form-group form-inline marginT" style="margin-left: 70px">
+                            <label style="width: 100px">进程名称:</label>
+                            <span>
+                                <ng-form name="threadName2">
+                                    <input class="form-control" style="width:200px;" ng-trim="false"
+                                           ng-model="oldData.threadName" maxlength='15' ng-change='gainThreadname(oldData.threadName)' name='configName' required>
+                                    <span style="color: red;" ng-show="threadName2.configName.$error.pattern">
+                                      *请添加规范的进程名！
+                                    </span>
+                                    <span style="color: red;" ng-show="threadName2.configName.$error.required">
+                                      *
+                                    </span>
+                                </ng-form>
+                            </span>
+                        </div>
+                        <div class="form-group form-inline marginT" style="margin-left: 70px">
+                            <label style="width: 100px">承载大区:</label>
+                            <span>
+                                <ng-form name="regionNameFor2">
+                                    <select class="form-control" style="width:200px;" ng-trim="false"
+                                           ng-model="oldData.regionName" ng-minlength='1' ng-change='gainRegionName(oldData.regionName)' name='regionName' required>
+                                        <option>华东</option>
+                                        <option>华南</option>
+                                        <option>华北</option>
+                                        <option>中部</option>
+                                        <option>西部</option>
+                                    </select>
+                                    <span style="color: red;" ng-show="regionNameFor2.regionName.$error.required">
+                                          *
+                                    </span>
+                                </ng-form>
+                            </span>
+                        </div>
+                        <div class="form-group form-inline marginT" style="margin-left: 70px">
+                            <label style="width: 100px">数据复制方向  :</label>
+                            <span>
+                                <ng-form name="copydirec2">
+                                    <select class="form-control" style="width:200px;" ng-trim="false"
+                                           ng-model="oldData.copydirec" name="copydirec" ng-change='gainCopydirec(oldData.copydirec)'>
+                                        <option>正向</option>
+                                        <option>反向</option>
+                                    </select>
+                                    <span style="color: red;" ng-show="copydirec2.copydirec.$error.required">
+                                              *
+                                    </span>
+                                </ng-form>
+                            </span>
+                        </div>
+                        <div class="form-group form-inline marginT" style="margin-left: 70px">
+                            <label style="width: 100px">进程功能:</label>
+                                <ng-form name="function2">
+                                    <select class="form-control" style="width:200px;" ng-trim="false"
+                                               ng-model="oldData.function" ng-minlength='1' ng-change='gainFunction(oldData.function)' name='function' required>
+                                        <option>ERP</option>
+                                        <option>DP</option>
+                                        <option>EXT</option>
+                                    </select>
+                                    <span style="color: red;" ng-show="function2.function.$error.required">
+                                              *
+                                    </span>
+                                </ng-form>
+                        </div>
+                        <div class="form-group form-inline marginT" style="margin-left: 70px">
+                            <label style="width: 100px">线程参数:</label>
+                            <span>
+                                <ng-form name="parameterFor2">
+                                    <input class="form-control" style="width:200px;" ng-trim="false"
+                                           ng-model="oldData.parameter" maxlength='15' ng-change='gainParameter(oldData.parameter)' name='parameter' pattern="[0-9a-zA-Z-]*" required></input>
+                                     <span style="color: red;" ng-show="parameterFor2.parameter.$error.pattern">
+                                      *请添加规范的进程名！
+                                    </span>
+                                    <span style="color: red;" ng-show="parameterFor2.parameter.$error.required">
+                                      *
+                                    </span>
+                                </ng-form>
+                            </span>
+                        </div>
+                        <div class="form-group form-inline marginT" style="margin-left: 70px">
+                            <label style="width: 100px">部署侧:</label>
+                                <ng-form name="deployside2">
+                                    <select class="form-control" style="width:200px;" ng-trim="false"
+                                               ng-model="oldData.deployside" ng-change='gainDeployside(oldData.deployside)' name='deployside' required>
+                                        <option>DG</option>
+                                        <option>NJ</option>
+                                    </select>
+                                    <span style="color: red;" ng-show="deployside2.deployside.$error.required">
+                                              *
+                                    </span>
+                                </ng-form>
+                        </div>
+                        <div class="form-group form-inline marginT" style="margin-left: 70px">
+                            <label style="width: 100px">部署主机IP:</label>
+                            <span>
+                                <ng-form name="ipFor2">
+                                    <input class="form-control" style="width:200px;" ng-trim="false"
+                                           ng-model="oldData.hostIp" pattern="^(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])$" ng-change='gainHostIp(oldData.hostIp)' name='hostIp' required></input>
+                                    <span style="color: red;" ng-show="ipFor2.hostIp.$error.pattern">
+                                      *请输入规范的ip地址！
+                                    </span>
+                                    <span style="color: red;" ng-show="ipFor2.hostIp.$error.required">
+                                      *
+                                    </span>
+                                </ng-form>
+                            </span>
+                        </div>
+                        <div class="form-group form-inline marginT" style="margin-left: 70px">
+                            <label style="width: 100px">说明:</label>
+                            <span>
+                                <input class="form-control" style="width:200px;" ng-trim="false"
+                                       ng-model="oldData.remark" maxlength='20' ng-change='gainRemark(oldData.remark)'></input>
+                                <span style="color: blue;">
+                                      *
+                                </span>
+                            </span>
+                        </div>
+                        <div style="margin-left: 70px"><label>（备注：</label>红色*为必填项！）</div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="sendNewData()" ng-disabled="ipFor2.$invalid||parameterFor2.$invalid||threadName2.$invalid">
+                        保存
+                    </button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="clearBatch()">
+                        取消
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+    <div class="modal fade" id="upload" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="margin-left: 200px">
+                    <input type="file" name="file" style="height: 25px" >
+                </div>
+                <div class="modal-footer">
+                    <a type="button" class="btn btn-primary" id="upload_a" data-dismiss="modal"
+                            ng-click="uploadFile()">确认上传
+                    </a>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+                </div>
+            </div>
+        </div>
+    </div>

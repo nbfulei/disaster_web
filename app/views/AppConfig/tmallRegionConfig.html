@@ -1,0 +1,270 @@
+<div style="height: 500px;border:0px #c7c7c7 solid;margin-top: 70px;margin-left:10px;background-color: white;"  ng-init="queryRegionInfo();initQueryParam();getOpTime();">
+	<div class="querys-content" style="height: 90px;line-height: 45px">
+      <div class="querys" style="height: 44px">
+        <div class="dropdown" style="position:absolute;margin-top: 20px;margin-left: 20px;">
+              <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <label style="width: 122px;cursor:pointer;">省份大区配置</label> 
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                <li style="margin-left: 10px"><a ui-sref="disasterRec.monitorThreshold">监控阈值管理</a></li>
+                <li style="margin-left: 10px"><a ui-sref="disasterRec.machinesInfo">机器信息管理</a></li>
+              </ul>
+            </div>
+        <form class="form-inline"> 
+            <br><br>
+            <div style="height: 4px;width: 100%;background-color:#d0d0d0;border-radius: 5px;"></div>
+            <div style="float: left;margin-left: 20px">
+            <label>省名称:</label> 
+                <select style="width:80px;cursor:pointer" class="form-control" data-live-search="false" ng-options="system.value as system.label for system in provinceList" name="provName" ng-trim="false" ng-model="catalog.provName"  ng-change="getProvName(catalog.provName)">
+                    <option value="">全部</option>
+                </select>
+            </div>
+            <div style="float: left;margin-left: 10px">
+            <label>归属大区名称:</label> 
+                <select class="form-control" style="width:80px;cursor:pointer" ng-trim="false" name='aa' ng-model="catalog.regionName" ng-change="getRegionName(catalog.regionName)">
+                    <option value="">全部</option>
+                    <option value="02">华东</option>
+                    <option value="03">华南</option>
+                    <option value="01">华北</option>
+                    <option value="05">中部</option>
+                    <option value="04">西部</option>
+                </select>
+            </div><button class="btn btn-default" ng-click="termQuery()" style="margin-left: 20px;float: left;margin-top: 7px;height: 35px"><span class="glyphicon glyphicon-search"></span>&nbsp;<label>查询</label>
+        </button>
+      </div>
+        <div class="dropdown" style="float: left;margin-left: 10px;">          
+              <button style="height: 35px" class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <span class="glyphicon glyphicon-wrench" style="width: 122px;"><label style="cursor:pointer;">选择操作</label></span>
+                <span class="caret"></span>
+              </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" style="width: 100px;line-height: 33%"> 
+                    <li data-toggle="modal" data-target="#myModal" style="text-align: center;"><a style="cursor:pointer;" class="glyphicon glyphicon-plus">增加信息</a></li>
+                    <li data-toggle="modal" ng-click="clickUpdate();" style="text-align: center;"><a style="cursor:pointer;" class="glyphicon glyphicon-pencil">修改信息</a></li>
+                    <li data-toggle="modal"  ng-click='clickDel();' style="text-align: center;"><a style="cursor:pointer;" class="glyphicon glyphicon-remove">删除信息</a></li>
+                </ul>
+        </div>
+      </form>
+     <!--  <div style="float: right;margin-right: 50px;margin-top: -90px;width: 300px;height: 102px;line-height: 35px" ng-init="getOpTime();">
+        <label style="width: 90px;text-align: center;">上次操作用户</label><span class="glyphicon glyphicon-user">:</span>{{operationNoteMessage.data.datas.opUser}}<br/>
+        <label style="width: 90px;text-align: center;">上次操作时间</label><span class="glyphicon glyphicon-time">:</span>
+        {{operationNoteMessage.data.datas.opTime}}
+      </div> -->
+      <!-- <div style="width: 90px;height: 80px;float: right;margin-top: -100px">
+        <div style="margin-top: -8px"><a class="glyphicon glyphicon-open-file" style="cursor:pointer;" ng-click="down()">导出</a></div> 
+        <div style="margin-top: -8px"><a class="glyphicon glyphicon-save-file" style="cursor:pointer;" ng-click="">导入</a></div> 
+      </div> -->
+    </div>
+	<div class="table" style="">
+		<table class="table table-striped">
+        <thead>
+          <tr>
+          	<th></th>
+            <!-- <th style="text-align: center;">ID</th> -->
+            <th style="text-align: center;">省编码</th>
+            <th style="text-align: center;">省名称</th>
+            <th style="text-align: center;">归属大区名称</th>
+          </tr>
+        </thead>
+        <tbody>
+         <tr ng-repeat="info in provRegionMessage.data.datas">
+         	<td style="width:30px;text-align:center;vertical-align: middle;">
+                  <input type="checkbox" ng-click="batchProcessing(info.id)" ng-model="info.checkbox"/>
+                </td>
+            <!-- <td style="text-align: center;">{{info.id}}</td> -->
+            <td style="text-align: center;">{{info.provCode}}</td>
+            <td style="text-align: center;">{{info.provName}}</td>
+            <td style="text-align: center;">{{info.regionName}}</td>
+          </tr>
+        </tbody>
+      </table>
+	</div>
+        <div class="tables-content">
+         <page
+           total-count="provRegionMessage.data.totalCount"
+           page-count="catalog.pageCount"
+           current-page="catalog.currentPage"
+           show-max-page="5"
+           go-page="setCurrentPageProvRegion(currentPage)">
+         </page>
+       </div>
+</div>
+<style type="text/css">
+  .tables-content{
+    height: 78px;
+  }
+</style>
+ <!-- 新增配置 模态框 ^[1-9]\d{0,2}$-->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                            ng-click="clearBatch(addBatch)">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">新增省份大区配置方案</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" name='addBatchForm'>
+                        <div class="form-group form-inline marginT" style="margin-left: 70px">
+                            <span style="color: red;">*</span>&nbsp<label style="width: 100px">省编码:</label>
+                            <span>
+                                <ng-form name="provCode">
+                                    <input class="form-control" style="width:200px;" ng-trim="false"
+                                           ng-model="addBatch.provCode" ng-change='watchConfigName(addBatch.provCode)' name='provCode' pattern="^[0-9]\d{0,2}$" maxlength="3" autocomplete="off" required>
+                                    <span style="color: red;" ng-show="provCode.provCode.$error.pattern">
+                                      请添加规范的省编码格式！
+                                    </span>
+                                </ng-form>
+                            </span>
+                        </div>
+                        <div class="form-group form-inline marginT" style="margin-left: 70px">
+                            <span style="color: red;">*</span>&nbsp<label style="width: 100px">省名称:</label>
+                            <span>
+                                <ng-form name="provName">
+                                    <select class="form-control" style="width:200px;" ng-trim="false"
+                                           ng-model="addBatch.provName" ng-options="system.value as system.label for system in provinceList" name="provName"  ng-change='watchConfigName(addBatch.provName)' required>
+                                        <option value="">-请选择-</option>
+                                    </select>
+                                </ng-form>
+                            </span>
+                        </div>
+                        <div class="form-group form-inline marginT" style="margin-left: 70px">
+                            <span style="color: red;">*</span>&nbsp<label style="width: 100px">归属大区名称	:</label>
+                            <span>
+                                <ng-form name="regionName">
+                                    <select class="form-control" style="width:200px;" ng-trim="false"
+                                           ng-model="addBatch.regionName" ng-options="system.value as system.label for system in regionList" name="regionName" ng-change='watchConfigName(addBatch.regionName)' required>
+                                        <option value="">-请选择-</option>
+                                    </select>
+                                </ng-form>
+                            </span>
+                        </div>
+                        <span style="color: red;margin-left: 190px">注意：带* 为必填项。</span>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="addConfig()" ng-disabled="provCode.$invalid||provName.$invalid||regionName.$invalid">
+                        保存
+                    </button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="clearBatch()">
+                        取消
+                    </button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+ <!-- 删除OGG配置 -->
+ <div class="modal fade" id="delDataModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="delDataLabel">确定删除？</h4>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal"
+                            ng-click="delConfig()">确认
+                    </button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- 修改配置模态框 -->
+<div class="modal fade" id="changeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                            ng-click="clearBatch(addBatch)">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">修改省份大区配置方案</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" name='addBatchForm'>
+                        <div class="form-group form-inline marginT" style="margin-left: 70px">
+                            <span style="color: red;">*</span>&nbsp<label style="width: 100px">省编码:</label>
+                            <span>
+                                <ng-form name="provCode2">
+                                    <input class="form-control" style="width:200px;" ng-trim="false"
+                                           ng-model="oldData.provCode" maxlength='3' ng-change='gainProvCode(oldData.provCode)' name='provCode' pattern="^[0-9]\d{0,2}$" readonly="readonly" required>
+                                    <span style="color: red;" ng-show="provCode2.provCode.$error.pattern">
+                                      请输入规范的省编码格式！
+                                    </span>
+                                </ng-form>
+                            </span>
+                        </div>
+                        <div class="form-group form-inline marginT" style="margin-left: 70px">
+                            <span style="color: red;">*</span>&nbsp<label style="width: 100px">省名称:</label>
+                            <span>
+                                <ng-form name="provName2">
+                                    <select class="form-control" style="width:200px;" ng-trim="false"
+                                           ng-model="oldData.provName" name="provName" ng-disabled="true" ng-change='gainProvName(oldData.provName)' required>
+                                        <option>湖北</option>
+                                        <option>湖南</option>
+                                        <option>广东</option>
+                                        <option>广西</option>
+                                        <option>新疆</option>
+                                        <option>上海</option>
+                                        <option>天津</option>
+                                        <option>重庆</option>
+                                        <option>辽宁</option>
+                                        <option>江苏</option>
+                                        <option>四川</option>
+                                        <option>陕西</option>
+                                        <option>山西</option>
+                                        <option>河北</option>
+                                        <option>河南</option>
+                                        <option>吉林</option>
+                                        <option>黑龙江</option>
+                                        <option>内蒙古</option>
+                                        <option>山东</option>
+                                        <option>安徽</option>
+                                        <option>浙江</option>
+                                        <option>福建</option>
+                                        <option>江西</option>
+                                        <option>贵州</option>
+                                        <option>云南</option>
+                                        <option>西藏</option>
+                                        <option>海南</option>
+                                        <option>甘肃</option>
+                                        <option>宁夏</option>
+                                        <option>青海</option>
+                                        <option>北京</option>
+                                    </select>
+                                    <span style="color: red;" ng-show="provName2.provName.$error.required">
+                                      此项必选！
+                                    </span>
+                                </ng-form>
+                            </span>
+                        </div>
+                        <div class="form-group form-inline marginT" style="margin-left: 70px">
+                            <span style="color: red;">*</span>&nbsp<label style="width: 100px">归属大区名称	:</label>
+                            <span>
+                                <ng-form name="regionName2">
+                                    <select class="form-control" style="width:200px;" ng-trim="false"
+                                           ng-model="oldData.regionName" name="regionName" ng-change='gainRegionName(oldData.regionName)' required>
+                                        <option>华东</option>
+                                        <option>华南</option>
+                                        <option>华北</option>
+                                        <option>中部</option>
+                                        <option>西部</option>
+                                    </select>
+                                </ng-form>
+                            </span>
+                        </div>
+                        <span style="color: red;margin-left: 190px">注意：带* 为必填项。</span>
+                        
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="sendNewData()" ng-disabled="provCode2.$invalid||provName2.$invalid||regionName2.$invalid">
+                        保存
+                    </button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="clearBatch()">
+                        取消
+                    </button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

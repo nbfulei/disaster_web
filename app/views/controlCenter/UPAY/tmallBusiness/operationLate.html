@@ -1,0 +1,119 @@
+<!--预案定制-->
+<div ng-init="currentTrafficState();" style="border:0px #c7c7c7 solid;position:absolute;">
+	<div style="width:90%;min-width:900px;height:100px;border:0px #c7c7c7 solid;margin-top: 5px;margin-left:40px;padding-left:4%;" id="trafficSwitching">
+		<div  class="float">
+		 <div class="btn btn-primary" style="width:70px; background-color:white;border-color: rgb(79,98,174);color:blue;font-weight: 600;">开始</div>
+		</div>
+		<div style="padding-top: 34px;" class="float">
+		  <img src="img/danlan.png">
+		</div>
+		<div  class="float" >
+		   <div class="btn btn-primary">状态检查</div>
+		</div>
+		<div style="padding-top: 34px;" class="float">
+		  <img src="img/danlan.png">
+		</div>
+		<div  class="float">
+		  <div class="btn btn-primarys" style="color:rgb(79,98,174);font-weight: 600;"onMouseOver="this.style.color='white'" onMouseOut="this.style.color='rgb(79,98,174)'">预案定制</div>
+		</div>
+		<div style="padding-top: 34px;" class="float">
+		  <img src="img/danlan.png">
+		</div>
+		<div style="padding-top: 20px;" class="float">
+		  <div class="btn btn-primary">切换实施</div>
+		</div>
+		<div style="padding-top: 34px;" class="float">
+		  <img src="img/danlan.png">
+		</div>
+		<div style="padding-top: 20px;" class="float">
+		  <div class="btn btn-primary">确认切换</div>
+		</div>
+		<div style="padding-top: 34px;" class="float">
+		  <img src="img/danlan.png">
+		</div>
+		<div style="padding-top: 20px;" class="float">
+		  <div class="btn btn-primary" style="width:70px; background-color:white;border-color: rgb(79,98,174);color:blue;font-weight: 600;">结束</div>
+		</div>
+	</div>
+<div style="width:90%;min-width:900px;height:599px;margin-left:40px;margin-bottom: 30px; padding-left:4%;background-color: white;position:absolute;" class="trafficSwitching2">
+	<div style="width:90%;min-width:880px;height:355px;border:0px blue solid;margin-top: 10px;margin-left:20px;">
+		<div class="float flowstatus" style="width:40%;height:350px;border:0px red solid;text-align: center;">
+			<div style="width:150px;height:30px;border:0px yellow solid;margin-left:27%;background-color:rgb(65,93,134);text-align: center;line-height: 30px;color: white;">
+				当前流量状态
+			</div>
+			<div style="width:42%;height:280px;border: 0px red solid;float: left;background: url('img/nj.png') no-repeat  -10px -10px;" class="base south">
+				<div class="southCenter"></div>
+				<div style="padding-top: 50px;">
+					 <ul style="list-style:none;margin-bottom: 7px;" ng-repeat="info_N in flowMessage.southCenter track by $index">
+					    <li id="southbut" class="south {{info_N.classNames}}" data-toggle="tooltip" data-placement="right" title="{{info_N.regionCHName}}大区下的省份：{{info_N.provName}}"  >{{info_N.regionCHName}}
+					    </li>
+					 </ul>
+				</div>
+			</div>
+			<div style="width:15%;height:100px;float: left;margin-top:130px;border:0px yellow solid;margin-right: 10px;">
+				<img src="img/shuang.png" style="width:80%;">
+			</div>
+			<div style="width:40%;height:280px;border: 0px red solid;float: left;background: url('img/dg.png') no-repeat  -10px -10px;"class="base DG" >
+				<div class="DGCenter"></div>
+				<div style="padding-top: 40px;">
+					<ul style="list-style:none;margin-bottom: 7px;" ng-repeat="info_N in flowMessage.dgCenter track by $index">
+					    <li id="southbut" class="DG {{info_N.classNames}}"  title="{{info_N.regionCHName}}大区下的省份：{{info_N.provName}}" data-placement="top"  data-content="" >{{info_N.regionCHName}}
+					    </li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	    <div class="float">
+	      <div style="margin:5px 0 0 25px;">
+	      	<img src="img/toggleArrow.png" >
+	      </div>
+	      <div style="margin: 120px 0 0 25px;">
+	      	<img src="img/toggleArrow.png" >
+	      </div>
+	    </div>
+		<div class="float flowstatus" style="width:40%;height:355px;border: 0px red solid;text-align: center;margin-left:15px;">
+			<div style="width:150px;height:30px;background-color:rgb(65,93,134);text-align: center;line-height: 30px;color: white;margin-left:27%;">
+				预案制定
+			</div>
+			<div style="width:42%;height:280px;border: 0px red solid;float: left;background: url('img/nj.png') no-repeat  -10px -10px;"class="base south">
+				<div class="southCenter"></div>
+				<div style="padding-top: 50px;">
+					<ul   style="list-style:none;position:absolute;" ng-repeat="info_N in flowMessages.southCenter track by $index">
+					    <li id="{{info_N.regionCHName | getid}}"  class="cursor shadow btn {{info_N.className}} southbut2 {{'nj'+$index}}" title="{{info_N.regionCHName}}大区下的省份：{{info_N.provName}}" data-placement="top"  data-content=""  ng-click="adjustment(info_N,1,$index)" style="height:20px;padding-top:0px;">{{info_N.regionCHName}}
+					    </li>
+					</ul>
+				</div>
+			</div>
+			<div style="width:15%;height:100px;float: left;margin-top:130px;margin-right: 10px;">
+				<img src="img/shuang.png" style="width:80%;">
+			</div>
+			<div style="width:40%;height:280px;border: 0px red solid;float: left;background: url('img/dg.png') no-repeat  -10px -10px;"class="base DG">
+				<div class="DGCenter"></div>
+				<div style="padding-top: 50px;">
+					<ul  style="list-style:none;position:absolute;" ng-repeat="info_N in flowMessages.dgCenter track by $index">
+					    <li id="{{info_N.regionCHName | getid}}"  class="cursor shadow btn {{info_N.className}} southbut2 {{'dg'+$index}}"  title="{{info_N.regionCHName}}大区下的省份：{{info_N.provName}}" data-placement="top"  data-content=""  ng-click="adjustment(info_N,2,$index)" style="height:20px;padding-top:0px;">{{info_N.regionCHName}}
+					    </li>
+					</ul>
+				</div>
+			</div>
+			<p style="font-size: 12px;color: rgb(87,87,87);border: 0px red solid;float:left;margin-top: -10px;margin-left: 20px;">注：点击按钮进行切换！</p>
+		</div>
+		<div style="width:820px;height:355px;border: 0px blue solid;" id="cover"></div>
+		
+	</div>
+	<div style="width:750px;height:160px;border:0px red solid;text-align: left;margin-top: 5px;margin-left: 40px;">
+	      <div style="width:740px;height:35px;border:0px blue solid;text-align: left;line-height: 35px;padding-left: 10px;font-size: 16px; background-color: rgb(65,93,134);">本次切换预案</div>
+		  <div  style="width:740px;min-height:120px;height:auto;background-color: rgb(226,226,226);border:0px blue solid;  ">
+		      <div ng-repeat="item in switchData.data" ng-show="switchData.data.length>0" style="border:0px red solid">
+		      	<p>【{{item.regionCHName}}大区】从【{{item.theirBase}}中心】切换到【{{item.direction}}中心】</p>
+		      </div>
+	      </div>
+	      <div style="width:750px;height:50px;border:0px red solid;text-align: right;margin-top: 10px;" ng-init="a1=true">
+	        <button  class="btn btn-danger" ng-click="stopeSwitch('05');" >停止切换&nbsp;<span class="glyphicon glyphicon-exclamation-sign"></span></button>
+	      	<button  ng-click="getSynData('05');"  class="btn btn-success" style="margin-left:50px;">下一步&nbsp;<span class="glyphicon glyphicon-circle-arrow-right"></span></button>
+	      </div>
+		  
+	 </div>
+   </div>
+</div>
+

@@ -1,0 +1,270 @@
+<div class="content" table-scroll ng-init="load();onClickNJ()">
+  <div class="querys-content">
+    <div class="querys">
+      <form class="form-horizontal" name="radarSetForm">   
+       <div class="col-sm-3" style="margin-left:25px;margin-top:10px;">
+            <input id="dLabel" style="background-color: white;width:200px" readonly="readonly"
+             class="form-control ng-pristine ng-valid ng-touched" type="text" ng-model="getting.Type" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"placeholder="请选择">
+            <div style="position:absolute;left:200px;top: 7px;" data-toggle="dropdown" ng-click="initSelectedType(level,getting)">
+              <span class="caret" style="border-top:6px dashed;border-left:3px solid transparent;border-right:3px solid transparent"></span>
+            </div>
+            <ul id="certTypeDropdown" class="dropdown-menu"  style="width:200px;max-height: 150px;margin-top: -1px;position:absolute;left:15px;padding:0px;margin:0px;border:solid 1px #7A9CD3;border-radius:1px;">      
+              <li ng-repeat="a in level track by $index">
+                <div ng-mouseover="selectType($event)" style="cursor:default;height: 21px;"  ng-click="selectData(a.levelName);allDell();"  class="normal">
+                  <span style="margin-left:12px" class="ng-binding">{{a.levelName}}</span>
+                </div>
+              </li>
+            </ul>         
+          </div>    
+
+         <!--第二个下拉框选择南方基地 东莞中心 其他-->
+          <div class="col-sm-3" style="margin-top:10px;" >
+            <input  style="background-color: white;width:250px"  readonly="readonly"  class="form-control ng-pristine ng-valid ng-touched" type="text" ng-model="switchinfo.url" data-toggle="dropdown"  placeholder="请选择">
+            <div style="position:absolute;left:250px;top: 7px;" data-toggle="dropdown" >
+              <span class="caret" style="border-top:6px dashed;border-left:3px solid transparent;border-right:3px solid transparent"></span>
+            </div>
+            <ul id="certTypeDropdown" style="width:250px;margin-left:14px;" class="dropdown-menu"  style="width:200px;max-height: 150px;margin-top: -1px;position:absolute;left:15px;padding:0px;margin:0px;border:solid 1px #7A9CD3;border-radius:1px;">      
+           <li >
+                <div>
+                  <a style="margin-left:20px;">{{switchinfo.njUrl}}</a>
+                      <button class="btn btn-primary" style="height:25px;line-height:5px;margin-left:150px; margin-top:-40px;"ng-click="SedNJ(switchinfo.njUrl);">南方基地</button>
+                </div>
+                 <div>
+                  <a style="position:absolute;top:48px;left:20px" >{{switchinfo.dgUrl}}</a>
+                      <button class="btn btn-primary" style="height:25px;line-height:5px;margin-left:150px;" ng-click="SedNJ(switchinfo.dgUrl)">东莞中心</button>
+                </div>
+                 <div>
+                  <a style="position:absolute;top:87px;left:20px" data-toggle="modal" data-target="#myModal" ng-click="getUrlTo(switchinfo.otherUrl)">{{switchinfo.otherUrl}} <strong ng-if="!switchinfo.otherUrl">+</strong></a>
+                      <button class="btn btn-primary" style="height:25px;line-height:5px;margin-left:150px;margin-top:15px;" ng-click="SedNJ(switchinfo.otherUrl)">其它</button>
+                </div>
+           </li>
+            </ul>         
+          </div>     
+          <!--表格和切换的大区 -->
+      <div class="tables-content" style="height:700px;">
+        <div style="margin-left:20px;padding-top:5px;margin-top:50px;width:600px;height: 35px;background-color:rgb(32,147,183);border-radius: 5px;position:relative; ">
+            <ul class="nav navbar-nav" style="margin-left:60px;">
+    <li role="presentation" id="deal"style="border-radius: 12px 12px 0 0;width:80px;float:left" ng-click="changeUnderline('Southern')"><a ng-click="tabDeal();"  aria-controls="home" style="color: black;height: 35px;line-height: 8px;cursor:pointer;" >交易</a></li>
+     <li role="presentation" id="Query"style="border-radius: 12px 12px 0 0;float:left;margin-left:300px;"><a  ng-click="tabOuery();initQuery()"  aria-controls="identifier" style="color: black;height: 35px;line-height: 8px;cursor:pointer;">查询</a></li>
+  </ul>
+          <!--<div class="tables-content" style="height:700px;">-->
+        <div id="style1" style="padding-top:5px;margin-top:30px;width:600px;height: 35px;border-radius: 5px;position:relative; ">
+            <ul id="five" class="nav navbar-nav" style="margin-left:60px;">
+              <li role="presentation" id="Southern" ng-click="changeUnderline('Southern')" style="border-radius: 12px 12px 0 0;width:80px;float:left;border-bottom:1px solid rgb(32,147,183)"><a  ng-click="tabSouthern()"  aria-controls="home" style="color: black;height: 35px;line-height: 8px;cursor:pointer;" >华南</a></li>
+              <li role="presentation" id="East"  ng-click="changeUnderline('East')" style="border-radius: 12px 12px 0 0;float:left;border-bottom:0px solid rgb(32,147,183)"><a ng-click="tabClass()"   aria-controls="profile"style="color: black;height: 35px;line-height: 8px;cursor:pointer;">华东</a></li>
+              <li role="presentation" id="North"  ng-click="changeUnderline('North')" style="border-radius: 12px 12px 0 0;float:left;border-bottom:0px solid rgb(32,147,183)"><a  ng-click="tabNorth()" ng-mouseleave="" aria-controls="messages" style="color: black;height: 35px;line-height: 8px;cursor:pointer;">华北</a></li>
+              <li role="presentation" id="Middle"  ng-click="changeUnderline('Middle')" style="border-radius: 12px 12px 0 0;float:left;border-bottom:0px solid rgb(32,147,183)"><a  ng-click="tabMiddle()" aria-controls="settings" style="color: black;height: 35px;line-height: 8px;cursor:pointer;">中部</a></li>
+               <li role="presentation" id="West"  ng-click="changeUnderline('West')" style="border-radius: 12px 12px 0 0;float:left;border-bottom:0px solid rgb(32,147,183)"><a  ng-click="tabWest()"  aria-controls="identifier" style="color: black;height: 35px;line-height: 8px;cursor:pointer;">西部</a></li>
+            </ul>
+        </div> 
+       
+        <!--华南--> 
+        <div >
+    <div  id="table1" style="width:600px;margin-left:20px;">
+       <div class="thead">
+          <table  class="table table-striped">
+            <thead>
+              <tr>
+                <th style="width:30px;background-color: white;"></th>
+                <th style="width:100px;background-color: white;color: black;font-weight: 700">省份</th>
+                <th style="width:150px;background-color: white;color: black;font-weight: 700">当前负载侧</th>
+                <th style="width:100px;background-color: white;color: black;font-weight: 700">操作</th>
+              </tr>
+              </thead>
+              <tbody>
+                  <tr ng-repeat="a in provinceInfo.hn">
+                    <td style="font-size:15px;height:35px;"><input type="checkbox"  ng-model="a.checkbox" /></td>
+                    <td style="font-size:15px;height:35px;">{{a.provName}}</td>
+                    <td style="font-size:15px;height:35px;" ng-if="a.center==='NJ'">南方基地</td>
+                    <td style="font-size:15px;height:35px;"ng-if="a.center==='DG'">东莞中心</td>
+                    <td style="text-align:center;font-size:15px;height:35px;padding:0px;">
+                      <button style="width:60px;height:25px;padding: 0px;" class='btn btn-default' ng-click="deleteInfo(a)"ng-if="a.center==='DG'">删除</button>
+                      <button style="width:60px;height:25px;padding: 0px;" class='btn btn-default' ng-click="SaveInfo(a)"ng-if="a.center==='NJ'">添加</button></td>
+                  </tr>
+              </tbody>
+          </table>
+       </div>  
+  </div>
+  </div>
+          <!--华东-->
+          <div id="table2" style="width:600px;margin-left:20px;display:none" >
+          <div class="thead" id="thead">
+            <table class="table table-striped">
+              <thead>
+              <tr>
+                <th style="width:30px;background-color: white;">
+                </th>
+                <th style="width:100px;background-color: white;color: black;font-weight: 700">省份</th>
+                <th style="width:150px;background-color: white;color: black;font-weight: 700">当前负载侧</th>
+                <th style="width:100px;background-color: white;color: black;font-weight: 700">操作</th>
+              </tr>
+              </thead>
+        <tbody>
+             <tr  ng-repeat="b in provinceInfo.hd">
+            <td style="font-size:15px;height:35px;">
+               <input type="checkbox"  ng-model="b.checkbox"/>
+            </td>
+            <td style="font-size:15px;height:35px;">{{b.provName}}</td>
+            <td style="font-size:15px;height:35px;" ng-if="b.center==='NJ'">南方基地</td>
+             <td style="font-size:15px;height:35px;"ng-if="b.center==='DG'">东莞中心</td>
+             <td style="font-size:15px;height:35px;">
+               <button style="width:60px;height:25px;padding: 0px;" class='btn btn-default' ng-click="deleteInfo(b)"ng-if="b.center==='DG'">删除</button>
+               <button style="width:60px;height:25px;padding: 0px;" class='btn btn-default' ng-click="SaveInfo(b)"ng-if="b.center==='NJ'">添加</button>   
+            </td>
+          </tr>
+        </tbody>
+      </table>
+          </div>
+          </div>
+
+           <!--华北-->
+          <div class="table" id="table3" style="width:600px;margin-left:20px;display:none">
+          <div class="thead" id="thead">
+            <table class="table table-striped">
+              <thead>
+              <tr>
+                <th style="width:30px;background-color: white"></th>
+                <th style="width:100px;background-color: white;color: black;font-weight: 700">省份</th>
+                <th style="width:150px;background-color: white;color: black;font-weight: 700">当前负载侧</th>
+                <th style="width:100px;background-color: white;color: black;font-weight: 700">操作</th>
+              </tr>
+              </thead>
+              <tbody>
+             <tr ng-repeat="c in provinceInfo.hb">
+                <td style="font-size:15px;height:35px;"><input type="checkbox"  ng-model="c.checkbox"/></td>
+                <td style="font-size:15px;height:35px;">{{c.provName}}</td>
+                <td style="font-size:15px;height:35px;" ng-if="c.center==='NJ'">南方基地</td>
+                <td style="font-size:15px;height:35px;" ng-if="c.center==='DG'">东莞中心</td>
+                <td style="font-size:15px;height:35px;">
+                  <button style="width:60px;height:25px;padding: 0px;" class='btn btn-default' ng-click="deleteInfo(c)"ng-if="c.center==='DG'">删除</button>
+                  <button style="width:60px;height:25px;padding: 0px;" class='btn btn-default' ng-click="SaveInfo(c)"ng-if="c.center==='NJ'">添加</button>   
+                </td>
+            </tr>      
+          </tbody>
+        </table>
+      </div>  
+    </div>
+             
+             <!--中部-->
+             <div id="table4" style="width:600px;margin-left:20px;display:none">
+          <div class="thead" id="thead">
+            <table class="table table-striped">
+              <thead>
+              <tr>
+                <th style="width:30px;background-color: white;">
+                </th>
+                <th style="width:100px;background-color: white;color: black;font-weight: 700">省份</th>
+                <th style="width:150px;background-color: white;color: black;font-weight: 700">当前负载侧</th>
+                <th style="width:100px;background-color: white;color: black;font-weight: 700">操作</th>
+              </tr>
+              </thead>
+        <tbody>    
+           <tr ng-repeat="c in provinceInfo.zb">
+            <td style="font-size:15px;height:35px;">
+               <input type="checkbox" ng-model="c.checkbox"/>
+            </td>
+            <td style="font-size:15px;height:35px;">{{c.provName}}</td>
+            <td style="font-size:15px;height:35px;" ng-if="c.center==='NJ'">南方基地</td>
+             <td style="font-size:15px;height:35px;" ng-if="c.center==='DG'">东莞中心</td>
+             <td style="font-size:15px;height:35px;">
+              <button style="width:60px;height:25px;padding: 0px;" class='btn btn-default' ng-click="deleteInfo(c)"ng-if="c.center==='DG'">删除</button>
+               <button style="width:60px;height:25px;padding: 0px;" class='btn btn-default' ng-click="SaveInfo(c)"ng-if="c.center==='NJ'">添加</button> 
+              </td>
+          </tr>
+        </tbody>  
+        </table>
+          </div> 
+           </div>  
+
+           <!--西部-->
+             <div id="table5" style="width:600px;margin-left:20px;display:none">
+          <div class="thead" id="thead">
+            <table  class="table table-striped">
+              <thead>
+              <tr>
+                <th style="width:30px;background-color: white;">
+                </th>
+                <th style="width:100px;background-color: white;color: black;font-weight: 700">省份</th>
+                <th style="width:150px;background-color: white;color: black;font-weight: 700">当前负载侧</th>
+                <th style="width:100px;background-color: white;color: black;font-weight: 700">操作</th>
+              </tr>
+              </thead>
+        <tbody>
+              <tr ng-repeat="c in provinceInfo.xb">
+            <td style="font-size:15px;height:35px;">
+               <input type="checkbox" ng-model="c.checkbox"/>
+            </td>
+            <td style="font-size:15px;height:35px;">{{c.provName}}</td>
+            <td style="font-size:15px;height:35px;" ng-if="c.center==='NJ'">南方基地</td>
+             <td style="font-size:15px;height:35px;" ng-if="c.center==='DG'">东莞中心</td>
+             <td style="font-size:15px;height:35px;">
+                <button style="width:60px;height:25px;padding: 0px;" class='btn btn-default' ng-click="deleteInfo(c)"ng-if="c.center==='DG'">删除</button>
+               <button style="width:60px;height:25px;padding: 0px;" class='btn btn-default' ng-click="SaveInfo(c)"ng-if="c.center==='NJ'">添加</button> 
+               </td>
+          </tr>
+        </tbody>  
+        </table>
+          </div> 
+           </div>  
+            <!--查询-->
+             <div id="table6" style="width:600px;margin-left:20px;display:none">
+          <div class="thead" id="thead">
+            <table  class="table table-striped">
+              <thead>
+              <tr>
+                <th style="width:30px;background-color: white">
+                </th>
+                <th style="width:100px;background-color: white;color: black;font-weight: 700">省份</th>
+                <th style="width:150px;background-color: white;color: black;font-weight: 700">当前负载侧</th>
+                <th style="width:100px;background-color: white;color: black;font-weight: 700">操作</th>
+              </tr>
+              </thead>
+        <tbody>
+              <tr ng-repeat="c in msg.Query">
+            <td style="font-size:15px;height:35px;">
+               <input type="checkbox" ng-model="c.checkbox"/>
+            </td>
+            <td style="font-size:15px;height:35px;">{{c.provName}}</td>
+            <td style="font-size:15px;height:35px;" ng-if="c.center==='NJ'">南方基地</td>
+             <td style="font-size:15px;height:35px;" ng-if="c.center==='DG'">东莞中心</td>
+             <td style="font-size:15px;height:35px;">
+               <button style="width:60px;height:25px;padding: 0px;" class='btn btn-default' ng-click="QueryDelete(c.provName)"ng-if="c.center==='DG'">删除</button>
+               <button style="width:60px;height:25px;padding: 0px;" class='btn btn-default' ng-click="QuerySave(c.provName)"ng-if="c.center==='NJ'">添加</button> 
+            </td>
+          </tr>
+        </tbody>  
+        </table>
+          </div> 
+           </div>  
+             <!-- 公告 -->
+    <div style='position:absolute;top:-55px;left:650px;width:300px;height:400px;'>
+      <p style='font-family:"微软雅黑";font-size:16px;color:#3859b6;margin:8px 0 0 12px'>公告</p>
+      <p ng-repeat='item in notice' style='margin:8px 12px;font-family:"宋体";font-size:16px;line-height:18px;' ng-class={true:'normalFont',false:'brokendownFont'}[item.state==='normal']>{{$index+1}}、{{item.msg}}</p>
+    </div>              
+      </div>                   
+   </form>
+   </div>
+  </div>
+  </div>
+
+          <!--提示模态框-->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div>
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"style="margin-top:-10px;margin-right:10px;">&times;</button>
+          <h4 style="margin-left:270px;">其它</h4>  
+        </div>
+        <div class="modal-body"style="margin-left:100px;">
+          <div class="form-group form-inline marginT">
+                <label class="col-sm-2 control-label" style="margin-top:-10px; margin-right:20px;">otherUrl:</label>
+                <div>
+              <input class="form-control" style="width:200px;margin-top:-20px" ng-trim="false" ng-model="param.otherUrl" ng-change="watchUrl(param,'otherUrl')">
+                </div>
+        </div>
+        <div  style="margin-left:120px;margin-top:20px">
+          <button id="button1" type="button"  class="btn dismissButton btn-primary" data-dismiss="modal" ng-click="getOtherUrl(param.otherUrl)" ng-disabled="!param.otherUrl">确定</button>
+        </div>
+      </div>
+    </div>
+  </div>

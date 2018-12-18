@@ -1,0 +1,24 @@
+
+<div id="inselect" class=" {{inSelectClass}}" style="position: relative;display:inline-block;width:150px;text-align:left;">
+    <button style="background-color:#fff;width:auto;display:inline-block;vertical-align:middle;
+            border-radius:5px 0px 0px 5px;vertical-align:middle;margin:0 0 0 0px"  class="form-control"
+            data-toggle="{{datatoggle===false?'':'dropdown'}}">已选定的操作(1)</button>
+  <div type="button"  data-toggle="{{datatoggle===false?'':'dropdown'}}"
+       style="border-radius:0px 5px 5px 0px;  background: #fff;
+  border: 1px solid #ccc;
+  border-left: none;
+  display: inline-block;
+  padding: 6px 12px;
+  vertical-align: middle;
+  border-radius: 0 5px 5px 0px;
+  cursor: pointer;
+  right: 0;
+  position: absolute;" aria-expanded="true">
+    <span class="caret"></span>
+  </div>
+  <ul style="padding:0;width:100%;padding:10px;font-size:12px;" class="dropdown-menu drop-width drop-checkbox" role="menu">
+    <li ng-class="{selectInputBg:inName===selects.name}" ng-repeat="selects in listData" ng-click="setSelectName(selects)">
+      <a>{{selects.name}}</a>
+    </li>
+  </ul>
+</div>

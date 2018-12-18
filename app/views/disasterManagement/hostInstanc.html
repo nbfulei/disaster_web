@@ -1,0 +1,247 @@
+<div style="background-color: white;min-width:1105px;">
+  <div class="detailsTop">
+    <h1 style="color:inherit;line-height: 60px;padding-left: 0;font-size: 28px;margin: 0;display: inline-block">
+      <span style="display: inline-block; min-width: 24px;min-height: 24px">
+        <div  data-toggle="tooltip" data-placement="top" ng-style="instancData.status | colorNumOne"
+              style="cursor:pointer;" title="{{instancData.status | hostStatus}}"></div></span>
+      {{instancData.name}}
+      <span style="font-size: 14px">（<a  ng-click="hostDetailsID(instancData.hostId)" style="color: #0B7FAD;cursor:pointer;">
+        {{instancData.hostName}}</a>）</span>
+    </h1>
+    <span style="margin-left: 8px;line-height: 60px;">
+      <div class="btn-group" >
+        <button type="button"  class="btn btn-default dropdown-toggle"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">操作
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" style="z-index: 1">
+          <!--<li role="separator" class="divider"></li>-->
+          <li><a style="cursor: pointer"  ng-click="addFile()"  title="增加配置文件">增加配置文件</a></li>
+          <!--<li role="separator" class="divider"></li>-->
+          <!--<li><a style="cursor: pointer"   title="启动实例" ng-click="startUpCase()">启动实例</a></li>-->
+          <!--<li><a style="cursor: pointer"   title="关闭实例" ng-click="stopItCase()">关闭实例</a></li>-->
+        </ul>
+      </div>
+    </span>
+  </div>
+  <div class="row" style="margin: 0px">
+    <div class="col-md-7" style="padding-left: 20px;">
+      <div class="table-list">
+        <h3 style="line-height: 32px;">详细信息
+          <a style="margin: 50px;font-size: 14px;cursor: pointer" ng-click="operationUP('修改')">
+            编辑<i class="glyphicon glyphicon-edit" style="display: inline"></i></a></h3>
+        <div>
+          <table class="table table-bordered">
+            <tbody>
+            <tr>
+              <td class="boldColor">实例ID</td><td>{{instancData.id}}</td>
+            </tr>
+            <tr>
+              <td class="boldColor">实例类型</td><td>{{instancData.instancesTypeName}}</td>
+            </tr>
+            <tr>
+              <td class="boldColor">实例启动脚本</td>
+              <td><span style="cursor:pointer" data-toggle="tooltip" data-placement="bottom" title="{{instancData.startScript}}">
+                {{instancData.startScript | subletters:30}}</span></td>
+            </tr>
+            <tr>
+              <td class="boldColor">实例停止脚本</td>
+              <td><span style="cursor:pointer" data-toggle="tooltip" data-placement="bottom" title="{{instancData.stopScript}}">
+                {{instancData.stopScript | subletters:30}}</span></td>
+            </tr>
+            <tr>
+              <td class="boldColor">组件名称</td><td>{{instancData.componentName}}</td>
+            </tr>
+            <tr>
+              <td class="boldColor">实例全路径</td>
+              <td><span style="cursor:pointer" data-toggle="tooltip" data-placement="bottom" title="{{instancData.path}}">
+                {{instancData.path | subletters:30}}</span></td>
+            </tr>
+            <tr>
+              <td class="boldColor">备注</td>
+              <td><span style="cursor:pointer" data-toggle="tooltip" data-placement="bottom" title="{{instancData.explain}}">
+                {{instancData.explain | subletters:30}}</span></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="table-list" ng-if="toConfigureData.length!==0">
+        <h3 style="line-height: 32px;">配置文件</h3>
+        <div>
+          <table class="table table-bordered">
+            <thead>
+            <tr>
+              <th>文件别名</th><th>文件名称</th><th>文件路径</th><th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="toConfigure in toConfigureData">
+              <td ><span data-toggle="tooltip" data-placement="bottom" title="{{toConfigure.fileAlias}}">
+                {{toConfigure.fileAlias | subletters:12}}</span></td>
+              <td ng-click="queryItemFile(toConfigure)"><a style="cursor:pointer" data-toggle="tooltip" data-placement="bottom" title="{{toConfigure.fileName}}">
+                {{toConfigure.fileName | subletters:12}}</a></td>
+              <td><span data-toggle="tooltip" data-placement="bottom" title="{{toConfigure.filePath}}">
+                {{toConfigure.filePath | subletters:12}}</span></td>
+              <td>
+                <button class="btn btn-primary" ng-click="updateFile(toConfigure)">修改</button>
+                <button class="btn btn-danger" ng-click="delFile(toConfigure)">删除</button>
+                <!--<button class="btn btn-danger" ng-click="loadFile(toConfigure)">载入</button>-->
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="table-list" ng-if="ItemFile.id!==undefined">
+        <h3 style="line-height: 32px;">配置文件内容
+          <!--<span style="font-size: 12px;color: red">只能输入数字、英文字母以及英文下的常用标点符号(,.:;'?@!#$%^|~/&*_+-)</span>-->
+        </h3>
+          <div>
+            <form ng-submit="upconfigItem(ItemFile)">
+              <table class="table table-bordered">
+                <tbody>
+                <!--<tr ng-repeat="item in ItemFile.items">-->
+                <tr>
+                    <!--<td><input class="form-control" type="text" ng-model="item.key" pattern="[A-Za-z0-9,.:;'?@!#$%^|~/&*_+-]+"/></td>-->
+                    <!--<td><input class="form-control" type="text" ng-model="item.val" pattern="[A-Za-z0-9,.:;'?@!#$%^|~/&*_+-]+"/></td>-->
+                    <!--<td><span class="glyphicon glyphicon-minus" ng-click="delConfigItem($index)"></span></td>-->
+                    <td>
+                      <textarea ng-model="ItemFile.items" style="resize: none;width: 591px;height: 300px;white-space:nowrap; overflow:scroll;"
+                                ></textarea>
+                    </td>
+                </tr>
+                <!--<tr><td colspan="3" ng-click="addConfigItem()" style="cursor: pointer;"><span class="glyphicon glyphicon-plus"></span></td></tr>-->
+                <tr><td colspan="3" style="text-align: right">
+                  <button type="submit" class="btn btn-primary" >确认</button>
+                  <button type="button" class="btn btn-default" ng-click="upconfigCallBack()" >取消</button>
+                </td></tr>
+                </tbody>
+              </table>
+            </form>
+          </div>
+      </div>
+    </div>
+    <!--图标部分-->
+    <div class="col-md-5" style="width: 420px;">
+      <div style="padding: 8px 0 0 0;margin: 0;border-width: 0;">
+        <h3 style="line-height: 32px;">图标</h3>
+        <div style="border-width: 0;margin: 0;width: 400px;">
+          <div id="instancCpu" style="margin-top: 0px"  class="echarts-list"></div>
+          <div id="instancMems"  class="echarts-list"></div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--//配置新增模态框-->
+<div class="modal fade" id="addFile" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <form action="" ng-submit="addConfirmFile(files)">
+        <div class="modal-header" style="text-align:left;background-color: #F1EFEF;color: black">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title">新增配置文件</h3>
+      </div>
+        <div class="modal-body">
+          <div class="form-group form-inline marginT" style="height: 58px">
+            <label class="col-sm-3 " style="padding: 0px;width: 60px">文件别名:</label>
+            <div class="col-sm-9 col-wg">
+              <input class="form-control"  ng-model="files.fileAlias"  style="padding: 0px;width: 250px" required
+              pattern="^[A-Za-z\u4e00-\u9fa5]{0,80}$" />
+              <div style="color: #98AAC2">可使用字母、中文</div>
+            </div>
+          </div>
+          <div class="form-group form-inline marginT" style="height: 58px">
+            <label class="col-sm-3 " style="padding: 0px;width: 60px">文件名称:</label>
+            <div class="col-sm-9 col-wg">
+              <input class="form-control"  ng-model="files.fileName"  style="padding: 0px;width: 250px" required
+                     pattern="^[A-Za-z.]{0,80}$"/>
+              <div style="color: #98AAC2">只能使用字母</div>
+            </div>
+          </div>
+          <div class="form-group form-inline marginT" style="height: 58px">
+            <label class="col-sm-3 " style="padding: 0px;width: 60px">文件路径:</label>
+            <div class="col-sm-9 col-wg">
+              <input class="form-control"  ng-model="files.filePath"  style="padding: 0px;width: 250px" required
+              pattern="(^//.|^/|^[a-zA-Z0-9])?:?/.+(/$)?"/>
+              <div style="color: #98AAC2">可以使用数字、字母等以'/'开头 例：'/upay'</div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer" style="text-align:right;background-color: #F1EFEF">
+          <button type="submit" class="btn dismissButton btn-primary">确认</button>
+          <button type="button" class="btn dismissButton btn-default" data-dismiss="modal">取消</button>
+        </div>
+      </form>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!--//配置修改模态框-->
+<div class="modal fade" id="updateFile" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <form action="" ng-submit="upConfirmFile(files)">
+        <div class="modal-header" style="text-align:left;background-color: #F1EFEF;color: black">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h3 class="modal-title">修改配置文件</h3>
+        </div>
+        <div class="modal-body">
+          <div class="form-group form-inline marginT" style="height: 58px">
+            <label class="col-sm-3 " style="padding: 0px;width: 60px">文件别名:</label>
+            <div class="col-sm-9 col-wg">
+              <input class="form-control"  ng-model="files.fileAlias"  style="padding: 0px;width: 250px" required
+                     pattern="^[A-Za-z\u4e00-\u9fa5]{0,80}$"/>
+              <div style="color: #98AAC2">可使用字母、中文</div>
+            </div>
+          </div>
+          <div class="form-group form-inline marginT" style="height: 58px">
+            <label class="col-sm-3 " style="padding: 0px;width: 60px">文件名称:</label>
+            <div class="col-sm-9 col-wg">
+              <input class="form-control"  ng-model="files.fileName"  style="padding: 0px;width: 250px" required
+                     pattern="^[A-Za-z.]{0,80}$"/>
+              <div style="color: #98AAC2">只能使用字母</div>
+            </div>
+          </div>
+          <div class="form-group form-inline marginT" style="height: 58px">
+            <label class="col-sm-3 " style="padding: 0px;width: 60px">文件路径:</label>
+            <div class="col-sm-9 col-wg">
+              <input class="form-control"  ng-model="files.filePath"  style="padding: 0px;width: 250px" required
+                     pattern="(^//.|^/|^[a-zA-Z0-9])?:?/.+(/$)?"/>
+              <div style="color: #98AAC2">可以使用数字、字母等以'/'开头 例：'/upay'</div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer" style="text-align:right;background-color: #F1EFEF">
+          <button type="submit" class="btn dismissButton btn-primary" >确认</button>
+          <button type="button" class="btn dismissButton btn-default" data-dismiss="modal">取消</button>
+        </div>
+      </form>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!--删除模态框-->
+<div class="modal fade" id="delModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="text-align:left;background-color: #F1EFEF;color: black">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">警报</h4>
+      </div>
+      <div class="modal-body">
+        <p>请慎重操作，确定删除文件名为：{{files.fileName}}的配置文件！</p><p></p><p></p>
+      </div>
+      <div class="modal-footer" style="text-align:right;background-color: #F1EFEF">
+        <button type="button" class="btn dismissButton btn-primary" data-dismiss="modal"
+                ng-click="delConfirmFile(files.id)">确认</button>
+        <button type="button" class="btn dismissButton btn-default" data-dismiss="modal">关闭</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

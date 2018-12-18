@@ -1,0 +1,91 @@
+<div class="content" table-scroll ng-init="onload();Contrast();getRegionOuery()">
+  <div class="querys-content">
+    <div class="querys">
+      <form class="form-horizontal" name="radarSetForm">           
+          <div class="col-sm-3" style="margin-left:20px;position:absolute;">
+            <input id="dLabel" ng-click="initSelectedType(level,getting)" style="background-color: white;width:200px" readonly="false"
+             class="form-control ng-pristine ng-valid ng-touched" type="text" ng-model="getting.Type" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" placeholder="请选择">
+            <div style="position:absolute;left: 200px;top: 7px;" data-toggle="dropdown" ng-click="initSelectedType(level,getting)">
+              <span class="caret" style="border-top:6px dashed;border-left:3px solid transparent;border-right:3px solid transparent"></span>
+            </div>
+            <ul id="certTypeDropdown" class="dropdown-menu"  
+            style="width:200px;max-height: 150px;margin-top: 
+            -1px;position:absolute;left:15px;padding:0px;margin:0px;
+            border:solid 1px #7A9CD3;border-radius:1px;"> 
+          
+              <li ng-repeat="a in level track by $index">
+                <div ng-mouseover="selectType($event)" style="cursor:default;height: 21px;"  ng-click="selectData(a.levelName);"  class="normal">
+                  <span style="margin-left:12px" class="ng-binding">{{a.levelName}}</span>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+      <div class="" style="height:700px;">
+        <div style="margin-left:20px;padding-top:5px;margin-top:13px;width:600px;height: 35px;background-color:rgb(32,147,183);border-radius: 5px;position:relative; ">
+            <ul class="nav navbar-nav" style="margin-left:10px;">
+    <li role="presentation" id="NJ" style="border-radius: 12px 12px 0 0;float:left"><a  ng-click="onClickNJ();OnClickNJGD()"  aria-controls="home" style="color: black;height: 35px;line-height: 8px;cursor:pointer;" ng-model="param.NJ" >南基--->东莞</a></li>
+    <li role="presentation" id="DG" style="border-radius: 12px 12px 0 0;float:left"><a  ng-click="onClickDG();OnClickNJGD()"  aria-controls="profile" style="color: black; height: 35px; line-height: 8px;cursor:pointer;" ng-model="param.DG">东莞---->南基</a></li>
+  </ul>
+        </div> 
+        <!--南基至东莞--> 
+          <div id="table1" style="width:600px;margin-left:20px;">
+          <div class="thead" id="thead">
+            <table class="table table-striped" align="center">
+              <thead>
+              <tr>
+             
+                <th style="width:100px;text-align: center">大区</th>
+                <th style="width:150px;text-align: center">当前状态</th>
+                <th style="width:100px;text-align: center">操作</th>
+              </tr>
+              </thead>
+        <tbody >
+         <tr ng-repeat="a in msg.data">
+            <td style="padding-top:15px;font-size:15px;text-align: center">{{a.regionCHName}}</td>    
+            <td style="padding-top:15px;font-size:15px;text-align: center" >{{a.states}}</td>
+             <td style="text-align: center">
+              <button class='btn btn-default' id="myButton1"  ng-if="a.operation==='关闭'||a.operation==='开启'" ng-click="stopOGG(msg.data,$index)" >{{a.operation}}</button>
+               <button class='btn btn-default' id="myButton3"  ng-if="a.operation==='关闭中'||a.operation==='开启中'" ng-disabled="true">{{a.operation}}<img id="loading1" src="img/loading.gif"/ ></button>
+             </td>
+          </tr>
+        </tbody>
+      </table>
+          </div>  
+          </div>
+          <!--东莞至南基-->
+          <div id="table2" style="width:600px;margin-left:20px;display:none" >
+          <div class="thead" id="thead">
+            <table class="table table-striped" align="center">
+              <thead>
+              <tr>
+                <th style="width:100px;text-align: center">大区</th>
+                <th style="width:150px;text-align: center">当前状态</th>
+                <th style="width:100px;text-align: center">操作</th>
+              </tr>
+              </thead>
+             <tbody>
+             <tr ng-repeat="b in info.data">
+            <td style="padding-top:15px;font-size:15px;text-align: center">{{b.regionCHName}}</td>
+            
+            <td style="padding-top:15px;font-size:15px;text-align: center">{{b.states}}</td>
+            <!--<td style="padding-top:15px;font-size:15px;padding-left:25px;text-align: center" ng-if="b.state==='ABENDED'"></td>-->
+             <!--<td style="padding-top:15px;font-size:15px;" ng-if="b.state==='STOPPED'">已关闭</td>-->
+             <td style="text-align: center"><button class='btn btn-default' id="myButton1"  ng-if="b.operation==='关闭'||b.operation==='开启'" ng-click="startOGG(info.data,$index)" >{{b.operation}}</button>
+               <button class='btn btn-default' id="myButton3"  ng-if="b.operation==='关闭中'||b.operation==='开启中'" ng-disabled="true">{{b.operation}}<img id="loading1" src="img/loading.gif"/ ></button>
+             </td>
+          </tr>
+        </tbody>
+      </table>
+          </div>
+          </div>   
+             <!-- 公告 -->
+    <div style='position:absolute;top:80px;left:900px;width:300px;height:400px;'>
+      <p style='font-family:"微软雅黑";font-size:16px;color:#3859b6;margin:8px 0 0 12px'>公告</p>
+      <p ng-repeat='item in notice' style='margin:8px 12px;font-family:"宋体";font-size:16px;line-height:18px;' ng-class={true:'normalFont',false:'brokendownFont'}[item.state==='normal']>{{$index+1}}、{{item.msg}}</p>
+    </div>            
+      </div>                  
+   </form>
+   </div>
+  </div>
+  </div>

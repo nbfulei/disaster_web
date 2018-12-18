@@ -1,0 +1,82 @@
+<div align="center" style="background-image:url(img/loginGB.jpg);background-size:100% 100%;width:100%;height:648px;opacity:0.7;z-index: 0;position: absolute;" ng-init="pass_word.a1=false;pass_word.a2=false;pass_word.a3=false;pass_word.a4=false;pass_word.a5=false;">
+	<!-- <img width="100%" height="300px" src="../../img/login_bg.png"><br/> -->
+	
+</div>
+<div style="width:700px;height:300px;opacity: 1;z-index: 2;position: absolute;left:25%;top:100px;text-align: center;">
+		<div class="login-logo" style="height:40%">
+			<div class="logo"></div>
+			<div class="note" style="margin-bottom: 15px;">
+				<h1 style="margin-top: 0px;padding-top: 20px;">统一支付异地灾备系统</h1>
+				<h3>Unified payment of off-site disaster preparedness system</h3>
+			</div>
+		</div>
+
+		<div class="login-form" align="center" style="height:60%">
+			<form class="form_auto" name="loginForm">
+			  <div class="form-group" style="margin-bottom: 8px;width:600px;">
+			  	  <i class="glyphicon glyphicon-user"></i>
+			  	  <label class="" style="width:80px;">账   &nbsp;&nbsp;户：</label>
+			      <input type="text" class="" tabindex="1" style="width:300px;height:35px;border-radius:4px;border: 2px solid #ccc;padding:6px 12px;" placeholder="请输入您的账号" name='loginUser' ng-model="user.loginUser" 
+			      required>
+			      <div ng-messages="loginForm.loginUser.$error">
+	              </div>
+			  </div>
+			  
+			  <div class="form-group" style="margin-top: 38px;width:600px;height: 38px;">
+			  <i class="glyphicon glyphicon-user"></i>
+			  <label class="" style="width:80px;">密   &nbsp;&nbsp;码：</label>
+			      <input type="password" tabindex="2" style="width:300px;height:35px;border-radius:4px;border: 2px solid #ccc;padding:6px 12px;padding-right: 25px;" placeholder="请输入您的密码" onpaste="return false" onselectstart="return false" name='password' ng-if="pass_word.show==false" ng-model="user.password" ng-change="wathPassword(user.password)" required >
+
+			      <input type="text" tabindex="2" style="width:300px;height:35px;border-radius:4px;border: 2px solid #ccc;padding:6px 12px;padding-right: 25px;" placeholder="请输入您的密码" onpaste="return false" onselectstart="return false" name='password'  ng-model="user.password" ng-if="pass_word.show==true" ng-change="wathPassword(user.password)" required >
+			      
+			     <span class="glyphicon glyphicon-eye-close " data-show="1" href="javascript:void(0);" id="eyes" style="position: absolute;top:204px;left:525px;cursor: pointer;color:#31b0d5;font-size:14px;" ng-click="showPassword();" ></span>
+			      
+			      <!-- <div style="color:#111;font-size: 12px;background:rgba(245, 72, 72, 0.6);border-radius: 5px;"  ng-show="pass_word.a5"> -->
+			      <div class="popover fade top in" style="width:720px;max-width:720px;top: 122px; left:40px;display: block;" ng-if="pass_word.a1===true||pass_word.a2===true||pass_word.a4===true||pass_word.a5===true">
+				      <div class="arrow"></div>
+				      <h3 class="popover-title" style="text-align: center;">温馨提示！</h3>
+				      <div style="color:red;font-size: 12px;padding: 2px;" ng-show="pass_word.a5">注:密码至少由8位及以上及包含大小写字母、数字及特殊符号，随机组成
+	              	  ，尽量不要以姓名、电话号码以及出生日期等作为口令或者口令的组成部分
+	                  </div>
+	                  <div style="color:red;font-size: 12px;padding: 2px;" ng-show="pass_word.a1">密码不能出现3位以上（含三位）重复字母、数字、特殊字符，如AAA、Aaa、111、###等<br><br></div>
+		              <div style="color:red;font-size: 12px;padding: 2px;" ng-show="pass_word.a2">密码不能出现3位以上（含三位）连续字母、数字、特殊字符，如ABC、Abc、123、！@#等<br><br></div>
+		              <div style="color:red;font-size: 12px;padding: 2px;" ng-show="pass_word.a4">密码不能出现3位以上（含三位）键盘上连续的字母、数字、特殊字符，如qwe（键盘第一行前三个字母）、asd（键盘第二行前三个字母）、qaz（键盘第一列三个字母）、1qaz（键盘第一列数字加前三个字母）、！QAZ（键盘第一列特殊字符加前三个字母）等</div>
+			      </div>
+			      
+	              
+	              
+			  </div><br/>
+			  <div class="form-group" style="margin-top: 0px;width:600px;height:55px;text-align: left;padding-left: 119px;margin-bottom: 0px;">
+			  
+			  <label class="" style="width:80px;">&nbsp;&nbsp;验证码：</label>
+			      <input type="text" tabindex="3" autocomplete="off" style="width:100px;height:35px;border-radius:4px;border: 2px solid #ccc;padding:6px 12px;" name='verCode' ng-model="user.verCode" maxlength="4"  required >
+			      <img src="{{'img/'+user.imgsrc+'.png'}}" class="light" style="margin-top: -4px;">&nbsp;&nbsp;<a id="cercode" style="font-size: 12px;cursor: pointer;" ng-click="changeVerCode()">看不清，换一张</a>
+			      <div class="popover fade top in" style="width:170px;max-width:170px;top: 208px; left:220px;display: block;" ng-if="user.verCodeErro">
+				      <div class="arrow"></div>
+				      <h3 class="popover-title" style="text-align: center;">温馨提示！</h3>
+				      <div  style="margin-left:45px;color:red;padding: 2px;">验证码错误!</div>
+			      </div>
+			      
+			  </div><br/>
+			  <div class="form-group">
+			      <button type="submit" class="btn btn-primary" style="width:100px;"  ng-click="login()" ng-disabled='loginForm.$invalid ||user.verCodeErro||pass_word.a1||pass_word.a2||pass_word.a4'>登录</button>
+			  </div>
+			  <div class="form-group">
+			      <!-- <a style="margin-left: 0" ui-sref="registered">注册账户</a> -->
+			      
+			  </div>
+			</form>
+		</div>
+    </div>
+    <div style="width:500px;height:400px;opacity: 1;position:absolute;left:35%;top:25%;text-align: center;z-index: 3;padding-top: 50px;" ng-show="confirm.flag">
+    <div style="width:500px;height:120px;opacity: 1;text-align: center;background-color:rgb(198,242,244);text-align: center; box-shadow: 5px 5px 5px rgb(112,112,112);" >
+    <div style="width:100%;height:25px;background-color:rgb(41,205,214);line-height: 25px;margin-bottom: 10px; ">温馨提示</div>
+    <span ng-bind="confirm.msg"></span>
+    <div style="padding-top: 10px;">
+    	<button class="btn btn-info" ng-click="confirm.flag=false">确定</button>
+    </div>
+    
+    </div>
+    </div>
+
+    

@@ -1,0 +1,113 @@
+<div class="content" style='padding:0;max-height:909px;' id='imgCon'>
+  <div class="table-content">
+    <div style='margin:80px auto;width:200px;display:none;' id='button'>
+      <button class='btn btn-info' ng-click='openPage()'>显示容灾切换状态</button> 
+    </div>
+  </div>
+  <div style='position:absolute;top:0px;left:0px;background-color:#e6e6e6;width:1024px;height:768px;' id='imgBorder'>
+    <div style='position:absolute;top:0px;left:1010px;cursor:pointer;' ng-click='closePage()'>×</div>
+  </div>
+<!-- 图形边框 -->
+  <div style='position:absolute;top:10px;left:10px;' id='imgContent'>
+    <img src="img/switch.png">
+    <!-- 流程 -->
+    <div style='position:absolute;top:3px;left:313px;width:329px;height:85px;border:2px dashed #7a7a98;text-align:center;font-size:15px;' id='doSwitch'>切换实施</div>
+    <div style='position:absolute;top:25px;left:125px;' class='notArrival' id='step1'>1</div>
+    <div class='toStepLine' style='left:165px;'></div>
+    <div class='stepLine' style='left:165px;'></div>
+    <div class='stepText' style='left:113px;' id='stepText1'>状态检查</div>
+
+    <div style='position:absolute;top:25px;left:235px;' class='notArrival' id='step2'>2</div>
+    <div class='toStepLine' style='left:275px;'></div>
+    <div class='stepLine' style='left:275px;'></div>
+    <div class='stepText' style='left:223px;' id='stepText2'>切换预案</div>
+
+    <div style='position:absolute;top:25px;left:345px;' class='notArrival' id='step3'>3</div>
+    <div class='toStepLine' style='left:385px;'></div>
+    <div class='stepLine' style='left:385px;'></div>
+    <div class='stepText' style='left:333px;' id='stepText3'>反向同步</div>
+
+    <div style='position:absolute;top:25px;left:455px;' class='notArrival' id='step4'>4</div>
+    <div class='toStepLine' style='left:495px;'></div>
+    <div class='stepLine' style='left:495px;'></div>
+    <div class='stepText' style='left:445px;' id='stepText4'>流量切换</div>
+
+    <div style='position:absolute;top:25px;left:565px;' class='notArrival' id='step5'>5</div>
+    <div class='toStepLine' style='left:605px;'></div>
+    <div class='stepLine' style='left:605px;'></div>
+    <div class='stepText' style='left:555px;' id='stepText5'>正向同步</div>
+    
+    <div style='position:absolute;top:25px;left:675px;' class='notArrival' id='step6'>6</div>
+    <div class='stepText' style='left:679px;' id='stepText6'>结束</div>
+    <div id="waterTank">
+    <!-- 主的箭头 -->
+    <img src="img/switchDown.png" style='position:absolute;top:197px;left:182px;display:none;' id='MswitchDown'>
+    <img src="img/switchLeft.png" style='position:absolute;top:153px;left:263px;display:none;' id='MswitchLeft'>
+    <img src="img/switchDown.png" style='position:absolute;top:346px;left:181px;display:none;' id='MloadToApp'>
+    <img src="img/switchDown.png" style='position:absolute;top:473px;left:181px;display:none;' id='MappToOgg'>
+    <!-- 备的箭头 -->
+    <img src="img/switchDown.png" style='position:absolute;top:189px;left:588px;display:none;' id='SswitchDown'>
+    <img src="img/switchRight.png" style='position:absolute;top:153px;left:489px;display:none;' id='SswitchRight'>
+    <img src="img/switchDown.png" style='position:absolute;top:346px;left:588px;display:none;' id='SloadToApp'>
+    <img src="img/switchDown.png" style='position:absolute;top:474px;left:588px;display:none;' id='SappToOgg'>
+    <!-- ogg同步的箭头 -->
+    <img src="img/switchRight.png" style='position:absolute;top:633px;left:269px;display:none;' class='oggPositiveSync'>
+    <img src="img/switchRight.png" style='position:absolute;top:633px;left:269px;display:none;' class='oggPositiveSyncT'>
+    <img src="img/switchLeft.png" style='position:absolute;top:674px;left:585px;display:none;' class='oggAntiSync'>
+    <img src="img/switchLeft.png" style='position:absolute;top:674px;left:585px;display:none;' class='oggAntiSyncT'>
+    <img src="img/switchLeft.png" style='position:absolute;top:674px;left:585px;display:none;' class='oggAntiSyncS'>
+    <!-- 水箱里大区的分布 -->
+    <div id="sysPrompt" style="position: fixed;left:40%;top:30%;width:300px;height:100px;opacity:0.8;background-color:rgb(252,83,69);text-align: center;padding-top: 30px;color:white;z-index: 999999;font-size: 18px;display: none">切换已终止，公告即将自动清空！<br>倒计时:{{countdown.number}}</div>
+    <div id='hdS' class='hd inCistern'></div>
+    <div id='hnS' class='hn inCistern'></div>
+    <div id='xbS' class='xb inCistern'></div>
+    <div id='hbS' class='hb inCistern'></div>
+    <div id='zbS' class='zb inCistern'></div>
+    
+    <!-- 主负载均衡 -->
+    <div style='position:absolute;top:276px;left:111px;width:168px;height:20px;text-align:center'>
+      <div style='margin-right:12px;' ng-repeat='item in flowDistribution.southCenterSwitch track by $index' class='regionCircle {{item.regionCHName | transformRegion}} flowSwitchAnimation'></div>
+    </div>
+    <!-- 主应用 -->
+    <div style='position:absolute;top:429px;left:111px;width:168px;height:20px;text-align:center'>
+      <div style='margin-right:12px;' ng-repeat='item in flowDistribution.southCenterSwitch track by $index' class='regionCircle {{item.regionCHName | transformRegion}} flowSwitchAnimation'></div>
+    </div>
+    <!-- 主OGG左 -->
+    <div style='position:absolute;top:560px;left:103px;width:80px;height:50px;'>
+      <div style='margin-right:10px;' ng-repeat='item in flowDistribution.DGCenterOgg track by $index' class='regionCircle {{item.regionCHName | transformRegion}} oggSync'>{{item.regionCHName | transformRegionToName}}</div>
+    </div>
+    <!-- 主OGG右 -->
+    <div style='position:absolute;top:560px;left:203px;width:80px;height:50px;'>
+      <div style='margin-right:10px;' ng-repeat='item in flowDistribution.southCenterOgg track by $index' class='regionCircle {{item.regionCHName | transformRegion}}  oggSync'>{{item.regionCHName | transformRegionToName}}</div>
+    </div>
+    <!-- 备负载均衡 -->
+    <div style='position:absolute;top:276px;left:518px;width:168px;height:20px;text-align:center'>
+      <div style='margin-right:12px;' ng-repeat='item in flowDistribution.DGCenterSwitch track by $index' class='regionCircle {{item.regionCHName | transformRegion}} flowSwitchAnimation'></div>
+    </div>
+    <!-- 备应用 -->
+    <div style='position:absolute;top:429px;left:518px;width:168px;height:20px;text-align:center'>
+      <div style='margin-right:12px;' ng-repeat='item in flowDistribution.DGCenterSwitch track by $index' class='regionCircle {{item.regionCHName | transformRegion}} flowSwitchAnimation'></div>
+    </div>
+    <!-- 备OGG左 -->
+    <div style='position:absolute;top:560px;left:509px;width:80px;height:50px;'>
+      <div style='margin-right:10px;' ng-repeat='item in flowDistribution.southCenterOgg track by $index' class='regionCircle {{item.regionCHName | transformRegion}}  oggSync'>{{item.regionCHName | transformRegionToName}}</div>
+    </div>
+    <!-- 备OGG右 -->
+    <div style='position:absolute;top:560px;left:609px;width:80px;height:50px;'>
+      <div style='margin-right:10px;' ng-repeat='item in flowDistribution.DGCenterOgg track by $index' class='regionCircle {{item.regionCHName | transformRegion}} oggSync'>{{item.regionCHName | transformRegionToName}}</div>
+    </div>
+    <!-- 公告 -->
+    <div style='position:absolute;top:1px;left:841px;width:158px;height:700px;overflow-y: scroll'>
+      <p style='font-family:"微软雅黑";font-size:16px;color:#3859b6;margin:8px 0 0 12px'>公告</p>
+      <p ng-repeat='item in notice' style='margin:8px 12px;font-family:"宋体";font-size:12px;line-height:18px;' ng-class={true:'normalFont',false:'brokendownFont'}[item.state==='normal']>{{$index+1}}、{{item.msg}}</p>
+    </div>
+    </div>
+    <!-- 图形中部各大区对应的圆点标识 -->
+    <p style='position:absolute;color:white;top:310px;left:388px;font-size:12px;'>1</p>
+    <p style='position:absolute;color:white;top:360px;left:388px;font-size:12px;'>2</p>
+    <p style='position:absolute;color:white;top:408px;left:389px;font-size:12px;'>3</p>
+    <p style='position:absolute;color:white;top:459px;left:389px;font-size:12px;'>4</p>
+    <p style='position:absolute;color:white;top:509px;left:389px;font-size:12px;'>5</p>
+   
+  </div>
+</div>

@@ -1,0 +1,286 @@
+<!--批处理管理-->
+<div class="content" table-scroll >
+  <div ng-init="initParam()">
+    <div class="querys-content" style="border:0px solid red;padding: 20px 0px">
+      <div class="btnbtn">    
+        <button class="btn btn-default" data-toggle="modal"  ng-click='initDealWith()' style="width:100px;height:40px;padding-left: 10px;font-weight: bold;">
+          <span class="glyphicon glyphicon-play-circle" aria-hidden="true"></span>&nbsp;我要执行
+        </button>
+        <button class="btn btn-default" data-toggle="modal" data-target="#myModal" style="width:100px;height:40px;padding-left: 10px;margin-left: 40px;font-weight: bold;">
+          <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;新增配置
+        </button>
+        <button class="btn btn-default" data-toggle="modal" ng-click="upDelTreat('1',ipAmend)" style="width:100px;height:40px;padding-left: 25px;margin-left: 70px;font-weight: bold;">
+          <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;修改
+        </button>
+        <button class="btn btn-default" data-toggle="modal" ng-click="upDelTreat('2')" style="width:100px;height:40px;padding-left: 25px;margin-left: 70px;font-weight: bold;">
+          <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>&nbsp;删除
+        </button>
+      </div>
+    </div>
+    <div class="querys-content" style="margin-top: 20px;">
+      <div class="querys" style="border-bottom: 0px solid #ccc">
+        <form class="form-horizontal" name='earlyWarningForm'>
+          <div class="form-group form-inline marginT">
+            <label class="col-sm-1 control-label">IP地址:</label>
+            <div class="col-sm-2 col-wg"><input class="form-control" maxlength="15" style="width:200px;" ng-trim="false" ng-model="setTreat.ip" ng-change="watchIp(setTreat,'ip');">
+             <div style="color:red;width:160px;" ng-show="setTreat.error">请输入正确格式的IP地址</div></div>
+            <label class="col-sm-2 control-label">配置名称:</label>
+            <div class="col-sm-2 col-wg"><input class="form-control"  style="width:200px;" ng-trim="false" name='aa' ng-model="setTreat.configuration" ng-change="watchConfig(setTreat.configuration)">
+            <div style="color: #0000AA;margin-left:0px;font-weight: 400;font-size: 12px;" ng-show="error" >注：配置名称最多为15位</div></div>
+
+            <button class="btn btn-default" ng-click="treatQuery(setTreat)" style="margin-left:100px;font-weight: bold;"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>&nbsp;查询
+        </button>
+          </div>
+        </form>
+      </div>
+      <div class="">
+        <div class="table">
+          <div class="thead" id="thead">
+            <table class="table table-striped" align="center">
+              <thead>
+              <tr>
+                <th style="width:20px;text-align: center;">
+                  <!-- <input type="checkbox" ng-click="batchProcessing('list',treatMessage.datas)" ng-checked="treatMessage.datas.marquee"> -->
+                  <input type="checkbox" ng-click="batchProcessing('all')" ng-model="treatMessage.allChecked">
+                </th>
+                <th style="width:110px;text-align: center;">配置名称</th>
+                <th style="width:150px;text-align: center;">IP地址</th>
+                <th style="width:120px;text-align: center;">执行方式</th>
+                <th style="width: 150px;text-align: center;">执行命令</th>
+                <th style="width: 150px;text-align: center;">更新时间</th>
+                <th style="width: 80px;text-align: center;">更新者</th>
+                <th style="width: 100px;text-align: center;">说明</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr ng-repeat="treat in treatMessage.datas" >
+                <td style="width:20px;text-align:center;vertical-align: middle;text-align: center;">
+                  <input type="checkbox" ng-click="batchProcessing()" ng-model="treat.checkbox"/>
+                </td>
+                <td style="width:110px;text-align: center;vertical-align: middle;text-align: center;padding:0px;" title="{{treat.configuration}}">{{treat.configuration | subletters:8}}</td>
+                <td style="width:150px; text-align:center;vertical-align: middle;text-align: center;" title="{{treat.ipTitel}}">{{treat.ip | subletters:16}}</td>
+                <td style="width:100px;text-align: center;vertical-align: middle;text-align: center;">{{treat.ation }}</td>
+                <td style="width: 150px;text-align:center;vertical-align: middle;text-align: center;" title="{{treat.eOrder}}">{{treat.eOrderShow| subletters:16}}
+                </td>
+                <td style="width: 100px;text-align: center;vertical-align: middle;text-align: center;">{{treat.executionTime}}</td>
+                <td style="width: 80px;text-align: center;vertical-align: middle;text-align: center;">{{treat.author}}</td>
+                <td style="width: 100px;text-align: center;vertical-align: middle;text-align: center;" title="{{treat.explain}}">{{treat.explain | subletters:16}}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="tables-content">
+          <page
+            total-count="treatMessage.totalCount"
+            page-count="setTreat.pageCount"
+            current-page="setTreat.currentPage"
+            show-max-page="5"
+            go-page="turnToPage(currentPage)"></page>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+    <!--执行批处理模态框-->
+    <div class="modal fade" id="example" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style=" border-radius: 4px 4px 0 0;">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="exampleLabel">执行批处理</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" name='executeModal'>
+                        <div class="form-group form-inline marginT">
+                            <label class="col-sm-2 control-label">选择配置:</label>
+                            <div>
+                                <select class="form-control" ng-model="excuting.configuration" style="width:200px;" ng-change="conChange(excuting.configuration)"
+                                        ng-options="task.configuration as task.configuration for task in treatMessage.datas">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group form-inline marginT" readonly>
+                            <label class="col-sm-2 control-label" style='padding-top:0;'>执行方式:</label>
+                            <input type="radio" name="order" checked ng-model="excuting.implementation" value="1"  onclick="return false;"/>UNIX SHELL命令
+                            <input type="radio" name="order" style="margin-left: 10px"
+                                   ng-model="excuting.implementation" value="2"  onclick="return false;"/>oracle命令
+                            <input type="radio" name="order" style="margin-left: 10px"
+                                   ng-model="excuting.implementation" value="3"  onclick="return false;"/>sybase命令
+                        </div>
+                        <div class="form-group form-inline marginT">
+                            <label style="margin-left: 25px">待执行的IP地址:</label>
+                            <div style="margin-left: 98px">
+                                <textarea name="c" rows="2" cols="60" style="resize: none;"
+                                          ng-model="excuting.ip" required readonly></textarea>
+                                <!-- <div style="color: #0000AA;font-weight: 400;font-size: 12px;">注：手动输入IP地址时请用逗号隔开并注意格式</div> -->
+                            </div>
+
+                        </div>
+                        <div class="form-group form-inline marginT">
+                            <label class="col-sm-2 control-label">执行命令:</label>
+                            <textarea name="d" rows="5" cols="60" style="resize: none;word-wrap: normal;" ng-model="excuting.executiveOrder" required readonly></textarea>
+                            <div style="color: #0000AA;margin-left: 100px;font-weight: 400;font-size: 12px;">注：每行作为一个命令，串行执行</div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" data-toggle="modal" data-target="" ng-click="excutingOrder(excuting)" ng-disabled='executeModal.$invalid'>执行
+                    </button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" >
+                        退出
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--新增批处理-->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="border-radius: 4px 4px 0 0;">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                            ng-click="clearBatch(addBatch);ipadd.a='';ipadd.b='';ipadd.c='';ipadd.d='';">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">新增批处理执行方案</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" name='addBatchForm'>
+                        <div class="form-group form-inline marginT"style="margin-bottom: 0px;">
+                            <label class="col-sm-2 control-label" style="padding-right:10px;"><span style="color: red">*&nbsp;</span>配置名称:</label>
+                            <div>
+                                <input class="form-control" style="width:200px;" ng-trim="false"
+                                       ng-model="addBatch.configuration" ng-minlength='1'  ng-change="watchConfigName(addBatch.configuration)" name='configName' required>
+                                
+                                 
+                                 <span style="color: #0000AA;margin-left: 10px;font-weight: 400;font-size: 12px;" ng-show="error1">注：配置名称最多为15位</span>
+                            </div>
+                            <div style="height:10px;">
+                            <div style="color:red;margin-left: 100px;font-weight: 400;font-size: 12px;" ng-show="error2">注：配置名称不能输入'and'或者'or'特殊字符！
+                                 </div></div>
+                        </div>
+                        <div class="form-group form-inline marginT" >
+                            <label class="col-sm-2 control-label" style="padding-right:10px;"><span style="color: red">*&nbsp;</span>IP 地址:</label>
+                            <div>
+                                <ip-input ip='ipadd' addip-list='addip' ></ip-input>
+                            </div>
+                        </div>
+                        <div class="form-group form-inline marginT">
+                            <label class="col-sm-2" style="padding-right:10px;">&nbsp;&nbsp;执行方式:</label>
+                            <label>
+                                <input type="radio" name="add" ng-model="addBatch.implementation"
+                                   value="1"/>UNIX SHELL命令
+                            </label>
+                            <label>
+                                <input type="radio" name="add" style="margin-left: 10px" ng-model="addBatch.implementation"
+                                   value="2"/>oracle命令
+                            </label>
+                            <label>
+                                <input type="radio" name="add" style="margin-left: 10px" ng-model="addBatch.implementation"
+                                   value="3" 　/>sybase命令
+                            </label>
+                        </div>
+                        <div class="form-group form-inline marginT">
+                            <label class="col-sm-2 control-label" style="padding-right:10px;"><span style="color: red">*&nbsp;</span>执行命令:</label>
+                            <textarea name="order" rows="4" cols="60" style="resize: none;word-wrap: normal;" ng-model="addBatch.executiveOrder" required></textarea>
+                            <div style="color: #0000AA;margin-left: 100px;font-weight: 400;font-size: 12px;">注：每行作为一个执行命令</div>
+                        </div>
+                        <div class="form-group form-inline marginT">
+                            <label class="col-sm-2 control-label" style="padding-right:10px;"><span style="color: red">*&nbsp;</span>说明:</label>
+                            <textarea name="b" rows="4" cols="60" style="resize: none;"
+                                      ng-model="addBatch.explain" required ng-change="watchExplain(addBatch.explain)"></textarea>
+                              <div style="color: #0000AA;margin-left: 100px;font-weight: 400;font-size: 12px;" ng-show="error3">注：说明字数最多为200位</div>        
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="saveBatch(addBatch,ipadd,addip);ipadd.a='';ipadd.b='';ipadd.c='';ipadd.d='';" ng-disabled='addBatchForm.$invalid||addip.length===0||addBatch.error||addBatch.error3'>
+                        保存
+                    </button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clearBatch(addBatch,ipadd,addip);ipadd.a='';ipadd.b='';ipadd.c='';ipadd.d='';">
+                        取消
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+
+    <!--修改批处理-->
+    <div class="modal fade" id="update" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="border-radius: 4px 4px 0 0;">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="ipAmend.a='';ipAmend.b='';ipAmend.c='';ipAmend.d='';">&times;</button>
+                    <h4 class="modal-title">修改批处理</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" name='amendBatchForm'>
+                        <div class="form-group form-inline marginT">
+                            <label class="col-sm-2 control-label">配置名称:</label>
+                            <div>
+                                <input class="form-control" ng-model="valGet.configuration" readonly/>
+                            </div>
+                        </div>
+                        <div class="form-group form-inline marginT">
+                            <label class="col-sm-2 control-label">IP 地址:</label>
+                            <div>
+                                <ip-input ip='ipAmend' addip-list='valGet.ip'></ip-input>
+                            </div>
+                        </div>
+                        <div class="form-group form-inline marginT">
+                            <label class="col-sm-2 control-label">执行方式:</label>
+                            <input type="radio" name="add" ng-model="valGet.implementation" value="1"/>UNIX SHELL命令
+                            <input type="radio" name="add" style="margin-left: 10px" ng-model="valGet.implementation"
+                                   value="2"/>oracle命令
+                            <input type="radio" name="add" style="margin-left: 10px" ng-model="valGet.implementation"
+                                   value="3"/>sybase命令
+                        </div>
+                        <div class="form-group form-inline marginT">
+                            <label class="col-sm-2 control-label" style="padding-right:10px;"><span style="color: red">*&nbsp;</span>执行命令:</label>
+                            <textarea name="a" rows="4" cols="60" style="resize: none;word-wrap: normal;" ng-model="valGet.executiveOrder" required></textarea>
+                            <div style="color: #0000AA;margin-left: 100px;font-weight: 400;font-size: 12px;">注：每行作为一个执行命令</div>
+                        </div>
+                        <div class="form-group form-inline marginT">
+                            <label class="col-sm-2 control-label" style="padding-right:10px;"><span style="color: red">*&nbsp;</span>说明:</label>
+                            <textarea name="b" rows="4" cols="60" style="resize: none;"
+                                      ng-model="valGet.explain" ng-change="watchExplain2(valGet.explain)"></textarea>
+                            <div style="color: #0000AA;margin-left: 100px;font-weight: 400;font-size: 12px;" ng-show="error4">注：说明字数最多为200位</div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="batchExecution(valGet,ipAmend);ipAmend.a='';ipAmend.b='';ipAmend.c='';ipAmend.d='';" ng-disabled='amendBatchForm.$invalid||valGet.inip.length===0'>保存
+                    </button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="ipAmend.a='';ipAmend.b='';ipAmend.c='';ipAmend.d='';">取消</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+
+
+    <!--删除批处理-->
+    <div class="modal fade" id="delData" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="border-radius: 4px 4px 0 0;">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="delDataLabel">您确定要删除所选数据？</h4>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"
+                            ng-click="delTreat()">确认
+                    </button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>

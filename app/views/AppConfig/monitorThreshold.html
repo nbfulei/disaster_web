@@ -1,0 +1,315 @@
+<div ng-init='query();' style="height: 0px;">
+
+
+  <div style="margin-top: 70px;height: 500px;background-color: white;margin-left: 10px;">	
+    	<div style="padding-top: 20px;">	
+  			<div class="dropdown" style="margin-left: 20px;">
+              <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <label style="width: 122px;cursor: pointer;">监控阈值管理</label> 
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                <!-- <li><a ui-sref="disasterRec.tmallOggConfig">OGG进程配置</a></li> -->
+                <li style="margin-left: 10px"><a ui-sref="disasterRec.tmallRegionConfig">省份大区配置</a></li>
+                <li style="margin-left: 10px"><a ui-sref="disasterRec.machinesInfo">机器信息管理</a></li>
+              </ul>
+            </div>
+   	  <form class="form-inline">
+   	  	<br>
+   	  	<div style="height: 4px;width: 100%;background-color:#d0d0d0;border-radius: 10px;"></div>
+   	  	<br>
+		<div style="float: left;margin-left: 20px;"><label style="margin-right: 5px;">监控项:</label>
+			<select type="" style="width: 150px;height: 36px;cursor: pointer;" class="form-control" ng-model="catalog.item";>
+				<option value="">全部</option>
+				<option value="CPU">CPU</option>
+				<option value="MEM">MEM</option>
+				<option value="DISK">DISK</option>
+				<!-- <option value="PING">PING</option> -->
+				<option value="LOSS">LOSS</option>
+			</select>
+		</div>
+		<button type="button"  class="btn btn-default" style="margin-left:10px;float: left;" ng-click="termQuery();";><span class="glyphicon glyphicon-search"><label>查询</label></span></button>
+		
+		<div class="dropdown" style="float: left;margin-left: 10px;">          
+              <button style="height: 36px" class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <span class="glyphicon glyphicon-wrench" style="width: 122px"><label style="cursor: pointer;">选择操作</label></span>
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" style="width: 100px; " >
+                <li data-toggle="modal" data-target="#myModal" style="text-align: center;"><a style="cursor:pointer;" class="glyphicon glyphicon-plus">增加信息</a></li>
+                <li data-toggle="modal" ng-click="updateBox();" style="text-align: center;"><a style="cursor:pointer;" class="glyphicon glyphicon-pencil">修改信息</a></li>
+                <li data-toggle="modal"  ng-click='deleteBox();' style="text-align: center;"><a style="cursor:pointer;" class="glyphicon glyphicon-remove">删除信息</a></li>
+              </ul>
+        </div>
+        
+	 </form>
+	 	<!-- <div style="float: right;margin-right: 50px;margin-top: -100px;width: 300px;height: 102px;line-height: 35px">
+	 	  <label style="width: 90px;text-align: center;">上次操作用户</label><span class="glyphicon glyphicon-user">:</span>{{operationNoteMessage.data.datas.opUser}}</br>
+	 	  <label style="width: 90px;text-align: center;">上次操作时间</label><span class="glyphicon glyphicon-time">:</span>
+	 	  {{operationNoteMessage.data.datas.opTime}}
+	 	</div> -->
+	 	
+	</div>
+  		<div style="margin-top: 20px;"> 
+  		  <table class="table table-striped">
+  			<thead>
+  				<tr>
+  					<th style="width: 3%"></th>
+  					<th style="text-align: center;">监控项</th>
+  					<th style="text-align: center;">警戒阈值</th>
+  					<th style="text-align: center;">异常阈值</th>
+  					<th style="text-align: center;">类型</th>
+  					<th style="text-align: center;">组件_ID</th>
+  					<th style="text-align: center;">单位</th>
+  					<th style="text-align: center;">备注</th>
+  				
+  				</tr>
+  			</thead>
+  			<tbody>
+  				<tr ng-repeat='x in monitorThresholdMe.data.datas'>
+  					<td style="text-align: center;"><input type="checkbox" ng-click="getDatas(x.id)" ng-model="x.checkbox"></td>
+  					<td style="text-align: center;">{{x.item}}</td>
+  					<td style="text-align: center;">{{x.guardVal}}<span ng-if='x.item === "PING"'>ms</span><span ng-if='x.item !== "PING"'>%</span></td>
+  					<td style="text-align: center;">{{x.anomalyVal}}<span ng-if='x.item === "PING"'>ms</span><span ng-if='x.item !== "PING"'>%</span></td>
+  					<td style="text-align: center;">{{x.type}}</td>
+  					<td style="text-align: center;">{{x.componentsId}}</td>
+  					<td style="text-align: center;">{{x.unit}}</td>
+  					<td style="text-align: center;">{{x.remark | fillterNull}}</td> 					
+  				</tr>
+  			</tbody>
+  		</table>
+  		<div class="tables-content" >
+  			  <div style="text-align: center;">
+                          <page total-count="monitorThresholdMe.data.totalCount"
+                            page-count="catalog.pageCount"
+                            current-page="catalog.currentPage"
+                            show-max-page="5"
+                            go-page="turnToPage(currentPage)">
+                          </page>
+                  </div>
+  		</div>
+  		 
+  		</div>
+  		
+             <!-- 新增模态框 -->
+           <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" ng-click='clearMessage();' class="close" data-dismiss="modal" 
+							aria-hidden="true">×
+							</button>
+				<h3 class="modal-title" id="myModalLabel">
+					新增
+				</h3>
+			</div>
+			<div class="modal-body" style="margin-left: 130px;">				
+				  <form class="form-inline" name="myFrom2">
+				   <span style="color: red;"> *</span>
+					<label style="font-size:12px;margin-right: 5px;width: 60px;">监控项:</label><select class="form-control" ng-model="setThread1.item" style="width: 185px;cursor: pointer;" ng-change="item_(setThread1.item);">
+						<option value="">-请选择-</option>
+						<option value="CPU">CPU</option>
+						<option value="MEM">MEM</option>
+						<option value="DISK">DISK</option>
+						<!-- <option value="PING">PING</option> -->
+						<option value="LOSS">LOSS</option>
+					</select><br><br>
+					<div ng-if='setThread1.item !== "PING"'>
+					<span style="color: red;"> *</span>
+					<label style="font-size:12px;margin-right: 5px;width: 60px;">警戒阈值:</label><input style="width: 185px;" type="" name="mName" maxlen gth="6" class="form-control inp" ng-model="setThread1.guardVal" pattern="^(100|[1-9]\d|\d)$"  required>
+					<span style="color: red;" ng-show="myFrom2.mName.$error.pattern">
+                        请输入0-100的数字！
+                    </span>
+					<br/><br/>
+					 <span style="color: red;"> *</span>
+					<label style="font-size:12px;margin-right: 5px;width: 60px;">异常阈值:</label><input style="width: 185px;" type="" name="mName1" maxlength="6" class="form-control inp" ng-model="setThread1.anomalyVal" pattern="^(100|[1-9]\d|\d)$"  required>
+					<span style="color: red;" ng-show="myFrom2.mName1.$error.pattern">
+                        请输入0-100的数字！
+                    </span>
+                    <br/><br/>
+					</div>
+                    <!-- 2 -->
+                    <div ng-if='setThread1.item === "PING"'>
+                    	<span style="color: red;"> *</span>
+                    <label style="font-size:12px;margin-right: 5px;width: 60px;">警戒阈值:</label><input style="width: 185px;" type="" name="mName" maxlen gth="6" class="form-control inp" ng-model="setThread1.guardVal" pattern="^\d+(\.{0,1}\d+){0,1}$"  required>
+					<span style="color: red;" ng-show="myFrom2.mName.$error.pattern">
+                        请输入大于等于零的数值！
+                    </span>                   
+					<br/><br/>					
+					<span style="color: red;"> *</span>
+					<label style="font-size:12px;margin-right: 5px;width: 60px;">异常阈值:</label><input style="width: 185px;" type="" name="mName1" maxlength="6" class="form-control inp" ng-model="setThread1.anomalyVal" pattern="^\d+(\.{0,1}\d+){0,1}$" required>
+					<span style="color: red;" ng-show="myFrom2.mName1.$error.pattern">
+                        请输入大于等于零的数值！
+                    </span>
+                    <br/><br/>
+					</div>
+					
+					<!-- 2 end -->
+					 <span style="color: red;"> *</span>
+					<label style="font-size:12px;margin-right: 5px;width: 60px;">类型:</label><select style="width: 185px;" type="" name="mName2" class="form-control" ng-model="setThread1.type">
+						<option value="">-请选择-</option>
+						<option value="host">host</option>
+						<!-- <option value="instance">instance</option> -->	
+						</select>
+				
+					<br/><br/>
+					 <span style="color: red;"> *</span>
+					<label style="font-size:12px;margin-right: 5px;width: 60px;">组件_ID:</label><select style="width: 185px;" type="" name="mName2" maxlength="6" class="form-control" ng-model="setThread1.componentsId">
+						<option value="">-请选择-</option>
+						<option value="1">天猫前置</option>
+						<option value="2">天猫核心</option>
+						<option value="3">天猫省前置</option>
+						<option value="4">天猫MQ</option>
+						<option value="5">天猫数据库</option>
+					</select>
+					<span style="color: red;" ng-show="myFrom2.mName2.$error.pattern">
+                        只能为数字！
+                    </span>
+					<br/><br/>
+					 <span style="color: red;">*</span>
+					<label style="font-size:12px;margin-right: 5px;width: 60px;">单位:</label><input style="width: 185px;" type="text"  class="form-control" ng-model="setThread1.unit" ng-disabled="true">
+					
+					<br><br>
+					<span>&nbsp;&nbsp;</span>
+					<label style="font-size:12px;margin-right: 5px;width: 60px;">备注:</label><input style="width: 185px;" type="" name="mName3" maxlength="20" class="form-control" ng-model="setThread1.remark" pattern="^[\u4e00-\u9fa5_a-zA-Z0-9]+$" required><span style="color: red;">&nbsp;&nbsp;
+					<span style="color: red;" ng-show="myFrom2.mName3.$error.pattern">
+                        只能为数字,中文,英文字母！
+                    </span>
+					<br/><br/>
+					<span style="color: red;">* 为必填项，其余可按情况填写，警戒阈值要小于异常阈值。</span>
+				  </form>				
+			</div>
+			<div class="modal-footer">
+				<button id="btn_1" type="button" data-dismiss="modal" ng-click="addMessage();" class="btn btn-primary" ng-disabled="!setThread1.guardVal || !setThread1.item || !setThread1.unit || !setThread1.anomalyVal || !setThread1.componentsId || !setThread1.type">
+					提交
+				</button>
+				<button type="button" ng-click="clearMessage();" class="btn btn-default" 
+						data-dismiss="modal">关闭
+				</button>
+			
+			</div>
+		   </div><!-- /.modal-content -->
+	     </div><!-- /.modal-dialog -->
+       </div><!-- /.modal -->   
+      	 	<!-- 	新增 end	 -->
+            
+
+             <!-- 修改模态框 -->
+           <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" 
+							aria-hidden="true">×
+							</button>
+				<h3 class="modal-title" id="myModalLabel">
+					修改
+				</h3>
+			</div>
+			<div class="modal-body" style="margin-left: 130px;" >				
+				  <form class="form-inline" name="myFrom">
+				  <span style="color: red;"> *</span>
+					<label style="font-size:12px;margin-right: 5px;width: 60px;">监控项:</label><select class="form-control" ng-change='getInstance(setThread.item)' ng-model="setThread.item" ng-disabled="true" style="width: 185px;">		
+						<option value="CPU">CPU</option>
+						<option value="MEM">MEM</option>
+						<option value="DISK">DISK</option>
+						<!-- <option value="PING">PING</option> -->
+						<option value="LOSS">LOSS</option>
+					</select><br><br>
+					<div ng-if='setThread.item !== "PING"'>
+					<span style="color: red;"> *</span>
+					<label style="font-size:12px;margin-right: 5px;width: 60px;">警戒阈值:</label><input style="width: 185px;" type="" name="mName" maxlength="6" class="form-control" ng-change='getGuardVal(setThread.guardVal);' ng-model="setThread.guardVal" pattern="^(100|[1-9]\d|\d)$" required>
+					<span style="color: red;" ng-show="myFrom.mName.$error.pattern">
+                        请输入0-100的数字！
+                    </span>
+					<br/><br/>
+					<span style="color: red;"> *</span>
+					<label style="font-size:12px;margin-right: 5px;width: 60px;">异常阈值:</label><input style="width: 185px;" type="" name="mName1" maxlength="6" class="form-control" ng-change='getAnomalyVal(setThread.anomalyVal);' ng-model="setThread.anomalyVal" pattern="^(100|[1-9]\d|\d)$" required>
+					<span style="color: red;" ng-show="myFrom.mName1.$error.pattern">
+                        请输入0-100的数字！
+                    </span>
+					<br/><br/>
+					</div>
+					<!-- 2 -->
+					<div ng-if='setThread.item === "PING"'>
+					<span style="color: red;"> *</span>
+					<label style="font-size:12px;margin-right: 5px;width: 60px;">警戒阈值:</label><input style="width: 185px;" type="" name="mName" maxlength="6" class="form-control" ng-change='getGuardVal(setThread.guardVal);' ng-model="setThread.guardVal" pattern="^[\u4e00-\u9fa5_a-zA-Z0-9]+$" required>
+					<span style="color: red;" ng-show="myFrom.mName.$error.pattern">
+                        请输入大于等于零的数值！
+                    </span>
+					<br/><br/>
+					<span style="color: red;"> *</span>
+					<label style="font-size:12px;margin-right: 5px;width: 60px;">异常阈值:</label><input style="width: 185px;" type="" name="mName1" maxlength="6" class="form-control" ng-change='getAnomalyVal(setThread.anomalyVal);' ng-model="setThread.anomalyVal" pattern="^[\u4e00-\u9fa5_a-zA-Z0-9]+$" required>
+					<span style="color: red;" ng-show="myFrom.mName1.$error.pattern">
+                        请输入大于等于零的数值！
+                    </span>
+					<br/><br/>
+					</div>
+					<!-- 2 end -->
+					<span style="color: red;"> *</span>
+					<label style="font-size:12px;margin-right: 5px;width: 60px;">类型:</label><select style="width: 185px;" type="" ng-disabled="true" class="form-control" ng-model="setThread.type" ng-change='getType(setThread.type);'>
+						<option value="host">host</option>
+						<option value="instance">instance</option>
+					</select>
+					<br/><br/>
+
+					<span style="color: red;"> *</span>
+					<label style="font-size:12px;margin-right: 5px;width: 60px;">组件_ID:</label><select ng-disabled="true" type="" name="mName2" style="width: 185px;" class="form-control" ng-change='getComponentsId(setThread.componentsId);' ng-model="setThread.componentsId">
+						<option value="天猫前置">天猫前置</option>
+						<option value="天猫核心">天猫核心</option>
+						<option value="天猫省前置">天猫省前置</option>
+						<option value="天猫MQ">天猫MQ</option>
+						<option value="天猫数据库">天猫数据库</option>
+					</select>
+					<br/><br/>
+					<span style="color: red;"> *</span>
+					<label style="font-size:12px;margin-right: 5px;width: 60px;">单位:</label><input style="width: 185px;" type="" name="" class="form-control" ng-change='getUnit(setThread.unit);' ng-model="setThread.unit" ng-disabled="true">
+					<br><br>
+					<span>&nbsp;&nbsp;</span>
+
+					<label style="font-size:12px;margin-right: 5px;width: 60px;">备注:</label><input style="width: 185px;" type="" name="mName3" maxlength="20" class="form-control" ng-change='getRemark(setThread.remark);' ng-model="setThread.remark" pattern="^[\u4e00-\u9fa5_a-zA-Z0-9]+$" required>&nbsp;&nbsp;
+					<span style="color: red;" ng-show="myFrom.mName3.$error.pattern">
+                        只能为数字,中文,英文字母！
+                    </span>
+					<br/><br/>
+					<span style="color: red;">* 为必填项，其余可按情况填写，警戒阈值要小于异常阈值。</span>
+				  </form>				
+			</div>
+			<div class="modal-footer">
+				<button type="button" ng-click='updateNewData();' data-dismiss="modal" class="btn btn-primary" ng-disabled="!setThread.guardVal || !setThread.item || !setThread.unit || !setThread.anomalyVal || !setThread.componentsId || !setThread.type">
+					提交
+				</button>
+				<button type="button" class="btn btn-default" 
+						data-dismiss="modal">关闭
+				</button>
+			
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->  
+		             <!-- 删除模态框 -->
+           <div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" 
+							aria-hidden="true">×
+							</button>
+				<h3 class="modal-title" id="myModalLabel">
+					确认删除？
+				</h3>
+	
+			<div class="modal-footer">
+				<button type="button" data-dismiss="modal" ng-click='deleteDatas();' class="btn btn-primary">
+					确认
+				</button>
+				<button type="button" class="btn btn-default" 
+						data-dismiss="modal">取消
+				</button>
+			
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->     
+  </div>
+</div>

@@ -1,0 +1,327 @@
+<!--容灾监控-->
+<div class="content"  style='padding:0;height:0px;margin-top: 10px;' id='imgCon3' ng-init='changeProject();query();'>
+
+
+  <div style='width:1050px;background:#fff;height: 760px;margin: auto;' id='imgContent3'>
+      <h4 style='font-weight:600;float: left;padding-top: 6px;margin-left: 20px;'>容灾切换:</h4> 
+      <div style="width: 1050px;margin: auto;height: 50px;padding-top: 10px;padding-left: 120px;">        
+            <button ui-sref="disasterRec.operationInfo" class="btn btn-success ">计划内</button>
+            <button class="btn btn-warning" style="margin-left: 20px; " data-toggle="modal" data-target="#planOutModal">计划外</button>
+      </div>
+
+      <div style="height: 2px;width: 1050px;margin: auto;background-color: #F5DEB3;"></div>
+      <div style='float:left;margin-left:15px;margin-left: 20px;'>
+      
+        <h4 style='font-weight:600;'>系统状态:</h4>
+        <!-- 南基 -->
+        <div style='display:inline-block;width:200px;white-space:nowrap;vertical-align:top;margin-left: 30px;position: relative;'>
+          <h4>南基：</h4>
+          <div style='display:inline-block;text-align:center;'>
+            <p style='font-size:13px;'>{{NJ.data.disk+'%'}}</p>
+            <div class="progress progress-striped">
+              <div class="progress-bar progress-bar-success active heightColor" role="progressbar" aria-valuemin="0" aria-valuemax="100"
+                style="height:{{NJ.data.disk+'%'}}" >
+              </div>
+            </div>
+            <p>文件内存</p>
+          </div>
+          <div style='display:inline-block;text-align:center;margin-right:5px;'>
+            <p style='font-size:13px;'>{{NJ.data.cpu+'%'}}</p>
+            <div class="progress progress-striped">
+              <div class="progress-bar progress-bar-success active heightColor" role="progressbar"
+                aria-valuenow="60" aria-valuemin="0" data-progress="{{NJ.data.cpu}};" aria-valuemax="100"
+                style="height:{{NJ.data.cpu+'%'}};">
+              </div>
+            </div>
+            <p>CPU</p>
+          </div>
+ 
+            <div style='display:inline-block;text-align:center;margin-right:5px;'>
+            <p style='font-size:13px;'>{{NJ.data.memory+'%'}}</p>
+            <div class="progress progress-striped">
+              <div class="progress-bar progress-bar-success active heightColor" role="progressbar"
+                aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+                style="height:{{NJ.data.memory+'%'}}">
+              </div>
+            </div>
+            <p>内存</p>
+          </div>
+
+          <div id="loding_nj" style="position: absolute;top: 30px;left: 0px;width: 150px;height:25px;background-color: white;text-align: center;padding-bottom: 5px;color: #0099e6;line-height: 25px;">
+            正在加载<img src="img/loading2.gif" width="25" style="margin-bottom: 3px">
+          </div>
+        </div>
+        <!-- 东莞 -->
+        <div style='display:inline-block;margin-left:20px;width:200px;white-space:nowrap;vertical-align:top;margin-left: 20px;position: relative;'>
+          <h4>东莞：</h4>
+          <div style='display:inline-block;text-align:center;margin-right:5px;'>
+            <p style='font-size:13px;'>{{DG.data.disk+'%'}}</p>
+            <div class="progress progress-striped">
+              <div class="progress-bar progress-bar-success active heightColor" role="progressbar"
+                aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+                style="height:{{DG.data.disk+'%'}};">
+              </div>
+            </div>
+            <p>文件内存</p>
+          </div>
+          <div style='display:inline-block;text-align:center;margin-right:5px;'>
+            <p style='font-size:13px;'>{{DG.data.cpu+'%'}}</p>
+            <div class="progress progress-striped">
+              <div class="progress-bar progress-bar-success active heightColor" role="progressbar"
+                aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+                style="height:{{DG.data.cpu+'%'}};">
+              </div>
+            </div>
+            <p>CPU</p>
+          </div>
+
+              <div style='display:inline-block;text-align:center;margin-right:5px;'>
+            <p style='font-size:13px;'>{{DG.data.memory+'%'}}</p>
+            <div class="progress progress-striped">
+              <div class="progress-bar progress-bar-success active heightColor" role="progressbar"
+                aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+                style="height:{{DG.data.memory+'%'}};">
+              </div>
+            </div>
+            <p>内存</p>
+          </div>
+          <div id="loding_dg" style="position: absolute;top: 30px;left: 0px;width: 150px;height:25px;background-color: white;text-align: center;padding-bottom: 5px;color: #0099e6;line-height: 25px">
+            正在加载<img src="img/loading2.gif" width="25" style="margin-bottom: 3px">
+          </div>
+        </div>
+      
+      <div style='position:relative;'>
+       <div id='aaa' style='width:470px;height:470px;margin-top: 20px;'></div>
+        <div style='position: absolute;top: 355px;left: 35px;'>
+          <div style='width:16px;height:16px;border-radius:50%;background:#FF6E87;display:inline-block;vertical-align:-3px;margin-right:5px;'></div><span>西部</span><br>
+          <div style='width:16px;height:16px;border-radius:50%;background:#CF72E8;display:inline-block;vertical-align:-3px;margin-right:5px;'></div><span>华南</span><br>
+          <div style='width:16px;height:16px;border-radius:50%;background:#988AFF;display:inline-block;vertical-align:-3px;margin-right:5px;'></div><span>华北</span><br>
+          <div style='width:16px;height:16px;border-radius:50%;background:#72AFE8;display:inline-block;vertical-align:-3px;margin-right:5px;'></div><span>华东</span><br>
+          <div style='width:16px;height:16px;border-radius:50%;background:#7DFFE9;display:inline-block;vertical-align:-3px;margin-right:5px;'></div><span>中部</span>
+          
+        </div>
+       </div>
+
+    </div>
+    <div style='width:450px;float: left;margin-left: 7%;clear: none;'>
+
+
+      
+        <div style='display:inline-block;width:100%;white-space:nowrap;vertical-align:top;'>
+
+         <div id='bbb' style='width:450px;height:320px;margin-left: 30px;'></div>
+          <div style="border: dashed 3px gainsboro;width: 90%;height: 85px;margin-top: -20px;border-radius: 10px;margin-left: 30px;">
+            <div>
+              <h4  style="color: red;">注意:</h4>
+                <span style="color: red;margin-left: 20px">等级A:</span>15000<
+                <span style="color: red;margin-left: 40px">等级B:</span>9000-15000<br>
+                <span style="color: red;margin-left: 20px">等级C:</span>5000-9000
+                <span style="color: red;margin-left: 20px">等级D:</span>5000>
+            </div>
+
+          </div>
+      </div>
+        <!-- 东莞 -->
+
+          <div style="margin-top: 40px;margin-left: 20px;">
+            <p style='font-size:16px;margin:5px 0 5px 18px;font-weight:700;margin-bottom:10px;'>历史记录:</p>
+            <p style='margin-bottom:10px;margin-left: 15px'><span style='font-size:15px;font-weight:600;margin-left:34px;'>切换类型：</span>{{Report.data.standard}}</p>
+            <p style='margin-bottom:10px;'><span style='font-size:15px;font-weight:600;margin-left:34px;'>切换开始时间（RTO）：</span>{{Report.data.recoveryTime | getFullDate}}</p>
+            <p style='text-indent:50px;margin-bottom:10px;'><span style='font-size:15px;font-weight:600;'>反向同步耗时：</span>{{Report.data.reverseTime }}ms </p>
+            <p style='text-indent:50px;margin-bottom:10px;'><span style='font-size:15px;font-weight:600;'>流量切换耗时：</span>{{Report.data.changeTime }}ms</p>
+            <p style='text-indent:50px;margin-bottom:10px;'><span style='font-size:15px;font-weight:600;'>正向同步耗时：</span>{{Report.data.positiveTime }}ms</p>
+          </div>
+      </div>
+    
+
+    <div style="margin-left: 600px;margin-top: -60px; float: left;">
+        <button type="button" class="btn btn-primary" ng-click="clear();queryLog();buttonState();"  data-toggle="modal" data-target="#myModal">巡检结果</button>
+        <button type="button" class="btn btn-primary"  ui-sref="disasterRec.alarmDetails">告警详情</button>
+        <button type="button" class="btn btn-primary" data-target="#myModal2" data-toggle="modal">历史切换记录</button>
+      </div>
+  
+
+    </div>
+    <!-- 巡检结果模态框     start -->
+      <form class="form-inline" style="">
+         <div class="modal fade" id="myModal" data-backdrop="static">
+        <div class="modal-dialog" style="width: 1100px;margin-top: 100px;" >
+          <div class="modal-content">
+            <div class="modal-header">
+                <h3>巡检结果</h3>
+                <button type="button" ng-click='clear1();' class="close" data-dismiss="modal" aria-hidden="true" style="margin-top: -60px;">&times;</button>
+            </div>
+            <div class="modal-body" style="height: 400px;position: relative;">
+                <label>监控项：</label>
+                  <select id="clear_select" class="form-control"  ng-model="catalog.instance" >
+                    <option value="">全部</option>
+                    <option value="01">array策略巡检</option>
+                    <option value="02">ogg进程检查</option>
+                    <!-- <option value="03">大区配置巡检</option> -->
+                    <option value="04">文件比对</option>
+                    <option value="05">数据比对</option>
+                  </select>
+               
+                <button ng-click="findCode()" type="button"  class="btn btn-default" style="margin-left: 20px;height: 36px;"><span class="glyphicon glyphicon-search">查询</span></button>
+                 <button style="height: 36px;" id="btn_s" type="button" class="btn btn-default" ng-click='start();'>开启巡检</button>
+                 <button style="height: 36px;" id="btn_c" type="button" class="btn btn-default" ng-click='close();'>关闭巡检</button>
+                
+                <div style="margin-top: 20px;" >
+                    <table class="table table-striped" >
+                      <thead>
+                        <tr>
+                          
+                          <th style="text-align: center;width: 20%;">时间</th>
+                          <th style="text-align: center;width: 15%;">监控项</th>
+                          <th style="text-align: center;width: 15%;">巡检结果</th>
+                          <th style="text-align: center;">信息</th>
+                          <th style="text-align: center;width: 15%;">备注</th>                         
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        <tr ng-repeat="infos in runLog.data.datas">
+                          
+                          <td style="text-align: center;">{{infos.executionTime}}</td>
+                          <td style="text-align: center;">{{infos.instance}}</td>
+                          <td style="text-align: center;">{{infos.checkResult}}</td>
+                          <td style="text-align: center;" title="{{infos.info}}">{{infos.info}}</td>
+                          <td style="text-align: center;" title="{{infos.remark}}">{{infos.remark}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                     
+                </div>
+                  <div class="tables-content" style="text-align: center;">
+                          <page total-count="runLog.data.totalCount"
+                            page-count="catalog.pageCount"
+                            current-page="catalog.currentPage"
+                            show-max-page="5"
+                            go-page="turnToPage(currentPage)">
+                          </page>
+                  </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+      </form>
+        <!-- 巡检结果模态框   end -->
+      
+
+      <!-- 历史切换记录模态框 -->
+         <form class="form-inline" style="">
+         <div class="modal fade" id="myModal2" data-backdrop="static">
+        <div class="modal-dialog" style="width: 1100px;margin-top: 100px;" >
+          <div class="modal-content">
+            <div class="modal-header">
+                <h3>历史切换记录</h3>
+                <button type="button" ng-click='clear1();' class="close" data-dismiss="modal" aria-hidden="true" style="margin-top: -60px;">&times;</button>
+            </div>
+            <div class="modal-body" style="height: 400px;">            
+                <div style="margin-top:0px;" >
+                <table class="table table-striped">
+                      <thead style="margin:0;padding: 0">
+                        <tr>
+                          <th style="text-align: center;width: 5%;">序列号</th>                       
+                          <th style="text-align: center;width: 10%;">切换类型</th>
+                          <th style="text-align: center;width: 17%;">切换开始时间</th>
+                          <th style="text-align: center;width: 17%;">切换结束时间</th>
+                          <th style="text-align: center;width: 10%;">切换耗时</th>
+                          <th style="text-align: center;width: 10%;">切换大区名</th>
+                          <th style="text-align: center;width: 10%;">切换方向</th>
+                          <th style="text-align: center;width: 20%;">切换结果</th>                                           
+                        </tr>
+                      </thead>    
+                    </table>
+                  <div style="height: 300px;width: 1080px;overflow-y: scroll;margin-top: -20px">                
+                    <table class="table table-striped">
+                      <tbody>
+                        <tr ng-repeat="infos in historyswitch.data | orderBy:'-switchBeginTime'">
+                          <td style="text-align: center;width: 5%;">{{$index+1}}</td>                         
+                          <td style="text-align: center;width: 10%;">{{infos.currentStage | fillterType}}</td>
+                          <td style="text-align: center;width: 17%;" title="{{infos.switchBeginTime}}">{{infos.switchBeginTime}}</td>
+                          <td style="text-align: center;width: 17%;" title="{{infos.switchEndTime}}">{{infos.switchEndTime}}</td>
+                          <td style="text-align: center;width: 10%;">{{infos.switchTimeConsuming }}ms</td>
+                          <td style="text-align: center;width: 10%;" title="{{infos.switchRegion}}">{{infos.switchRegion}}</td>
+                          <td style="text-align: center;width: 10%;" title="{{infos.switchCopydirec}}">{{infos.switchCopydirec}}</td>
+                          <td style="text-align: center;width: 20%;" title="{{infos.statusDesc}}">{{infos.statusDesc}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>                     
+                </div>
+            </div>
+           
+          </div>
+        </div>
+      </div>
+      </form>
+      <!--历史切换记录模态框 end  -->
+  </div>
+<div class="modal fade" id="planOutModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body" style="">
+                      <form class="form-horizontal" name='earlyWarningForm'>
+                  <div class="form-group" style="margin:auto;">
+                            <div class="" style="">
+                                <ng-form name="schemeFor">
+                           <div style="margin:auto;width: 500px">
+                                       <div style="margin-left:45px">
+                                         <div style="float: left;margin-top: 8px;margin-right: 20px;"><label style="">选择计划外切换方案:</label></div>
+                                            <div style="float: left;">
+                                                <select class="form-control" style="" ng-trim="false" ng-model="scheme.center" ng-change="getScheme(scheme.center)" name="schemeFor" required>
+                                                    <option value="">-请选择-</option>
+                                                    <option value="DG">南基-->东莞</option>
+                                                    <option value="NJ">东莞-->南基</option>
+                                                </select>
+                                                <span style="color: red;" ng-show="schemeFor.schemeFor.$error.required">
+                                                  *此项必填项！
+                                                </span>
+                                            </div>
+                                            </div>
+                                   </div>
+                                </ng-form>
+                    </div><br/><br/><br/>
+                  </div>
+                </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary active" ng-click="submitaa()" data-dismiss="modal" ng-disabled="schemeFor.$invalid">确认
+                    </button>
+                    <button type="button" class="btn btn-primary active" ng-click="colseModal()">
+                        取消
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+
+
+<style type="text/css">
+  p{
+    margin:0px;
+  }
+  .progress{
+    margin:0 auto;
+    height:100px;
+    width:20px;
+    position:relative;
+  }
+  .progress-bar{
+    position:absolute;;
+    bottom:0;
+    width:100%;
+  }
+  table{
+    table-layout: fixed;
+  }
+  td{
+    word-break: keep-all;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+</style>
+

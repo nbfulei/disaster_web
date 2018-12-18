@@ -1,0 +1,407 @@
+<div  style='padding:0;margin: 0;width: 1103px;background-color: #0000AA;position: absolute;'  >
+  <!--<div class="table-content">-->
+    <!--<div style='margin:80px auto;width:200px;display:none;' id='button'>-->
+      <!--<button class='btn btn-info' ng-click='openPage()'>显示系统运行状态</button>-->
+    <!--</div>-->
+  <!--</div>-->
+      <!-- 机器信息弹框 -->
+      <div style='position:fixed;width:350px;display:none;z-index:200;font-size:8px;' id='machineInfo'>
+        <div style='background:#666;opacity:0.85;color:white;width:350px;height: 25px;border-top-left-radius:6px;border-top-right-radius:6px;padding-top: 3px;'>
+          <span style='width:90px;text-align:center;display:inline-block;padding-left: 10px;'>主机名</span>
+          <span style='width:90px;text-align:center;display:inline-block;padding-left: 10px;'>IP</span>
+          <span style='width:50px;text-align:center;display:inline-block;padding-left: 4px;'>cpu负载</span>
+          <span style='width:50px;text-align:center;display:inline-block;'>内存负载</span>
+          <!-- <span style='width:14%;text-align:center;display:inline-block;'>IO负载</span> -->
+          <span style='width:50px;text-align:center;display:inline-block;'>磁盘空间</span>
+        </div>
+        <div style="padding-left: 45%;padding-bottom:5px;background-color: white;" ng-show="machineInfo.loading">
+          <img src="img/loading.gif" style="width:20px;height:20px;"/>
+        </div>
+        <div style="padding-left: 42%;padding-bottom:5px;background-color: white;" ng-show="machineInfo.exist">
+         <span>暂无数据！</span>
+        </div>
+        <table style='width:350px;background:white;' class='table table-bordered table-striped'>
+          <tbody>
+          <tr ng-repeat='item in machineInfo.data'>
+            <td style='padding:5px 0;text-align:center;width:90px;'>{{item.name}}</td>
+            <td style='padding:5px 0;text-align:center;width:90px;'>{{item.hostIP}}</td>
+            <td style='padding:5px 0;text-align:center;width:50px;'>{{item.cpuLoad}}</td>
+            <td style='padding:5px 0;text-align:center;width:50px;'>{{item.memoryLoad}}</td>
+            <td style='padding:5px 0;text-align:center;width:50px;'>{{item.diskLoad}}</td>
+            <!-- <td style='padding:5px 0;text-align:center;width:16%;'>{{item.ioLoad}}</td> -->
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- 路由器的信息弹框 -->
+      <div style='position:fixed;width:200px;display:none;background:white;opacity:0.95;padding:5px;border-radius:5px;;z-index:200;' id='lineInfo'>
+        {{lineInfo.info}}
+      </div>
+      <!-- OGG的信息弹框 -->
+      <div style='position:fixed;width:200px;display:none;background:white;opacity:0.95;padding:5px;border-radius:5px;;z-index:200;' id='OGGInfo'>
+        {{OGGInfo.info}}
+      </div>
+
+<!--<div style='position:absolute;top:0px;left:0px;background-color:#e6e6e6;width:1024px;' id='imgBorder'>-->
+  <!--<div style='position:absolute;top:0px;left:1010px;cursor:pointer;' ng-click='closePage()'>×</div>-->
+<!--</div>-->
+<div style='position:absolute;' id='imgContent'>
+  <img src="img/run.png" style="width: 1100px;height: 600px">
+  <img src="img/switchDown.png" id="switchDown" style="display: none">
+  <img src="img/switchLeft.png" id="switchLeft" style="display: none">
+
+   <!--浙江天猫——南方基地 -->
+  <canvas id='MZj-NJ-1' style='position:absolute;top:255px;left:33px; ' width='8px;' height='16px;' class="MZj-NJ-1"></canvas>
+  <canvas id='MZj-NJ-2' style='position:absolute;top:135px;left:60px; ' width='16px;' height='8px;' class="MZj-NJ-2"></canvas>
+  <!-- 备 --浙江天猫——国通 -->
+  <canvas id='BZj-GT-1' style='position:absolute;top:383px;left:33px; ' width='8px;' height='16px;' class="BZj-GT-1"></canvas>
+  <canvas id='BZj-GT-2' style='position:absolute;top:530px;left:59px; ' width='16px;' height='8px;' class="BZj-GT-2"></canvas>
+  <!-- 南方基地 ——Array1-->
+  <canvas id='MNJ-Array1' style='position:absolute;top:135px;left:170px; ' width='16px;' height='8px;' class="MNJ-Array1"></canvas>
+  <!--<canvas id='MNJ-Array1-left' style='position:absolute;top:130px;left:165px;' width='20px;' height='20px;' class="MNJ-Array1-left"></canvas>-->
+  <!-- 备 --国通 ——Array2-->
+  <canvas id='BGT-Array2' style='position:absolute;top:530px;left:179px; ' width='16px;' height='8px;' class="BGT-Array2"></canvas>
+  <!--<canvas id='BGT-Array2-left' style='position:absolute;top:525px;left:170px;' width='40px;' height='20px;' class="BGT-Array2-left"></canvas>-->
+  <!-- Array1——radware2 -->
+  <canvas id='Marray1-radware2' style='position:absolute;top:135px;left:308px; ' width='16px' height='8px;' class="Marray1-radware2"></canvas>
+  <!--<canvas id='Marray1-radware2-left' style='position:absolute;top:130px;left:305px;' width='30px' height='20px;' class='Marray1-radware2-left'></canvas>-->
+  <!-- 备 --Array2—--F5_2 -->
+  <canvas id='Array2—F5_2' style='position:absolute;top:530px;left:315px; ' width='16px' height='8px;' class="Array2—F5_2" ></canvas>
+  <!--<canvas id='Array2—F5_2-left' style='position:absolute;top:525px;left:310px;' width='30px' height='20px;' class='Array2—F5_2-left'></canvas>-->
+  <!-- radware2——天猫前置 -->
+  <canvas id='Mradware2-TMQZ' style='position:absolute;top:135px;left:401px; ' width='16px' height='8px;' class="Mradware2-TMQZ" ></canvas>
+  <!--<canvas id='Mradware2-TMQZ-left' style='position:absolute;top:130px;left:405px;' width='20px' height='20px;' class='Mradware2-TMQZ-left'></canvas>-->
+  <!-- 备 --F5_2——天猫前置 -->
+  <canvas id='BF5_2-TMQZ' style='position:absolute;top:530px;left:403px; ' width='16px' height='8px;' class="BF5_2-TMQZ" ></canvas>
+  <!--<canvas id='BF5_2-TMQZ-left' style='position:absolute;top:525px;left:395px;' width='20px' height='20px;' class='BF5_2-TMQZ-left'></canvas>-->
+  <!-- 天猫前置——左路由器 -->
+  <canvas id='MTMQZ-ZLYQ' style='position:absolute;top:135px;left:499px; ' width='16px' height='8px;' class="MTMQZ-ZLYQ"></canvas>
+  <!--<canvas id='MTMQZ-ZLYQ-left' style='position:absolute;top:130px;left:495px;' width='20px' height='20px;' class='MTMQZ-ZLYQ-left'></canvas>-->
+  <!-- 备 --天猫前置——左路由器 -->
+  <canvas id='BTMQZ-ZLYQ' style='position:absolute;top:530px;left:503px; ' width='16px' height='8px;' class="BTMQZ-ZLYQ"></canvas>
+  <!--<canvas id='BTMQZ-ZLYQ-left' style='position:absolute;top:525px;left:495px;' width='20px' height='20px;' class='BTMQZ-ZLYQ-left'></canvas>-->
+  <!-- 左路由器——天猫核心 -->
+  <canvas id='MLLYQ-TMHX' style='position:absolute;top:135px;left:590px; ' width='16px' height='8px;' class="MLLYQ-TMHX"></canvas>
+  <canvas id='MLLYQ-TMHX-left' style='position:absolute;top:130px;left:580px;' width='20px' height='20px;' class='MLLYQ-TMHX-left'></canvas>
+  <!-- 备 --左路由器——天猫核心 -->
+  <canvas id='BZLYQ-TMHX' style='position:absolute;top:530px;left:595px; ' width='16px' height='8px;' class="BZLYQ-TMHX"></canvas>
+  <!--<canvas id='BZLYQ-TMHX-left' style='position:absolute;top:525px;left:580px;' width='20px' height='20px;' class='BZLYQ-TMHX-left'></canvas>-->
+  <!-- 天猫核心 ——右路由器 -->
+  <canvas id='MTMHX-RLYQ' style='position:absolute;top:135px;left:689px; ' width='16px' height='8px;' class="MTMHX-RLYQ" ></canvas>
+  <!--<canvas id='MTMHX-RLYQ-left' style='position:absolute;top:130px;left:675px;' width='20px' height='20px;' class='MTMHX-RLYQ-left'></canvas>-->
+  <!-- 备 -- 天猫核心 ——右路由器 -->
+  <canvas id='BTMHX-RLYQ' style='position:absolute;top:530px;left:695px; ' width='16px' height='8px;' class="BTMHX-RLYQ" ></canvas>
+  <!--<canvas id='BTMHX-RLYQ-left' style='position:absolute;top:525px;left:675px;' width='20px' height='20px;' class='BTMHX-RLYQ-left'></canvas>-->
+  <!-- 右路由器——省前置 -->
+  <canvas id='MRLYQ-SQZ' style='position:absolute;top:135px;left:793px; ' width='16px' height='8px;' class="MRLYQ-SQZ"></canvas>
+  <!--<canvas id='MRLYQ-SQZ-left' style='position:absolute;top:130px;left:760px;' width='20px' height='20px;' class='MRLYQ-SQZ-left'></canvas>-->
+  <!-- 备 --右路由器——省前置 -->
+  <canvas id='BRLYQ-SQZ' style='position:absolute;top:530px;left:794px; ' width='16px' height='8px;' class="BRLYQ-SQZ"></canvas>
+  <!--<canvas id='BRLYQ-SQZ-left' style='position:absolute;top:525px;left:760px;' width='20px' height='20px;' class='BRLYQ-SQZ-left'></canvas>-->
+  <!--主  省前置 ——南方基地 -->
+  <canvas id='MSQZ-NJ' style='position:absolute;top:135px;left:903px; ' width='16px' height='8px;' class="MSQZ-NJ" ></canvas>
+  <!--<canvas id='MSQZ-NJ-left' style='position:absolute;top:130px;left:850px;' width='40px' height='40px;' class='MSQZ-NJ-left'></canvas>-->
+  <!--主  省前置 北方信息港 -->
+  <canvas id='MSQZ-BFXXG-1' style='position:absolute;top:194px;left:869px; ' width='8px' height='16px;' class="MSQZ-BFXXG-1" ></canvas>
+  <canvas id='MSQZ-BFXXG-2' style='position:absolute;top:264px;left:875px; ' width='16px' height='16px;' class="MSQZ-BFXXG-2" ></canvas>
+  <canvas id='MSQZ-BFXXG-3' style='position:absolute;top:451px;left:971px; ' width='8px' height='16px;' class="MSQZ-BFXXG-3" ></canvas>
+  <!--<canvas id='MSQZ-BFXXG-left' style='position:absolute;top:150px;left:850px;' width='40px' height='40px;' class='MSQZ-BFXXG-left'></canvas>-->
+  <!-- 备 --省前置 ——北方信息港-->
+  <canvas id='BSQZ-BFXXG' style='position:absolute;top:530px;left:896px; ' width='16px' height='8px;' class="BSQZ-BFXXG" ></canvas>
+  <!--<canvas id='BSQZ-BFXXG-left' style='position:absolute;top:490px;left:850px;' width='80px' height='40px;' class='BSQZ-BFXXG-left'></canvas>-->
+  <!-- 备 --省前置 ——南方基地-->
+  <canvas id='BSQZ-NG-1' style='position:absolute;top:467px;left:868px; ' width='8px' height='16px;' class="BSQZ-NG-1" ></canvas>
+  <canvas id='BSQZ-NG-2' style='position:absolute;top:396px;left:877px; ' width='16px' height='16px;' class="BSQZ-NG-2" ></canvas>
+  <canvas id='BSQZ-NG-3' style='position:absolute;top:316px;left:921px; ' width='16px' height='16px;' class="BSQZ-NG-3" ></canvas>
+  <canvas id='BSQZ-NG-4' style='position:absolute;top:211px;left:970px; ' width='8px' height='16px;' class="BSQZ-NG-4" ></canvas>
+  <!--<canvas id='BSQZ-NG-left' style='position:absolute;top:225px;left:850px;' width='90px' height='280px;' class='BSQZ-NG-left'></canvas>-->
+  <!-- 南方基地——网状网 -->
+  <!--<canvas id='MNJ-WZW' style='position:absolute;top:240px;left:952px;' width='20px' height='60px;' ></canvas>-->
+  <!--<canvas id='MNJ-WZW-left' style='position:absolute;top:240px;left:952px;' width='20px' height='60px;' class='MNJ-WZW-left'></canvas>-->
+  <!-- 备 --北方信息港——网状网 -->
+  <!--<canvas id='BFXXG-WZW' style='position:absolute;top:375px;left:952px;' width='20px' height='60px;' ></canvas>-->
+  <!--<canvas id='BFXXG-WZW-left' style='position:absolute;top:375px;left:952px;' width='20px' height='60px;' class='BFXXG-WZW-left'></canvas>-->
+  <!-- 主南方基地——31省公司 -->
+  <canvas id='MNJ-31SGS-1' style='position:absolute;top:135px;left:1009px; ' width='16px' height='8px;' class="MNJ-31SGS-1"></canvas>
+  <canvas id='MNJ-31SGS-2' style='position:absolute;top:160px;left:1059px; ' width='8px' height='16px;' class="MNJ-31SGS-2"></canvas>
+  <!--<canvas id='MNJ-WZW-left' style='position:absolute;top:240px;left:952px;' width='20px' height='60px;' class='MNJ-WZW-left'></canvas>-->
+  <!-- 备 --北方信息港——31省公司 -->
+  <canvas id='BFXXG-31SGS-1' style='position:absolute;top:530px;left:1000px; ' width='16px' height='8px;' class="BFXXG-31SGS-1"></canvas>
+  <canvas id='BFXXG-31SGS-2' style='position:absolute;top:497px;left:1049px; ' width='8px' height='16px;' class="BFXXG-31SGS-2"></canvas>
+  <!--<canvas id='BFXXG-WZW-left' style='position:absolute;top:375px;left:952px;' width='20px' height='60px;' class='BFXXG-WZW-left'></canvas>-->
+  <!-- 网状网——31省公司 -->
+  <!--<canvas id='MWZW-31SGS' style='position:absolute;top:330px;left:1000px;' width='35px' height='20px;' ></canvas>-->
+  <!--<canvas id='MWZW-31SGS-left' style='position:absolute;top:330px;left:1000px;' width='35px' height='20px;' class='MWZW-31SGS-left'></canvas>-->
+
+  <!-- 备 --天猫核心——R-->
+  <canvas id='BTMHX-R' style='position:absolute;top:430px;left:570px;' width='70px' height='50px;' ></canvas>
+  <canvas id='BTMHX-R-left' style='position:absolute;top:430px;left:570px;' width='70px' height='50px;' class='BTMHX-R-left'></canvas>
+  <!-- 备 --天猫核心——WR-->
+  <canvas id='BTMHX-WR' style='position:absolute;top:460px;left:670px; ' width='16px' height='16px;' class="BTMHX-WR" ></canvas>
+  <!--<canvas id='BTMHX-WR-left' style='position:absolute;top:430px;left:630px;' width='70px' height='50px;' class='BTMHX-WR-left'></canvas>-->
+  <!-- 主 --主中心OGG（南基---东莞）-->
+  <canvas id='MLJ-DG' style='position:absolute;top:310px;left:543px;z-index:100;' width='8px' height='50px;'
+          ng-mouseover='showMachineInfo($event,"Marray1-F5_2",2)' ng-mouseleave='hideMachineInfo()'></canvas>
+  <canvas id='MLJ-DG-left' style='position:absolute;top:310px;left:543px; ' width='8px' height='16px;' class='MLJ-DG-left'></canvas>
+  <!-- 备--备中心OGG（东莞---南基）-->
+  <canvas id='BDG-LJ' style='position:absolute;top:310px;left:763px;z-index:100;' width='8px' height='50px;'
+          ng-mouseover='showMachineInfo($event,"Marray1-F5_2",2)' ng-mouseleave='hideMachineInfo()'></canvas>
+  <canvas id='BDG-LJ-left' style='position:absolute;top:344px;left:763px; ' width='8px' height='16px;' class='BDG-LJ-left'></canvas>
+  <!-- 主--主中心（天猫核心---WR）-->
+  <canvas id='MDTMHX-WR' style='position:absolute;top:193px;left:619px; ' width='16px' height='16px;' class="MDTMHX-WR"></canvas>
+  <!--<canvas id='MDTMHX-WR-left' style='position:absolute;top:190px;left:570px;'width='70px' height='50px;' class='MDTMHX-WR-left'></canvas>-->
+  <!-- 主--主中心（天猫核心---R）-->
+  <canvas id='MDTMHX-R' style='position:absolute;top:193px;left:670px; ' width='16px' height='16px;' class="MDTMHX-R" ></canvas>
+  <!--<canvas id='MDTMHX-R-left' style='position:absolute;top:190px;left:630px;' width='70px' height='50px;' class='MDTMHX-R-left'></canvas>-->
+  <!-- 主--array1--F5*2-->
+  <canvas id='Marray1-F5_2-1' style='position:absolute;top:194px;left:261px; ' width='8px' height='16px' class="Marray1-F5_2-1"></canvas>
+  <canvas id='Marray1-F5_2-2' style='position:absolute;top:263px;left:270px; ' width='16px' height='16px' class="Marray1-F5_2-2"></canvas>
+  <canvas id='Marray1-F5_2-3' style='position:absolute;top:451px;left:363px; ' width='8px' height='16px' class="Marray1-F5_2-3"></canvas>
+  <!--<canvas id='Marray1-F5_2-left' style='position:absolute;top:182px;left:270px;' width='20px' height='20px' class='Marray1-F5_2-left'></canvas>-->
+  <!-- 主--array2--Radware2-->
+  <canvas id='Barray2-Radware2' style='position:absolute;top:182px;left:270px;' width='130px' height='320px;' ></canvas>
+  <canvas id='Barray2-Radware2-left' style='position:absolute;top:182px;left:270px;' width='130px' height='320px;' class='Barray2-Radware2-left'></canvas>
+
+  <div id='hn' class='region hn'>华南</div>
+  <div id='xb' class='region xb'>西部</div>
+  <div id='hd' class='region hd'>华东</div>
+  <div id='hb' class='region hb'>华北</div>
+  <div id='zb' class='region zb'>中部</div>
+  <!-- OGG复制的灰色区域 -->
+  <div id='hn2' class='region hn'>华南</div>
+  <div id='xb2' class='region xb'>西部</div>
+  <div id='hd2' class='region hd'>华东</div>
+  <div id='hb2' class='region hb'>华北</div>
+  <div id='zb2' class='region zb'>中部</div>
+
+  <img ng-src="{{value | runningWarnIcon}}" ng-style="key | runningWarnIconSty"  style='position:absolute;width:20px;height:20px;display:none;'
+       ng-class='{true:"displayNone",false:"displayBlock"}[value==="normal"]' ng-repeat='(key,value) in warnIcon'>
+  <div>
+
+    <!--<div style='position:absolute;top:123px;left:444px;width:38px;height:35px;' ng-mouseover='showMachineInfo($event,"MTMQZ",3)'  ng-mouseleave='hideMachineInfo()'></div>-->
+    <div style='position:absolute;top:123px;left:444px;width:38px;height:35px;cursor:pointer' ng-click="showMachine('MTMQZ',1)"></div>
+
+    <!--<div style='position:absolute;top:108px;left:631px;width:45px;height:45px;' ng-mouseover='showMachineInfo($event,"MTMHX",3)'  ng-mouseleave='hideMachineInfo()'></div>-->
+    <div style='position:absolute;top:108px;left:631px;width:45px;height:45px;cursor:pointer' ng-click="showMachine('MTMHX',2)"></div>
+
+
+    <!--<div style='position:absolute;top:118px;left:833px;width:42px;height:40px;' ng-mouseover='showMachineInfo($event,"MSQZ",3)'  ng-mouseleave='hideMachineInfo()'></div>-->
+    <div style='position:absolute;top:118px;left:833px;width:42px;height:40px;cursor:pointer' ng-click="showMachine('MSQZ',3)"></div>
+
+    <!--<div style='position:absolute;top:513px;left:448px;width:40px;height:36px;' ng-mouseover='showMachineInfo($event,"BTMQZ")'  ng-mouseleave='hideMachineInfo()'></div>-->
+    <div style='position:absolute;top:513px;left:448px;width:40px;height:36px;cursor:pointer' ng-click="showMachine('BTMQZ',4)"></div>
+
+    <!--<div style='position:absolute;top:498px;left:635px;width:45px;height:45px;' ng-mouseover='showMachineInfo($event,"BTMHX")'  ng-mouseleave='hideMachineInfo()'></div>-->
+    <div style='position:absolute;top:498px;left:635px;width:45px;height:45px;cursor:pointer' ng-click="showMachine('BTMHX',5)"></div>
+
+    <!--<div style='position:absolute;top:507px;left:833px;width:53px;height:40px;' ng-mouseover='showMachineInfo($event,"BSQZ")'  ng-mouseleave='hideMachineInfo()'></div>-->
+    <div style='position:absolute;top:507px;left:833px;width:53px;height:40px;cursor:pointer' ng-click="showMachine('BSQZ',6)"></div>
+  </div>
+
+</div>
+</div>
+<!--模态框-->
+<div class="modal fade" id="MyModal1" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="text-align:left;background-color: #F1EFEF;color: black">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body" style="max-height: 300px;overflow-y: auto">
+        <table class="table table-bordered" style="font-size: 12px">
+          <thead>
+          <tr>
+            <th>主机名</th><th>IP</th><th>cpu负载</th><th>内存负载</th><th>磁盘空间</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-repeat="item in machineInfo.data1">
+            <td>{{item.name}}</td>
+            <td>{{item.hostIP}}</td>
+            <td>{{item.cpuLoad}}</td>
+            <td>{{item.memoryLoad}}</td>
+            <td>{{item.diskLoad}}</td>
+          </tr>
+          </tbody>
+        </table>
+        <div style="padding-left: 45%;padding-bottom:5px;background-color: white;" ng-show="machineInfo.loading">
+          <img src="img/loading.gif" style="width:20px;height:20px;"/>
+        </div>
+        <div style="padding-left: 42%;padding-bottom:5px;background-color: white;" ng-show="machineInfo.exist">
+          <span>暂无数据！</span>
+        </div>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!--模态框-->
+<div class="modal fade" id="MyModal2" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="text-align:left;background-color: #F1EFEF;color: black">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body" style="max-height: 300px;overflow-y: auto;font-size: 12px">
+        <table class="table table-bordered">
+          <thead>
+          <tr>
+            <th>主机名</th><th>IP</th><th>cpu负载</th><th>内存负载</th><th>磁盘空间</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-repeat="item in machineInfo.data2">
+            <td>{{item.name}}</td>
+            <td>{{item.hostIP}}</td>
+            <td>{{item.cpuLoad}}</td>
+            <td>{{item.memoryLoad}}</td>
+            <td>{{item.diskLoad}}</td>
+          </tr>
+          </tbody>
+        </table>
+        <div style="padding-left: 45%;padding-bottom:5px;background-color: white;" ng-show="machineInfo.loading">
+          <img src="img/loading.gif" style="width:20px;height:20px;"/>
+        </div>
+        <div style="padding-left: 42%;padding-bottom:5px;background-color: white;" ng-show="machineInfo.exist">
+          <span>暂无数据！</span>
+        </div>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!--模态框-->
+<div class="modal fade" id="MyModal3" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="text-align:left;background-color: #F1EFEF;color: black">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body" style="max-height: 300px;overflow-y: auto;font-size: 12px">
+        <table class="table table-striped table-hover" >
+          <thead>
+          <tr>
+            <th>主机名</th><th>IP</th><th>cpu负载</th><th>内存负载</th><th>磁盘空间</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-repeat="item in machineInfo.data3">
+            <td>{{item.name}}</td>
+            <td>{{item.hostIP}}</td>
+            <td>{{item.cpuLoad}}</td>
+            <td>{{item.memoryLoad}}</td>
+            <td>{{item.diskLoad}}</td>
+          </tr>
+          </tbody>
+        </table>
+        <div style="padding-left: 45%;padding-bottom:5px;background-color: white;" ng-show="machineInfo.loading">
+          <img src="img/loading.gif" style="width:20px;height:20px;"/>
+        </div>
+        <div style="padding-left: 42%;padding-bottom:5px;background-color: white;" ng-show="machineInfo.exist">
+          <span>暂无数据！</span>
+        </div>
+      </div>
+
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!--模态框-->
+<div class="modal fade" id="MyModal4" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="text-align:left;background-color: #F1EFEF;color: black">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body" style="max-height: 300px;overflow-y: auto;font-size: 12px">
+        <table class="table table-bordered">
+          <thead>
+          <tr>
+            <th>主机名</th><th>IP</th><th>cpu负载</th><th>内存负载</th><th>磁盘空间</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-repeat="item in machineInfo.data4">
+            <td>{{item.name}}</td>
+            <td>{{item.hostIP}}</td>
+            <td>{{item.cpuLoad}}</td>
+            <td>{{item.memoryLoad}}</td>
+            <td>{{item.diskLoad}}</td>
+          </tr>
+          </tbody>
+        </table>
+        <div style="padding-left: 45%;padding-bottom:5px;background-color: white;" ng-show="machineInfo.loading">
+          <img src="img/loading.gif" style="width:20px;height:20px;"/>
+        </div>
+        <div style="padding-left: 42%;padding-bottom:5px;background-color: white;" ng-show="machineInfo.exist">
+          <span>暂无数据！</span>
+        </div>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!--模态框-->
+<div class="modal fade" id="MyModal5" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="text-align:left;background-color: #F1EFEF;color: black">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body" style="max-height: 300px;overflow-y: auto;font-size: 12px">
+        <table class="table table-bordered">
+          <thead>
+          <tr>
+            <th>主机名</th><th>IP</th><th>cpu负载</th><th>内存负载</th><th>磁盘空间</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-repeat="item in machineInfo.data5">
+            <td>{{item.name}}</td>
+            <td>{{item.hostIP}}</td>
+            <td>{{item.cpuLoad}}</td>
+            <td>{{item.memoryLoad}}</td>
+            <td>{{item.diskLoad}}</td>
+          </tr>
+          </tbody>
+        </table>
+        <div style="padding-left: 45%;padding-bottom:5px;background-color: white;" ng-show="machineInfo.loading">
+          <img src="img/loading.gif" style="width:20px;height:20px;"/>
+        </div>
+        <div style="padding-left: 42%;padding-bottom:5px;background-color: white;" ng-show="machineInfo.exist">
+          <span>暂无数据！</span>
+        </div>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!--模态框-->
+<div class="modal fade" id="MyModal6" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="text-align:left;background-color: #F1EFEF;color: black">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body" style="max-height: 300px;overflow-y: auto;font-size: 12px">
+        <table class="table table-bordered">
+          <thead>
+          <tr>
+            <th>主机名</th><th>IP</th><th>cpu负载</th><th>内存负载</th><th>磁盘空间</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-repeat="item in machineInfo.data6">
+            <td>{{item.name}}</td>
+            <td>{{item.hostIP}}</td>
+            <td>{{item.cpuLoad}}</td>
+            <td>{{item.memoryLoad}}</td>
+            <td>{{item.diskLoad}}</td>
+          </tr>
+          </tbody>
+        </table>
+        <div style="padding-left: 45%;padding-bottom:5px;background-color: white;" ng-show="machineInfo.loading">
+          <img src="img/loading.gif" style="width:20px;height:20px;"/>
+        </div>
+        <div style="padding-left: 42%;padding-bottom:5px;background-color: white;" ng-show="machineInfo.exist">
+          <span>暂无数据！</span>
+        </div>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

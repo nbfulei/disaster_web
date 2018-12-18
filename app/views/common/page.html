@@ -1,0 +1,20 @@
+<nav class="page">
+    <ul class="pagination">
+        <li><a href="javascript:;" aria-label="Previous" ng-click="setCurrentPage(1)"><span aria-hidden="true">首页</span></a></li>
+        <li><a href="javascript:;" aria-label="Previous" ng-click="setCurrentPage(currentPage-1)"><span aria-hidden="true">上一页</span></a></li>
+        <li  ng-repeat="pageno in pages"><a ng-class="{'active':pageno == currentPage}" href="javascript:;" ng-click="setCurrentPage(pageno)">{{pageno}}</a></li>
+        <li><a href="javascript:;" ng-click="setCurrentPage(currentPage-0+1)" aria-label="Next"><span aria-hidden="true">下一页</span></a>
+        <li><a href="javascript:;" aria-label="Previous" ng-click="setCurrentPage(totalPage)"><span aria-hidden="true">尾页</span></a></li>
+        <li><a>第{{currentPage}}页</a></li>
+        <li><a>共{{totalPage}}页</a></li>
+        <li ng-if="!irregular"><a>共{{totalCount+0}}条数据</a></li>
+        <li>
+            <a style="margin-top: 0px;height: 33.5px">
+              <span style="display:inline-block;margin-top:2px;">转到</span>
+              <input type="text"  ng-model="GO" class="form-control" style="display:inline;height:20px;width: 65px;padding:6px 3px;text-indent:3px;"/>
+              <span>页</span>
+            </a>
+        </li>
+        <li><a class="go" ng-click='setCurrentPage(GO)' style="margin-top:0px;cursor:pointer">Go!</a></li>
+      </ul>
+</nav>

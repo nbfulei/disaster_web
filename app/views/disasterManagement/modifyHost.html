@@ -1,0 +1,148 @@
+
+<div style="background-color: white;min-width:1105px;" ng-init="Initialization();">
+  <div class="detailsTop" style="border-bottom:1px solid #ddd">
+    <h1 class="h1Style" >{{addModify.add}}</h1>
+  </div>
+  <div class="content"  style="padding: 0px">
+    <div class="querys-content" style="  background: #FFF;border-radius: 0px;">
+      <div class="querys" style="margin-left: 10px;">
+        	<form class="form-horizontal" name='addBatchForm' ng-submit="perationSub(oldData,newData)">
+                <div class="form-group form-inline marginT" style="margin-left: 0px;margin-right: 0px;height: 58px"
+                    ng-if="addModify.add==='主机增加配置'">
+                    <label class="col-sm-2 control-label"><span style="color: red">*</span> 主机名:</label>
+                    <div class="col-sm-7 col-wg">
+                        <input class="form-control" style="width:395px;" ng-model="oldData.hostName"
+                               name='modifyHostName1' pattern="^[a-zA-Z][a-zA-Z0-9_]{1,15}$" required ng-blur="verification(oldData.hostName,2)">
+                      <span ng-if="validate.hostName===3" class="glyphicon glyphicon-ok" style="color:green">验证成功</span>
+                      <span ng-if="validate.hostName===2" class="glyphicon glyphicon-remove" style="color:red">主机名重复</span>
+                      <span ng-if="validate.hostName===1" class="glyphicon glyphicon-remove" style="color:red">格式不正确</span>
+                        <div style="color: #98AAC2">2~16个字符，可使用字母、数字、下划线，需以字母开头</div>
+                    </div>
+                </div>
+                <div class="form-group form-inline marginT" style="margin-left: 0px;margin-right: 0px;height: 58px"
+                     ng-if="addModify.add==='主机修改配置'">
+                  <label class="col-sm-2 control-label"><span style="color: red">*</span> 主机名:</label>
+                  <div class="col-sm-5 col-wg">
+                    <input class="form-control" style="width:395px;" ng-model="oldData.hostName"
+                           name='modifyHostName1' pattern="^[a-zA-Z][a-zA-Z0-9-]{1,15}$" required readonly>
+                    <div style="color: #98AAC2">2~16个字符，可使用字母、数字、减号，需以字母开头</div>
+                  </div>
+                </div>
+                <div class="form-group form-inline marginT" style="margin-left: 0px;margin-right: 0px;height: 58px"
+                     ng-if="addModify.add==='主机增加配置'">
+                    <label class="col-sm-2 control-label"><span style="color: red">*</span> 主机IP:</label>
+                    <div class="col-sm-7 col-wg">
+                        <input class="form-control" style="width:395px;" ng-model="oldData.ip" ng-minlength='1'  name='modifyip1' required
+                               pattern="((2[0-4]\d|25[0-5]|[01]?\d\d?)\.){3}(2[0-4]\d|25[0-5]|[01]?\d\d?)" ng-blur="verification(oldData.ip,1)"/>
+                      <span ng-if="validate.ip===3" class="glyphicon glyphicon-ok" style="color:green">验证成功</span>
+                      <span ng-if="validate.ip===2" class="glyphicon glyphicon-remove" style="color:red">IP重复</span>
+                      <span ng-if="validate.ip===1" class="glyphicon glyphicon-remove" style="color:red">格式不正确</span>
+                      <div style="color: #98AAC2"> ip地址，例："192.68.0.121"</div>
+                    </div>
+                </div>
+                <div class="form-group form-inline marginT" style="margin-left: 0px;margin-right: 0px;height: 58px"
+                     ng-if="addModify.add==='主机修改配置'">
+                  <label class="col-sm-2 control-label"><span style="color: red">*</span> 主机IP:</label>
+                  <div class="col-sm-5 col-wg">
+                    <input class="form-control" style="width:395px;" ng-model="oldData.ip" ng-minlength='1'  name='modifyip1' required
+                           pattern="((2[0-4]\d|25[0-5]|[01]?\d\d?)\.){3}(2[0-4]\d|25[0-5]|[01]?\d\d?)" readonly/>
+                    <div style="color: #98AAC2"> ip地址，例："192.68.0.121"</div>
+                  </div>
+                </div>
+                <div class="form-group form-inline marginT" style="margin-left: 0px;margin-right: 0px;height: 58px">
+                  <label class="col-sm-2 control-label"><span style="color: red">*</span> 内存大小:</label>
+                  <div class="col-sm-5 col-wg">
+                      <input class="form-control" type="text" pattern="^([1-9]\d{0,7}(\.\d?[1-9])?)|(0\.\d?[1-9])?$" style="width:320px; border-right:0px;"
+                             ng-model="oldData.memSize" minlength="0" maxlength="11"  name='modifymemSize1' required />
+                      <span>
+                            <select class="form-control" ng-model="newData.memCompany" style="width:80px; border-left:0px; margin-left: -10px" name='aa' >
+                                <option value="GB">GB</option>
+                            </select>
+                      </span>
+                    <div style="color: #98AAC2">请输入最多两位小数的数字,最大99999999.99</div>
+                  </div>
+                </div>
+                <div class="form-group form-inline marginT" style="margin-left: 0px;margin-right: 0px;height: 58px">
+                    <label class="col-sm-2 control-label"><span style="color: red">*</span> 硬盘大小 :</label>
+                    <div class="col-sm-5 col-wg">
+                        <input class="form-control" style="width:320px; border-right:0px;"   type="text" pattern="^([1-9]\d{0,7}(\.\d?[1-9])?)|(0\.\d?[1-9])?$"
+                               ng-model="oldData.diskSize"  minlength="0" maxlength="11"   name='modifydiskSize1' required />
+                        <span>
+                            <select class="form-control" ng-model="newData.diskCompany" style="width:80px; border-left:0px; margin-left: -10px" name='aa' >
+                              <option value="GB">GB</option>
+                              <option value="TB">TB</option>
+                            </select>
+                        </span>
+                      <div style="color: #98AAC2">请输入最多两位小数的数字,最大99999999.99</div>
+                    </div>
+                </div>
+                <div class="form-group form-inline marginT" style="margin-left: 0px;margin-right: 0px;height: 58px">
+                    <label class="col-sm-2 control-label"><span style="color: red">*</span> CPU核数 :</label>
+                    <div class="col-sm-5 col-wg">
+                        <input class="form-control" style="width:320px; border-right:0px;"   type="text" pattern="^[1-9]+[0-9]{0,7}$"
+                               ng-model="oldData.cpuCores" minlength="0" maxlength="8" name='mocpuCores1' required />
+                        <span>
+                            <select class="form-control" ng-model="newData.CoresCompany" style="width:80px; border-left:0px; margin-left: -10px" name='aa' >
+                              <option value="核">核</option>
+                            </select>
+                        </span>
+                      <div style="color: #98AAC2">请输入正整数</div>
+                    </div>
+                </div>
+                <div class="form-group form-inline marginT" style="margin-left: 0px;margin-right: 0px;height: 58px">
+                    <label class="col-sm-2 control-label"><span style="color: red">*</span> 每核HZ大小:</label>
+                    <div class="col-sm-5 col-wg">
+                        <input class="form-control" style="width:320px; border-right:0px;"   type="text" pattern="^([0-9]\d{0,7}(\.\d?[1-9])?)|(0\.\d?[1-9])?$"
+                               ng-model="oldData.cpuHZ"  minlength="0" maxlength="11" name='mocpuHZ1' required />
+                        <span>
+                            <select class="form-control" ng-model="newData.HZCompany" style="width:80px; border-left:0px; margin-left: -10px" name='aa' >
+                              <option value="MHz">MHz</option>
+                              <option value="GHz">GHz</option>
+                            </select>
+                        </span>
+                      <div style="color: #98AAC2">请输入最多两位小数的数字,最大99999999.99</div>
+                    </div>
+                </div>
+                <div class="form-group form-inline marginT" style="margin-left: 0px;margin-right: 0px;height: 58px">
+                    <label class="col-sm-2 control-label">所处物理机器:</label>
+                    <div class="col-sm-5 col-wg">
+                      <select class="form-control" ng-options=" Type.id as Type.ip for Type in hostWLId"
+                              style="width: 395px" ng-model="oldData.machineId">
+                      </select>
+                      <div style="color: #98AAC2">下拉菜单总选择</div>
+                    </div>
+                </div>
+                <div class="form-group form-inline marginT" style="margin-left: 0px;margin-right: 0px;height: 58px">
+                  <label class="col-sm-2 control-label">组件:</label>
+                  <div class="col-sm-5 col-wg">
+                    <select class="form-control" ng-options=" Type.id as Type.name for Type in hostComponents"
+                            style="width: 395px" ng-model="oldData.componentsId">
+                    </select>
+                    <div style="color: #98AAC2">下拉菜单总选择</div>
+                  </div>
+                </div>
+                <div class="form-group form-inline marginT" style="margin-left: 0px;margin-right: 0px;height: 58px">
+                  <label class="col-sm-2 control-label"><span style="color: red">*</span>操作系统类型:</label>
+                  <div class="col-sm-5 col-wg">
+                    <input class="form-control" type="text" style="width: 395px" ng-model="oldData.osType" required>
+                    <div style="color: #98AAC2">请输入实际操作系统</div>
+                  </div>
+                </div>
+                <div class="form-group form-inline marginT" style="margin-left: 0px;margin-right: 0px;height: 58px">
+                    <label class="col-sm-2 control-label"><span style="color: red">*</span>备注:</label>
+                    <div class="col-sm-5 col-wg">
+                      <textarea ng-model="oldData.remark" class="form-control" style="resize: none;width: 395px;height: 60px"
+                               maxlength="80" required></textarea>
+                    </div>
+                </div>
+                <div class="form-group form-inline marginT" style="margin-left: 0px;margin-right: 0px">
+                    <div class="col-sm-7" style="text-align: right;margin-right: 20px">
+                      <button type="submit" class="btn dismissButton btn-primary" >确认</button>
+                      <button type="button" class="btn dismissButton btn-default" ng-click="callBack()">返回</button>
+                    </div>
+                </div>
+          </form>
+      </div>
+    </div>
+</div>
+ </div>

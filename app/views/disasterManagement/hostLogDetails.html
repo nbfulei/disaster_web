@@ -1,0 +1,29 @@
+<div style="background-color: white;min-width:1105px;">
+  <div class="detailsTop" style="border-bottom:1px solid #ddd">
+    <h1 class="h1Style" >
+      日志详细信息
+    </h1>
+  </div>
+  <div style="padding-left: 24px;padding-right: 24px;overflow-y: auto; height: 515px;">
+    <table class="table .table-striped" style="table-layout:fixed" >
+      <thead>
+        <tr>
+          <th style="width:170px;word-wrap:break-word;">时间</th>
+          <th style="width:80px;word-wrap:break-word;" >日志级别</th>
+          <th style="width:300px;word-wrap:break-word;" >源</th>
+          <th style="width: 506px;word-wrap:break-word;" >日志消息</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="journal in journalData">
+          <td style="width:170px;word-wrap:break-word;">{{journal.journalTime}}</td>
+          <td style="width:80px;word-wrap:break-word;">{{journal.journalLevel}}</td>
+          <td style="width:300px;word-wrap:break-word;">{{journal.journalSource}}</td>
+          <td style="width: 506px;word-wrap:break-word;">{{journal.journalNews}}</td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+</div>
+
